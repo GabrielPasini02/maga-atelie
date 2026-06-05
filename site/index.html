@@ -83,33 +83,67 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.15
   padding:6px 12px;border-radius:50px;
 }
 
+/* Foto real dentro de uma moldura (cobre o espaço sem distorcer) */
+.shot{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--bg-alt)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+
 /* ---------- NAV ---------- */
 header{
   position:sticky;top:0;z-index:50;
-  background:rgba(248,250,251,.88);backdrop-filter:blur(10px);
+  background:rgba(248,250,251,.92);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
+  transition:box-shadow .3s ease;
 }
+header.scrolled{box-shadow:0 2px 20px rgba(38,50,58,.06)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
 .brand{font-family:'Pinyon Script',cursive;font-size:2.1rem;line-height:1;color:var(--ink)}
 .nav-links{display:flex;gap:34px;align-items:center}
-.nav-links a{font-size:.86rem;letter-spacing:.06em;color:var(--ink-soft);transition:.2s}
+.nav-links a{position:relative;font-size:.86rem;letter-spacing:.06em;color:var(--ink-soft);transition:color .2s}
+.nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-5px;height:1.5px;width:0;
+  background:currentColor;transition:width .25s ease}
+.nav-links a:not(.nav-cta):hover::after{width:100%}
 .nav-links a:hover{color:var(--blue)}
 .nav-cta{padding:11px 24px;font-size:.78rem;color:#fff}
 .menu-btn{display:none;background:none;border:0;font-size:1.6rem;color:var(--ink);
   cursor:pointer;line-height:1;padding:6px}
+/* corrige a cor do texto do botao "Fale comigo" (estava herdando o cinza dos links) */
+.nav-links a.nav-cta,.nav-links a.nav-cta:hover{color:#fff}
+.nav-cta svg{flex:none}
 
-/* ---------- HERO ---------- */
-.hero{padding:70px 0 90px}
-.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
-.hero h1{font-size:clamp(2.4rem,5vw,4.1rem);font-weight:500}
-.hero h1 em{font-style:italic;color:var(--blue)}
-.hero p{font-size:1.08rem;color:var(--ink-soft);margin:24px 0 34px;max-width:30em}
+/* ---------- HERO (com foto de fundo) ---------- */
+.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;
+  justify-content:flex-end;overflow:hidden;
+  background:#1b2429 url('imagens/hero-bg.jpg') 55% 78%/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(20,28,33,.82) 0%,rgba(20,28,33,.46) 45%,rgba(20,28,33,.06) 76%),
+             linear-gradient(0deg,rgba(20,28,33,.62) 0%,rgba(20,28,33,0) 34%)}
+.hero-content{position:relative;z-index:2;padding-top:112px}
+.hero .eyebrow{color:#fff;opacity:.92}
+.hero h1{color:#fff;font-weight:500;font-size:clamp(2.6rem,6vw,4.4rem);margin-top:14px;
+  line-height:1.08;text-shadow:0 2px 22px rgba(0,0,0,.42)}
+.hero h1 em{font-style:italic;color:#fff}
+.hero p{color:#fff;font-size:1.12rem;max-width:36ch;margin:22px 0 32px;
+  text-shadow:0 1px 14px rgba(0,0,0,.4)}
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
-.hero-img{aspect-ratio:4/5;box-shadow:var(--shadow)}
-.hero-note{display:flex;gap:30px;margin-top:38px;flex-wrap:wrap}
-.hero-note div{font-size:.84rem;color:var(--ink-soft)}
-.hero-note strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.7rem;
-  color:var(--ink);font-weight:600;line-height:1}
+.btn-light{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.65)}
+.btn-light:hover{background:#fff;color:var(--ink);transform:translateY(-2px)}
+.hero-strip{position:relative;z-index:2;margin-top:36px;
+  display:flex;gap:28px;flex-wrap:wrap;align-items:center;padding:22px 24px;
+  border-top:1px solid rgba(255,255,255,.20);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;
+  color:rgba(255,255,255,.92)}
+.hero-strip i{color:#cfe3ec;font-style:normal}
+/* animação de entrada do topo (cascata) */
+@keyframes heroUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-content>*{opacity:0;animation:heroUp .8s ease forwards}
+.hero-content .eyebrow{animation-delay:.15s}
+.hero-content h1{animation-delay:.3s}
+.hero-content p{animation-delay:.5s}
+.hero-content .hero-actions{animation-delay:.65s}
+.hero-strip{opacity:0;animation:heroUp .9s ease .85s forwards}
+/* tracinho decorativo antes do eyebrow do topo */
+.hero .eyebrow{display:inline-flex;align-items:center;gap:12px}
+.hero .eyebrow::before{content:"";width:30px;height:1px;background:currentColor;opacity:.7}
 
 /* ---------- FAIXA ---------- */
 .strip{background:var(--ink);color:var(--bg);padding:18px 0;overflow:hidden}
@@ -127,10 +161,111 @@ section{padding:96px 0}
 /* Catálogo */
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{transition:.3s}
-.card .ph{aspect-ratio:3/4;margin-bottom:16px}
-.card:hover{transform:translateY(-6px)}
+.card .ph,.card .shot{aspect-ratio:3/4;margin-bottom:16px}
+.card .shot{transition:box-shadow .3s ease}
+.card:hover .shot{box-shadow:0 16px 42px rgba(38,50,58,.16)}
 .card h3{font-size:1.35rem;font-weight:600}
-.card span{font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em}
+.card .card-sub{display:block;font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em;margin-top:2px}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px}
+.card .price{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:var(--accent)}
+.btn-mini{display:inline-flex;align-items:center;gap:6px;font-family:'Jost',sans-serif;
+  font-weight:500;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--blue);color:var(--blue);background:transparent;
+  padding:9px 16px;border-radius:50px;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-mini:hover{background:var(--blue);color:#fff}
+
+/* Catálogo — zoom, overlay e cascata */
+.cat-grid .card .shot{position:relative}
+.cat-grid .card .shot img{transition:transform .55s ease;cursor:zoom-in}
+.cat-grid .card:hover .shot img{transform:scale(1.06)}
+.cat-grid .card .shot::after{content:"";position:absolute;inset:0;z-index:1;opacity:0;transition:.3s;
+  background:linear-gradient(0deg,rgba(38,50,58,.30),transparent 55%)}
+.cat-grid .card:hover .shot::after{opacity:1}
+.ph-tag{z-index:2}
+.cat-grid .card:nth-child(3n+2){transition-delay:.08s}
+.cat-grid .card:nth-child(3n+3){transition-delay:.16s}
+
+/* Lightbox — ver o vestido de perto */
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,28,33,.86);
+  backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
+.lightbox.open{display:flex}
+.lb-content{background:var(--bg);border-radius:18px;overflow:hidden;max-width:900px;width:100%;
+  max-height:90vh;display:grid;grid-template-columns:1fr 330px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.lb-content>img{width:100%;height:100%;max-height:90vh;object-fit:cover;display:block;background:var(--bg-alt)}
+.lb-info{padding:34px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.lb-info h3{font-size:1.9rem}
+.lb-price{color:var(--ink-soft);font-size:.92rem}
+.lb-close{position:fixed;top:20px;right:24px;z-index:101;background:rgba(255,255,255,.16);
+  color:#fff;border:0;width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer;transition:.2s}
+.lb-close:hover{background:rgba(255,255,255,.32)}
+@media(max-width:760px){
+  .lb-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+  .lb-content>img{max-height:52vh}
+  .lb-info{padding:24px}
+}
+
+/* Destaque — obra-prima (vestido Giovanna) */
+.destaque{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-alt) 38%);
+  position:relative;overflow:hidden}
+.destaque::before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;
+  right:-150px;top:-160px;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(111,163,189,.22),transparent 68%)}
+.destaque-grid{display:grid;grid-template-columns:1fr 1.02fr;gap:60px;align-items:center;
+  position:relative;z-index:1}
+.destaque-badge{display:inline-block;background:var(--blue);color:#fff;
+  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  padding:6px 14px;border-radius:50px;margin-bottom:16px}
+.destaque-texto .quote{font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.6rem;line-height:1.45;color:var(--ink);margin:8px 0 6px;
+  padding-left:20px;border-left:2px solid var(--blue)}
+.destaque-sign{font-family:'Pinyon Script',cursive;font-size:2rem;color:var(--blue);
+  margin:0 0 20px;padding-left:20px}
+.destaque-texto p{color:var(--ink-soft);margin-bottom:22px}
+.destaque-feats{list-style:none;margin:2px 0 28px;display:grid;gap:12px}
+.destaque-feats li{display:flex;align-items:center;gap:11px;font-size:.96rem;color:var(--ink)}
+.destaque-feats svg{width:18px;height:18px;color:var(--blue);flex:none}
+.destaque-mark{position:absolute;top:-26px;right:-6px;z-index:0;
+  font-family:'Pinyon Script',cursive;font-size:13rem;line-height:1;
+  color:var(--blue);opacity:.06;pointer-events:none;user-select:none}
+
+/* Carrossel */
+.carousel{position:relative}
+.carousel-viewport{position:relative;overflow:hidden;border-radius:18px;
+  box-shadow:0 22px 55px rgba(38,50,58,.20)}
+.carousel-viewport::after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;z-index:2;
+  background:linear-gradient(0deg,rgba(20,28,33,.62),transparent);pointer-events:none}
+.carousel-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.carousel-slide{min-width:100%;aspect-ratio:4/5;background:var(--bg);overflow:hidden}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 6s ease}
+.carousel-slide.is-active img{transform:scale(1.07)}
+.car-caption{position:absolute;left:20px;bottom:18px;z-index:3;color:#fff;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;
+  text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(255,255,255,.92);color:var(--ink);font-size:1.5rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);transition:.2s}
+.car-arrow:hover{background:var(--blue);color:#fff}
+.car-prev{left:14px}.car-next{right:14px}
+.car-counter{position:absolute;top:16px;right:16px;z-index:4;
+  background:rgba(38,50,58,.5);color:#fff;font-size:.72rem;letter-spacing:.12em;
+  padding:5px 12px;border-radius:50px;backdrop-filter:blur(3px)}
+.carousel-dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.carousel-dots button{width:8px;height:8px;border-radius:50%;border:0;cursor:pointer;
+  background:#c7d6dd;transition:.25s;padding:0}
+.carousel-dots button.active{background:var(--blue);width:22px;border-radius:50px}
+
+/* aparição suave ao rolar a página */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.reveal-in{opacity:1;transform:none}
+
+@media(max-width:880px){
+  .destaque-grid{grid-template-columns:1fr;gap:34px}
+  .destaque-mark{font-size:8rem;top:-10px}
+  .destaque::before{width:360px;height:360px;right:-120px}
+}
 
 /* Sob medida */
 .medida{background:var(--bg-alt)}
@@ -207,13 +342,15 @@ footer a{color:var(--blue)}
     box-shadow:0 12px 24px rgba(38,50,58,.06);
   }
   .nav-links.open{display:flex}
-  .nav-links a{padding:15px 2px;border-bottom:1px solid var(--line);font-size:1rem}
+  .nav-links a{padding:15px 2px;border-bottom:1px solid var(--line);font-size:1rem;color:var(--ink-soft)}
   .nav-links a:last-child{border-bottom:0}
   .nav-cta{margin-top:12px;padding:14px 24px}
 
-  .hero-grid,.medida-grid,.sobre-grid{grid-template-columns:1fr;gap:38px}
-  .hero{padding:44px 0 56px}
-  .hero-img{aspect-ratio:4/3}
+  .medida-grid,.sobre-grid{grid-template-columns:1fr;gap:38px}
+  .hero{min-height:84vh;background-position:72% 46%}
+  .hero-content{padding-top:96px}
+  .hero h1{font-size:clamp(2.2rem,9vw,3.2rem)}
+  .hero-strip{font-size:1rem;gap:16px;margin-top:26px}
   .cat-grid{grid-template-columns:1fr 1fr;gap:16px}
   section{padding:62px 0}
   .sobre-img{order:-1}
@@ -235,64 +372,145 @@ footer a{color:var(--blue)}
   <div class="wrap nav">
     <a href="#topo" class="brand">Maga Ateliê</a>
     <nav class="nav-links" id="navlinks">
-      <a href="#vestidos" onclick="fecharMenu()">Vestidos</a>
+      <a href="#destaque" onclick="fecharMenu()">Destaque</a>
+      <a href="#vestidos" onclick="fecharMenu()">Catálogo</a>
       <a href="#sobmedida" onclick="fecharMenu()">Sob medida</a>
       <a href="#sobre" onclick="fecharMenu()">Sobre</a>
       <a href="#contato" onclick="fecharMenu()">Contato</a>
-      <a href="https://wa.me/5511974235465" class="btn btn-primary nav-cta">Fale comigo</a>
+      <a href="https://wa.me/5511974235465" class="btn btn-primary nav-cta">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg>
+        Fale comigo
+      </a>
     </nav>
-    <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
+    <button class="menu-btn" aria-label="Abrir menu" onclick="toggleMenu()">☰</button>
   </div>
 </header>
 
 <!-- ============ HERO ============ -->
 <main id="topo" class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Noivas · Madrinhas · Festa</span>
-      <h1>Vestidos que valorizam <em>corpos reais</em>.</h1>
-      <p>Criação autoral e modelagem sob medida em Caieiras-SP. Cada peça nasce
-         do seu sonho e ganha vida com cuidado, dedicação e atenção em cada
-         detalhe — pra comprar ou alugar.</p>
-      <div class="hero-actions">
-        <a href="#sobmedida" class="btn btn-primary">Peça o seu vestido</a>
-        <a href="#vestidos" class="btn btn-ghost">Ver coleção</a>
-      </div>
-      <div class="hero-note">
-        <div><strong>100%</strong> sob medida</div>
-        <div><strong>Aluguel</strong> &amp; venda</div>
-      </div>
+  <div class="hero-overlay"></div>
+  <div class="wrap hero-content">
+    <span class="eyebrow">Noivas · Madrinhas · Festa</span>
+    <h1>Vestidos que valorizam<br><em>corpos reais</em>.</h1>
+    <p>Ateliê de costura em Caieiras-SP. Criação autoral e modelagem sob medida —
+       cada peça nasce do seu sonho, para comprar ou alugar.</p>
+    <div class="hero-actions">
+      <a href="#sobmedida" class="btn btn-primary">Peça o seu vestido</a>
+      <a href="#vestidos" class="btn btn-light">Ver catálogo</a>
     </div>
-    <div class="ph hero-img" data-label="Foto principal — noiva"></div>
   </div>
-</main>
-
-<!-- ============ FAIXA ============ -->
-<div class="strip">
-  <div class="strip-inner wrap">
+  <div class="wrap hero-strip">
     <span>Criação autoral</span><i>·</i>
     <span>Modelagem sob medida</span><i>·</i>
     <span>Aluguel de vestidos</span><i>·</i>
     <span>Caieiras &amp; região</span>
   </div>
-</div>
+</main>
+
+<!-- ============ DESTAQUE (obra-prima) ============ -->
+<section id="destaque" class="destaque">
+  <div class="destaque-mark" aria-hidden="true">Maga</div>
+  <div class="wrap destaque-grid">
+    <div class="destaque-texto reveal">
+      <span class="destaque-badge">Obra em destaque</span>
+      <h2 class="serif" style="font-size:clamp(2rem,4vw,2.9rem)">O auge do ateliê</h2>
+      <p class="quote">"O vestido que melhor traduz tudo o que a Maga sabe fazer — a criação mais especial do ateliê até hoje."</p>
+      <p class="destaque-sign">— Maria Santos</p>
+      <p>Um vestido de noiva boho em renda e tule, todo trabalhado à mão. Leveza,
+         movimento e delicadeza num caimento que valoriza o corpo de verdade.
+         Cada ponto pensado, cada detalhe no lugar.</p>
+      <ul class="destaque-feats">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Renda e tule trabalhados à mão</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Modelagem 100% sob medida</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Caimento que valoriza o corpo</li>
+      </ul>
+      <a class="btn btn-primary" href="#sobmedida">Quero um vestido assim</a>
+    </div>
+    <div class="carousel reveal" id="carDestaque">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carTrack">
+          <div class="carousel-slide"><img src="imagens/car-1.jpg" alt="Vestido boho de renda — frente, segurando a saia"></div>
+          <div class="carousel-slide"><img src="imagens/car-2.jpg" alt="Noiva com buquê usando o vestido boho"></div>
+          <div class="carousel-slide"><img src="imagens/car-3.jpg" alt="Costas do vestido com cauda em renda"></div>
+          <div class="carousel-slide"><img src="imagens/car-4.jpg" alt="Detalhe da renda trabalhada à mão"></div>
+          <div class="carousel-slide"><img src="imagens/car-5.jpg" alt="Movimento do vestido no campo"></div>
+        </div>
+        <div class="car-caption" id="carCaption">Frente</div>
+        <div class="car-counter"><span id="carNum">1</span> / 5</div>
+        <button class="car-arrow car-prev" onclick="carGo(-1)" aria-label="Foto anterior">‹</button>
+        <button class="car-arrow car-next" onclick="carGo(1)" aria-label="Próxima foto">›</button>
+      </div>
+      <div class="carousel-dots" id="carDots"></div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ CATÁLOGO ============ -->
 <section id="vestidos">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">A coleção</span>
-      <h2>Cada vestido, uma história</h2>
-      <p>Uma seleção das criações do ateliê. Em breve, o catálogo completo com
-         fotos e vídeos reais de cada peça.</p>
+      <span class="eyebrow">Catálogo</span>
+      <h2>Escolha o seu vestido</h2>
+      <p>Cada peça é criada sob medida. <strong>Toque na foto</strong> pra ver de perto,
+         ou em <strong>Pedir</strong> pra falar com a Maria pelo WhatsApp.</p>
     </div>
     <div class="cat-grid">
-      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Noivas</span></div><h3>Vestidos de Noiva</h3><span>Criação autoral, sob medida</span></div>
-      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Festa</span></div><h3>Festa &amp; Madrinhas</h3><span>Para ocasiões especiais</span></div>
-      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Aluguel</span></div><h3>Aluguel</h3><span>Peças disponíveis para alugar</span></div>
-      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Debutante</span></div><h3>15 Anos</h3><span>O vestido do grande dia</span></div>
-      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Civil</span></div><h3>Casamento Civil</h3><span>Delicado e atemporal</span></div>
-      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Bastidor</span></div><h3>O Processo</h3><span>Do tecido à peça pronta</span></div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-1.jpg" alt="Vestido de noiva sereia ombro a ombro com véu"><span class="ph-tag">Sereia</span></div>
+        <h3>Sereia Ombro a Ombro</h3>
+        <span class="card-sub">Decote ombro a ombro e cauda fluida</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Sereia Ombro a Ombro')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-2.jpg" alt="Vestido de noiva sereia com véu longo e buquê"><span class="ph-tag">Sereia</span></div>
+        <h3>Sereia com Véu</h3>
+        <span class="card-sub">Caimento justo ao corpo, véu longo</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Sereia com Véu')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-3.jpg" alt="Vestido de noiva princesa em cetim ao pôr do sol"><span class="ph-tag">Princesa</span></div>
+        <h3>Princesa Cetim</h3>
+        <span class="card-sub">Saia ampla e estruturada em cetim</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Princesa Cetim')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-4.jpg" alt="Vestido de noiva clássico decote V em cetim"><span class="ph-tag">Clássico</span></div>
+        <h3>Clássico Decote V</h3>
+        <span class="card-sub">Cetim com decote V, atemporal</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Clássico Decote V')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-5.jpg" alt="Vestido de noiva com laço nas costas ao pôr do sol"><span class="ph-tag">Laço</span></div>
+        <h3>Princesa com Laço</h3>
+        <span class="card-sub">Costas em laço, toque romântico</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Princesa com Laço')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-6.jpg" alt="Vestido para casamento civil com alcinha e buquê"><span class="ph-tag">Civil</span></div>
+        <h3>Civil Delicado</h3>
+        <span class="card-sub">Alcinha e bordado, perfeito pro civil</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Civil Delicado')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="shot"><img src="imagens/col-7.jpg" alt="Vestido de noiva fluido e esvoaçante"><span class="ph-tag">Leve</span></div>
+        <h3>Fluido Esvoaçante</h3>
+        <span class="card-sub">Tecido leve, muito movimento</span>
+        <div class="card-foot"><span class="price">Sob consulta</span>
+          <button class="btn-mini" onclick="pedir('Fluido Esvoaçante')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -382,9 +600,10 @@ footer a{color:var(--blue)}
       <a href="https://instagram.com/magaatelieofc" class="btn btn-ghost">@magaatelieofc</a>
     </div>
     <div class="contato-info">
-      <div><b>Onde</b>Caieiras — SP e região</div>
+      <div><b>Endereço</b><a href="https://www.google.com/maps/search/?api=1&query=R.+Mococa,+334+-+Serpa,+Caieiras+-+SP+07700-000" target="_blank" style="color:inherit;text-decoration:underline">R. Mococa, 334 — Serpa, Caieiras-SP</a></div>
+      <div><b>Horário</b>09:00 – 18:00</div>
       <div><b>WhatsApp</b>(11) 97423-5465</div>
-      <div><b>Atendimento</b>Com hora marcada</div>
+      <div><b>E-mail</b>gloriapasini1@gmail.com</div>
     </div>
   </div>
 </section>
@@ -393,7 +612,7 @@ footer a{color:var(--blue)}
 <footer>
   <div class="wrap">
     <div class="brand script" style="font-size:2.2rem">Maga Ateliê</div>
-    <p>Vestidos que valorizam corpos reais · Caieiras-SP</p>
+    <p>Vestidos que valorizam corpos reais · R. Mococa, 334 — Serpa, Caieiras-SP</p>
     <p class="fnote">© 2026 Maga Ateliê. Feito com carinho.
        <br/>Protótipo — fotos serão substituídas pelas reais.</p>
   </div>
@@ -403,12 +622,118 @@ footer a{color:var(--blue)}
   <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg>
 </a>
 
+<!-- Lightbox do catálogo (ver vestido de perto) -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" onclick="lbClose()" aria-label="Fechar">✕</button>
+  <div class="lb-content">
+    <img id="lbImg" src="" alt="Vestido do catálogo" />
+    <div class="lb-info">
+      <span class="destaque-badge" style="margin-bottom:0">Catálogo</span>
+      <h3 id="lbTitle"></h3>
+      <p class="lb-price">Sob consulta · criado sob medida pra você</p>
+      <button class="btn btn-primary" id="lbBtn">Pedir no WhatsApp</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // >>> Número de WhatsApp da Maria: (11) 97423-5465 <<<
 const WHATS = "5511974235465";
 
-function toggleMenu(){ document.getElementById('navlinks').classList.toggle('open'); }
-function fecharMenu(){ document.getElementById('navlinks').classList.remove('open'); }
+function toggleMenu(){
+  const nav = document.getElementById('navlinks');
+  const open = nav.classList.toggle('open');
+  const btn = document.querySelector('.menu-btn');
+  if(btn){ btn.textContent = open ? '✕' : '☰'; btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu'); }
+}
+function fecharMenu(){
+  document.getElementById('navlinks').classList.remove('open');
+  const btn = document.querySelector('.menu-btn');
+  if(btn){ btn.textContent = '☰'; btn.setAttribute('aria-label','Abrir menu'); }
+}
+
+// Cabeçalho transparente no topo → barra clara ao rolar
+(function(){
+  const h = document.querySelector('header');
+  if(!h) return;
+  const onScroll = ()=> h.classList.toggle('scrolled', window.scrollY > 30);
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
+
+// Botão "Pedir" de cada vestido do catálogo → abre o WhatsApp já dizendo qual peça
+function pedir(nome){
+  const texto = `Olá, Maria! Vi o vestido "${nome}" no site da Maga Ateliê e queria saber mais 😊`;
+  window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(texto)}`,'_blank');
+}
+
+// Carrossel do Destaque (fotos da Giovanna)
+(function(){
+  const track = document.getElementById('carTrack');
+  if(!track) return;
+  const slides = [...track.children];
+  const total = slides.length;
+  const labels = ['Frente','Com buquê','Costas','Detalhe da renda','Movimento'];
+  const num = document.getElementById('carNum');
+  const cap = document.getElementById('carCaption');
+  const dotsWrap = document.getElementById('carDots');
+  const root = document.getElementById('carDestaque');
+  let idx = 0, timer;
+  for(let i=0;i<total;i++){
+    const b = document.createElement('button');
+    b.setAttribute('aria-label','Ir para a foto '+(i+1));
+    b.addEventListener('click',()=>{ idx=i; render(); reset(); });
+    dotsWrap.appendChild(b);
+  }
+  function render(){
+    track.style.transform = `translateX(-${idx*100}%)`;
+    if(num) num.textContent = idx+1;
+    if(cap && labels[idx]) cap.textContent = labels[idx];
+    slides.forEach((s,i)=>s.classList.toggle('is-active', i===idx));
+    [...dotsWrap.children].forEach((d,i)=>d.classList.toggle('active', i===idx));
+  }
+  window.carGo = function(dir){ idx = (idx+dir+total)%total; render(); reset(); };
+  function reset(){ clearInterval(timer); timer = setInterval(()=>window.carGo(1), 5000); }
+  root.addEventListener('mouseenter',()=>clearInterval(timer));
+  root.addEventListener('mouseleave', reset);
+  render(); reset();
+})();
+
+// Aparição suave ao rolar a página
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  if(!els.length) return;
+  if(!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('reveal-in')); return; }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('reveal-in'); io.unobserve(en.target); } });
+  }, {threshold:.18});
+  els.forEach(e=>io.observe(e));
+})();
+
+// Lightbox do catálogo — clicar na foto amplia o vestido
+(function(){
+  const lb = document.getElementById('lightbox');
+  if(!lb) return;
+  const lbImg = document.getElementById('lbImg');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbBtn = document.getElementById('lbBtn');
+  document.querySelectorAll('.cat-grid .card').forEach(card=>{
+    const img = card.querySelector('.shot img');
+    const h = card.querySelector('h3');
+    if(!img || !h) return;
+    const name = h.textContent.trim();
+    img.addEventListener('click', ()=>{
+      lbImg.src = img.src; lbImg.alt = img.alt || name;
+      lbTitle.textContent = name;
+      lbBtn.onclick = ()=>pedir(name);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  window.lbClose = function(){ lb.classList.remove('open'); document.body.style.overflow = ''; };
+  lb.addEventListener('click', e=>{ if(e.target===lb) window.lbClose(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && lb.classList.contains('open')) window.lbClose(); });
+})();
 
 function enviarWhats(e){
   e.preventDefault();
