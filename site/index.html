@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maga Ateliê — Vestidos que valorizam corpos reais</title>
+<meta name="description" content="Ateliê de alta costura em Caieiras-SP. Vestidos de noiva, madrinha e festa sob medida. Criação autoral, modelagem sob medida e aluguel. Peça o seu." />
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --bg:#F8FAFB;          /* off-white frio */
+  --bg-alt:#E8F1F5;      /* azul muito claro */
+  --blue:#6FA3BD;        /* azul claro — cor da marca / CTA */
+  --blue-dark:#557F96;   /* hover */
+  --ink:#26323A;         /* texto */
+  --ink-soft:#5d6b73;
+  --accent:#3F7D99;      /* azul de profundidade */
+  --line:#d9e6ec;
+  --radius:16px;
+  --shadow:0 4px 24px rgba(38,50,58,0.08);
+  --maxw:1180px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;            /* nunca rolar na horizontal */
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.script{font-family:'Pinyon Script',cursive;font-weight:400}
+.serif{font-family:'Cormorant Garamond',serif}
+
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.15;letter-spacing:.5px}
+.eyebrow{
+  font-family:'Jost',sans-serif;font-weight:500;
+  text-transform:uppercase;letter-spacing:.32em;font-size:.72rem;
+  color:var(--blue);
+}
+
+/* Botões */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  font-family:'Jost',sans-serif;font-weight:500;font-size:.92rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:15px 32px;border-radius:50px;
+  transition:.25s ease;cursor:pointer;border:1px solid transparent;
+}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+/* Placeholder de imagem */
+.ph{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--radius);
+  background-image:linear-gradient(135deg,#e8f1f5 0%,#dbe9f0 50%,#eef5f8 100%);
+}
+.ph::after{
+  content:attr(data-label);
+  font-family:'Jost',sans-serif;font-weight:400;font-size:.8rem;
+  letter-spacing:.18em;text-transform:uppercase;color:#9db4c0;text-align:center;padding:0 10px;
+}
+.ph-tag{
+  position:absolute;top:14px;left:14px;z-index:2;
+  background:rgba(248,250,251,.92);color:var(--ink);
+  font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 12px;border-radius:50px;
+}
+
+/* ---------- NAV ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(248,250,251,.88);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:'Pinyon Script',cursive;font-size:2.1rem;line-height:1;color:var(--ink)}
+.nav-links{display:flex;gap:34px;align-items:center}
+.nav-links a{font-size:.86rem;letter-spacing:.06em;color:var(--ink-soft);transition:.2s}
+.nav-links a:hover{color:var(--blue)}
+.nav-cta{padding:11px 24px;font-size:.78rem;color:#fff}
+.menu-btn{display:none;background:none;border:0;font-size:1.6rem;color:var(--ink);
+  cursor:pointer;line-height:1;padding:6px}
+
+/* ---------- HERO ---------- */
+.hero{padding:70px 0 90px}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,5vw,4.1rem);font-weight:500}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero p{font-size:1.08rem;color:var(--ink-soft);margin:24px 0 34px;max-width:30em}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-img{aspect-ratio:4/5;box-shadow:var(--shadow)}
+.hero-note{display:flex;gap:30px;margin-top:38px;flex-wrap:wrap}
+.hero-note div{font-size:.84rem;color:var(--ink-soft)}
+.hero-note strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.7rem;
+  color:var(--ink);font-weight:600;line-height:1}
+
+/* ---------- FAIXA ---------- */
+.strip{background:var(--ink);color:var(--bg);padding:18px 0;overflow:hidden}
+.strip-inner{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;letter-spacing:.02em}
+.strip-inner span{opacity:.92}
+.strip-inner i{color:var(--blue);font-style:normal}
+
+/* ---------- SECTIONS ---------- */
+section{padding:96px 0}
+.sec-head{text-align:center;max-width:36em;margin:0 auto 56px}
+.sec-head h2{font-size:clamp(2rem,4vw,2.9rem);margin:14px 0 0}
+.sec-head p{color:var(--ink-soft);margin-top:16px}
+
+/* Catálogo */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{transition:.3s}
+.card .ph{aspect-ratio:3/4;margin-bottom:16px}
+.card:hover{transform:translateY(-6px)}
+.card h3{font-size:1.35rem;font-weight:600}
+.card span{font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em}
+
+/* Sob medida */
+.medida{background:var(--bg-alt)}
+.medida-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.steps{list-style:none;margin:28px 0 0}
+.steps li{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps .n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.6rem;
+  color:var(--blue);min-width:38px;line-height:1.2}
+.steps strong{font-weight:500;font-family:'Jost',sans-serif;display:block;margin-bottom:2px}
+.steps p{font-size:.9rem;color:var(--ink-soft);margin:0}
+
+/* Form */
+.form-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+  padding:38px;box-shadow:var(--shadow)}
+.form-card h3{font-size:1.7rem;font-weight:600;margin-bottom:6px}
+.form-card .sub{font-size:.88rem;color:var(--ink-soft);margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:7px}
+.field input,.field select,.field textarea{
+  width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:10px;
+  background:#fff;font-family:'Jost',sans-serif;font-size:.95rem;color:var(--ink);transition:.2s}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(111,163,189,.18)}
+.field textarea{resize:vertical;min-height:90px}
+.form-card .btn{width:100%;margin-top:6px}
+.form-note{font-size:.76rem;color:var(--ink-soft);text-align:center;margin-top:14px}
+
+/* Sobre */
+.sobre-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center}
+.sobre-img{aspect-ratio:1/1;box-shadow:var(--shadow)}
+.sobre h2{font-size:clamp(2rem,4vw,2.9rem)}
+.sobre .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;
+  color:var(--ink);line-height:1.5;margin:22px 0;padding-left:20px;border-left:2px solid var(--accent)}
+.sobre p{color:var(--ink-soft);margin-bottom:16px}
+.sign{font-family:'Pinyon Script',cursive;font-size:2.2rem;color:var(--blue);margin-top:8px}
+
+/* Contato */
+.contato{background:var(--ink);color:var(--bg);text-align:center}
+.contato h2{color:#fff;font-size:clamp(2rem,4vw,3rem)}
+.contato p{color:rgba(248,250,251,.75);max-width:32em;margin:18px auto 34px}
+.contato-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.contato .btn-ghost{color:var(--bg);border-color:rgba(248,250,251,.3)}
+.contato .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.contato-info{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:48px;
+  font-size:.86rem;color:rgba(248,250,251,.7)}
+.contato-info b{display:block;color:#fff;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;font-size:.72rem;margin-bottom:6px}
+
+/* Footer */
+footer{background:#1e272d;color:rgba(248,250,251,.6);padding:46px 0;text-align:center}
+footer .brand{color:#fff;margin-bottom:10px}
+footer .fnote{font-size:.78rem;margin-top:14px}
+footer a{color:var(--blue)}
+
+/* WhatsApp flutuante */
+.wa-float{position:fixed;right:22px;bottom:22px;z-index:60;
+  background:#25D366;color:#fff;width:58px;height:58px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 22px rgba(0,0,0,.18);transition:.25s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+
+/* ---------- RESPONSIVO ---------- */
+@media(max-width:880px){
+  .menu-btn{display:block}
+  /* menu vira painel vertical que desce do topo — não estoura a tela */
+  .nav-links{
+    position:absolute;top:72px;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--bg);border-bottom:1px solid var(--line);
+    padding:6px 24px 18px;display:none;
+    box-shadow:0 12px 24px rgba(38,50,58,.06);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:15px 2px;border-bottom:1px solid var(--line);font-size:1rem}
+  .nav-links a:last-child{border-bottom:0}
+  .nav-cta{margin-top:12px;padding:14px 24px}
+
+  .hero-grid,.medida-grid,.sobre-grid{grid-template-columns:1fr;gap:38px}
+  .hero{padding:44px 0 56px}
+  .hero-img{aspect-ratio:4/3}
+  .cat-grid{grid-template-columns:1fr 1fr;gap:16px}
+  section{padding:62px 0}
+  .sobre-img{order:-1}
+}
+@media(max-width:520px){
+  .wrap{padding:0 18px}
+  .cat-grid{grid-template-columns:1fr}
+  .hero-note{gap:22px}
+  .form-card{padding:26px 20px}
+  .contato-info{gap:26px}
+  .strip-inner{font-size:1rem;gap:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#topo" class="brand">Maga Ateliê</a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#vestidos" onclick="fecharMenu()">Vestidos</a>
+      <a href="#sobmedida" onclick="fecharMenu()">Sob medida</a>
+      <a href="#sobre" onclick="fecharMenu()">Sobre</a>
+      <a href="#contato" onclick="fecharMenu()">Contato</a>
+      <a href="https://wa.me/5511974235465" class="btn btn-primary nav-cta">Fale comigo</a>
+    </nav>
+    <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="topo" class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Noivas · Madrinhas · Festa</span>
+      <h1>Vestidos que valorizam <em>corpos reais</em>.</h1>
+      <p>Criação autoral e modelagem sob medida em Caieiras-SP. Cada peça nasce
+         do seu sonho e ganha vida com cuidado, dedicação e atenção em cada
+         detalhe — pra comprar ou alugar.</p>
+      <div class="hero-actions">
+        <a href="#sobmedida" class="btn btn-primary">Peça o seu vestido</a>
+        <a href="#vestidos" class="btn btn-ghost">Ver coleção</a>
+      </div>
+      <div class="hero-note">
+        <div><strong>100%</strong> sob medida</div>
+        <div><strong>Aluguel</strong> &amp; venda</div>
+      </div>
+    </div>
+    <div class="ph hero-img" data-label="Foto principal — noiva"></div>
+  </div>
+</main>
+
+<!-- ============ FAIXA ============ -->
+<div class="strip">
+  <div class="strip-inner wrap">
+    <span>Criação autoral</span><i>·</i>
+    <span>Modelagem sob medida</span><i>·</i>
+    <span>Aluguel de vestidos</span><i>·</i>
+    <span>Caieiras &amp; região</span>
+  </div>
+</div>
+
+<!-- ============ CATÁLOGO ============ -->
+<section id="vestidos">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">A coleção</span>
+      <h2>Cada vestido, uma história</h2>
+      <p>Uma seleção das criações do ateliê. Em breve, o catálogo completo com
+         fotos e vídeos reais de cada peça.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Noivas</span></div><h3>Vestidos de Noiva</h3><span>Criação autoral, sob medida</span></div>
+      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Festa</span></div><h3>Festa &amp; Madrinhas</h3><span>Para ocasiões especiais</span></div>
+      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Aluguel</span></div><h3>Aluguel</h3><span>Peças disponíveis para alugar</span></div>
+      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Debutante</span></div><h3>15 Anos</h3><span>O vestido do grande dia</span></div>
+      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Civil</span></div><h3>Casamento Civil</h3><span>Delicado e atemporal</span></div>
+      <div class="card"><div class="ph" data-label="Foto do vestido"><span class="ph-tag">Bastidor</span></div><h3>O Processo</h3><span>Do tecido à peça pronta</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOB MEDIDA ============ -->
+<section id="sobmedida" class="medida">
+  <div class="wrap medida-grid">
+    <div>
+      <span class="eyebrow">Sob medida</span>
+      <h2 class="serif" style="font-size:clamp(2rem,4vw,2.9rem)">Do seu sonho<br>ao seu corpo</h2>
+      <ol class="steps">
+        <li><span class="n">01</span><div><strong>Conta seu sonho</strong><p>Você descreve a ocasião, o estilo e a referência que te encanta.</p></div></li>
+        <li><span class="n">02</span><div><strong>Desenho &amp; tecido</strong><p>Criamos juntas o modelo e escolhemos os tecidos da sua peça.</p></div></li>
+        <li><span class="n">03</span><div><strong>Modelagem sob medida</strong><p>Suas medidas, suas formas — o vestido feito pra você, do seu jeito.</p></div></li>
+        <li><span class="n">04</span><div><strong>Provas &amp; entrega</strong><p>Ajustamos até ficar perfeito. Você sai com algo único e inesquecível.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="form-card" id="form">
+      <h3>Peça seu vestido sob medida</h3>
+      <p class="sub">Preencha e a Maria te chama no WhatsApp pra conversar sobre o seu sonho.</p>
+      <form onsubmit="return enviarWhats(event)">
+        <div class="field">
+          <label for="nome">Seu nome</label>
+          <input id="nome" required placeholder="Como você se chama?" />
+        </div>
+        <div class="field">
+          <label for="ocasiao">Ocasião</label>
+          <select id="ocasiao">
+            <option>Casamento (noiva)</option>
+            <option>Madrinha</option>
+            <option>Festa / formatura</option>
+            <option>15 anos</option>
+            <option>Casamento civil</option>
+            <option>Outra</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="tipo">Quero...</label>
+          <select id="tipo">
+            <option>Vestido sob medida (comprar)</option>
+            <option>Alugar um vestido</option>
+            <option>Ainda não sei, quero conversar</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Conta um pouco do que você imagina</label>
+          <textarea id="msg" placeholder="Estilo, cor, data da ocasião, referência..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar no WhatsApp</button>
+        <p class="form-note">Sem compromisso — é só pra começarmos a conversa 💬</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section id="sobre" class="sobre">
+  <div class="wrap sobre-grid">
+    <div class="ph sobre-img" data-label="Foto da Maria no ateliê"></div>
+    <div>
+      <span class="eyebrow">Prazer, Maria Santos</span>
+      <h2>Quem dá vida ao seu sonho</h2>
+      <p class="quote">"Mais do que fazer vestidos, meu propósito é transformar
+        momentos especiais em algo único e inesquecível."</p>
+      <p>Sou a pessoa por trás de cada detalhe, cada criação e de cada sonho que
+        chega até o ateliê. Cada peça começa com uma ideia, um desejo, uma
+        expectativa — e ganha vida através do cuidado e da dedicação em cada
+        etapa do processo.</p>
+      <p>Acredito que um vestido vai muito além da estética. Ele carrega emoção,
+        significado e memórias que ficam pra sempre. Por isso cada criação
+        respeita a essência de quem vai usar e a importância do momento.</p>
+      <div class="sign">Maria Santos</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTATO ============ -->
+<section id="contato" class="contato">
+  <div class="wrap">
+    <span class="eyebrow">Vamos conversar</span>
+    <h2>Seu vestido começa com uma conversa</h2>
+    <p>Me chama no WhatsApp ou no Instagram. Vou adorar ouvir sobre a sua ocasião
+       e te ajudar a vestir o seu momento.</p>
+    <div class="contato-actions">
+      <a href="https://wa.me/5511974235465" class="btn btn-primary">WhatsApp</a>
+      <a href="https://instagram.com/magaatelieofc" class="btn btn-ghost">@magaatelieofc</a>
+    </div>
+    <div class="contato-info">
+      <div><b>Onde</b>Caieiras — SP e região</div>
+      <div><b>WhatsApp</b>(11) 97423-5465</div>
+      <div><b>Atendimento</b>Com hora marcada</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="brand script" style="font-size:2.2rem">Maga Ateliê</div>
+    <p>Vestidos que valorizam corpos reais · Caieiras-SP</p>
+    <p class="fnote">© 2026 Maga Ateliê. Feito com carinho.
+       <br/>Protótipo — fotos serão substituídas pelas reais.</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/5511974235465" class="wa-float" aria-label="WhatsApp" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg>
+</a>
+
+<script>
+// >>> Número de WhatsApp da Maria: (11) 97423-5465 <<<
+const WHATS = "5511974235465";
+
+function toggleMenu(){ document.getElementById('navlinks').classList.toggle('open'); }
+function fecharMenu(){ document.getElementById('navlinks').classList.remove('open'); }
+
+function enviarWhats(e){
+  e.preventDefault();
+  const nome = document.getElementById('nome').value || 'Olá';
+  const ocasiao = document.getElementById('ocasiao').value;
+  const tipo = document.getElementById('tipo').value;
+  const msg = document.getElementById('msg').value;
+  let texto = `Olá, Maria! Meu nome é ${nome}.%0A`;
+  texto += `Ocasião: ${ocasiao}%0A`;
+  texto += `Quero: ${tipo}`;
+  if(msg.trim()) texto += `%0ADetalhes: ${msg}`;
+  window.open(`https://wa.me/${WHATS}?text=${texto}`,'_blank');
+  return false;
+}
+</script>
+</body>
+</html>
