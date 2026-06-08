@@ -168,6 +168,9 @@ section{padding:96px 0}
 .card .card-sub{display:block;font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em;margin-top:2px}
 .card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px}
 .card .price{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:var(--accent)}
+.card-precos{display:flex;flex-direction:column;line-height:1.25}
+.card-precos b{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:1.12rem;color:var(--accent)}
+.card-precos small{font-size:.74rem;color:var(--ink-soft)}
 .btn-mini{display:inline-flex;align-items:center;gap:6px;font-family:'Jost',sans-serif;
   font-weight:500;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
   border:1px solid var(--blue);color:var(--blue);background:transparent;
@@ -175,8 +178,8 @@ section{padding:96px 0}
 .btn-mini:hover{background:var(--blue);color:#fff}
 
 /* Catálogo — zoom, overlay e cascata */
-.cat-grid .card .shot{position:relative}
-.cat-grid .card .shot img{transition:transform .55s ease;cursor:zoom-in}
+.cat-grid .card .shot{position:relative;display:block;cursor:pointer}
+.cat-grid .card .shot img{transition:transform .55s ease}
 .cat-grid .card:hover .shot img{transform:scale(1.06)}
 .cat-grid .card .shot::after{content:"";position:absolute;inset:0;z-index:1;opacity:0;transition:.3s;
   background:linear-gradient(0deg,rgba(38,50,58,.30),transparent 55%)}
@@ -184,6 +187,28 @@ section{padding:96px 0}
 .ph-tag{z-index:2}
 .cat-grid .card:nth-child(3n+2){transition-delay:.08s}
 .cat-grid .card:nth-child(3n+3){transition-delay:.16s}
+/* coleções do catálogo */
+.colecao{margin-bottom:56px}
+.colecao:last-child{margin-bottom:0}
+.colecao.oculta{display:none}
+.ver-mais-wrap{text-align:center;margin-top:4px}
+.colecao-titulo{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.colecao-titulo .ct-nome{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.7rem;color:var(--ink);line-height:1.15}
+.colecao-titulo b{font-family:'Jost',sans-serif;font-weight:400;font-size:.78rem;color:var(--ink-soft);letter-spacing:.08em;white-space:nowrap}
+.colecao-titulo .ct-linha{flex:1;height:1px;background:var(--line)}
+.ver-todos{flex:none;background:none;border:0;cursor:pointer;font-family:'Jost',sans-serif;
+  font-weight:500;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);
+  display:inline-flex;align-items:center;gap:6px;transition:.2s;white-space:nowrap}
+.ver-todos:hover{color:var(--blue-dark)}
+.ver-todos .chev{width:13px;height:13px;transition:transform .25s}
+.ver-todos.aberto .chev{transform:rotate(180deg)}
+/* vestidos além dos 6 primeiros ficam escondidos até "Ver todos" */
+.card.extra{display:none}
+.colecao.mostra-todos .card.extra{display:block}
+.shot-hint{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px;color:#fff;
+  font-size:.76rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);transition:.3s}
+.cat-grid .card:hover .shot-hint{opacity:1;transform:none}
 
 /* Lightbox — ver o vestido de perto */
 .lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,28,33,.86);
@@ -224,6 +249,13 @@ section{padding:96px 0}
 .destaque-feats{list-style:none;margin:2px 0 28px;display:grid;gap:12px}
 .destaque-feats li{display:flex;align-items:center;gap:11px;font-size:.96rem;color:var(--ink)}
 .destaque-feats svg{width:18px;height:18px;color:var(--blue);flex:none}
+.destaque-preco{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.18rem;
+  color:var(--ink-soft);margin:0 0 18px}
+.destaque-preco b{color:var(--accent);font-weight:600;font-style:normal}
+.destaque-actions{display:flex;gap:12px;flex-wrap:wrap}
+/* botão secundário da Obra em destaque — fundo branco p/ destacar do azul-claro */
+.destaque-actions .btn-ghost{background:#fff;border-color:var(--blue);color:var(--accent)}
+.destaque-actions .btn-ghost:hover{background:var(--blue);border-color:var(--blue);color:#fff}
 .destaque-mark{position:absolute;top:-26px;right:-6px;z-index:0;
   font-family:'Pinyon Script',cursive;font-size:13rem;line-height:1;
   color:var(--blue);opacity:.06;pointer-events:none;user-select:none}
@@ -294,6 +326,8 @@ section{padding:96px 0}
 .field textarea{resize:vertical;min-height:90px}
 .form-card .btn{width:100%;margin-top:6px}
 .form-note{font-size:.76rem;color:var(--ink-soft);text-align:center;margin-top:14px}
+.medidas-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.medidas-aviso{font-size:.74rem;color:var(--ink-soft);margin:-6px 0 16px}
 
 /* Sobre */
 .sobre-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center}
@@ -311,16 +345,34 @@ section{padding:96px 0}
 .contato-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .contato .btn-ghost{color:var(--bg);border-color:rgba(248,250,251,.3)}
 .contato .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
-.contato-info{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:48px;
-  font-size:.86rem;color:rgba(248,250,251,.7)}
-.contato-info b{display:block;color:#fff;font-weight:500;letter-spacing:.1em;
-  text-transform:uppercase;font-size:.72rem;margin-bottom:6px}
+.contato-info{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:54px;text-align:left}
+.ci-item{display:flex;gap:14px;align-items:flex-start;padding:20px 18px;
+  border:1px solid rgba(248,250,251,.1);border-radius:14px;background:rgba(255,255,255,.03);transition:.25s}
+.ci-item:hover{border-color:rgba(111,163,189,.55);background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.ci-ico{flex:none;width:40px;height:40px;border-radius:50%;background:rgba(111,163,189,.18);
+  display:flex;align-items:center;justify-content:center}
+.ci-ico svg{width:19px;height:19px}
+.ci-ico .stroke{fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ci-ico .fill{fill:var(--blue)}
+.ci-txt b{display:block;color:#fff;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  font-size:.68rem;margin-bottom:5px}
+.ci-txt span,.ci-txt a{font-size:.86rem;color:rgba(248,250,251,.72);line-height:1.45;overflow-wrap:anywhere}
+.ci-txt a:hover{color:var(--blue)}
+@media(max-width:760px){.contato-info{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.contato-info{grid-template-columns:1fr}}
 
 /* Footer */
 footer{background:#1e272d;color:rgba(248,250,251,.6);padding:46px 0;text-align:center}
 footer .brand{color:#fff;margin-bottom:10px}
-footer .fnote{font-size:.78rem;margin-top:14px}
+footer .fnote{font-size:.78rem;margin-top:18px}
 footer a{color:var(--blue)}
+.footer-social{display:flex;gap:14px;justify-content:center;margin-top:18px}
+.footer-social a{width:46px;height:46px;border-radius:50%;border:1px solid rgba(248,250,251,.18);
+  display:flex;align-items:center;justify-content:center;color:rgba(248,250,251,.85);transition:.25s}
+.footer-social a:hover{background:var(--blue);border-color:var(--blue);color:#fff;transform:translateY(-2px)}
+.footer-social svg{width:21px;height:21px}
+.footer-social .wa svg{fill:currentColor}
+.footer-social .ig svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* WhatsApp flutuante */
 .wa-float{position:fixed;right:22px;bottom:22px;z-index:60;
@@ -378,7 +430,7 @@ footer a{color:var(--blue)}
       <a href="#sobre" onclick="fecharMenu()">Sobre</a>
       <a href="#contato" onclick="fecharMenu()">Contato</a>
       <a href="https://wa.me/5511974235465" class="btn btn-primary nav-cta">
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Fale comigo
       </a>
     </nav>
@@ -424,7 +476,11 @@ footer a{color:var(--blue)}
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Modelagem 100% sob medida</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Caimento que valoriza o corpo</li>
       </ul>
-      <a class="btn btn-primary" href="#sobmedida">Quero um vestido assim</a>
+      <p class="destaque-preco" id="destaquePreco"></p>
+      <div class="destaque-actions">
+        <button class="btn btn-primary" onclick="abrirPedido('destaque')">Alugar ou comprar</button>
+        <a class="btn btn-ghost" href="#sobmedida">Quero um vestido assim</a>
+      </div>
     </div>
     <div class="carousel reveal" id="carDestaque">
       <div class="carousel-viewport">
@@ -437,8 +493,8 @@ footer a{color:var(--blue)}
         </div>
         <div class="car-caption" id="carCaption">Frente</div>
         <div class="car-counter"><span id="carNum">1</span> / 5</div>
-        <button class="car-arrow car-prev" onclick="carGo(-1)" aria-label="Foto anterior">‹</button>
-        <button class="car-arrow car-next" onclick="carGo(1)" aria-label="Próxima foto">›</button>
+        <button class="car-arrow car-prev" onclick="carGo(-1)" aria-label="Foto anterior"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button class="car-arrow car-next" onclick="carGo(1)" aria-label="Próxima foto"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
       </div>
       <div class="carousel-dots" id="carDots"></div>
     </div>
@@ -451,67 +507,10 @@ footer a{color:var(--blue)}
     <div class="sec-head">
       <span class="eyebrow">Catálogo</span>
       <h2>Escolha o seu vestido</h2>
-      <p>Cada peça é criada sob medida. <strong>Toque na foto</strong> pra ver de perto,
-         ou em <strong>Pedir</strong> pra falar com a Maria pelo WhatsApp.</p>
+      <p>Coleções autorais, todas sob medida — das noivas mais delicadas aos vestidos
+         coloridos de festa. Encontre o estilo que combina com o seu momento.</p>
     </div>
-    <div class="cat-grid">
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-1.jpg" alt="Vestido de noiva sereia ombro a ombro com véu"><span class="ph-tag">Sereia</span></div>
-        <h3>Sereia Ombro a Ombro</h3>
-        <span class="card-sub">Decote ombro a ombro e cauda fluida</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Sereia Ombro a Ombro')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-2.jpg" alt="Vestido de noiva sereia com véu longo e buquê"><span class="ph-tag">Sereia</span></div>
-        <h3>Sereia com Véu</h3>
-        <span class="card-sub">Caimento justo ao corpo, véu longo</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Sereia com Véu')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-3.jpg" alt="Vestido de noiva princesa em cetim ao pôr do sol"><span class="ph-tag">Princesa</span></div>
-        <h3>Princesa Cetim</h3>
-        <span class="card-sub">Saia ampla e estruturada em cetim</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Princesa Cetim')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-4.jpg" alt="Vestido de noiva clássico decote V em cetim"><span class="ph-tag">Clássico</span></div>
-        <h3>Clássico Decote V</h3>
-        <span class="card-sub">Cetim com decote V, atemporal</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Clássico Decote V')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-5.jpg" alt="Vestido de noiva com laço nas costas ao pôr do sol"><span class="ph-tag">Laço</span></div>
-        <h3>Princesa com Laço</h3>
-        <span class="card-sub">Costas em laço, toque romântico</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Princesa com Laço')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-6.jpg" alt="Vestido para casamento civil com alcinha e buquê"><span class="ph-tag">Civil</span></div>
-        <h3>Civil Delicado</h3>
-        <span class="card-sub">Alcinha e bordado, perfeito pro civil</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Civil Delicado')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="shot"><img src="imagens/col-7.jpg" alt="Vestido de noiva fluido e esvoaçante"><span class="ph-tag">Leve</span></div>
-        <h3>Fluido Esvoaçante</h3>
-        <span class="card-sub">Tecido leve, muito movimento</span>
-        <div class="card-foot"><span class="price">Sob consulta</span>
-          <button class="btn-mini" onclick="pedir('Fluido Esvoaçante')"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg> Pedir</button>
-        </div>
-      </div>
-    </div>
+    <div id="catalogo-root"></div>
   </div>
 </section>
 
@@ -557,8 +556,19 @@ footer a{color:var(--blue)}
           </select>
         </div>
         <div class="field">
+          <label for="data">Data do evento</label>
+          <input id="data" type="date" />
+        </div>
+        <div class="medidas-grid">
+          <div class="field"><label for="busto">Busto (cm)</label><input id="busto" inputmode="numeric" placeholder="ex: 90" /></div>
+          <div class="field"><label for="cintura">Cintura (cm)</label><input id="cintura" inputmode="numeric" placeholder="ex: 70" /></div>
+          <div class="field"><label for="quadril">Quadril (cm)</label><input id="quadril" inputmode="numeric" placeholder="ex: 98" /></div>
+          <div class="field"><label for="altura">Altura (cm)</label><input id="altura" inputmode="numeric" placeholder="ex: 165" /></div>
+        </div>
+        <p class="medidas-aviso">As medidas são opcionais — pode mandar uma estimativa, a Maria confere tudo na prova. 💙</p>
+        <div class="field">
           <label for="msg">Conta um pouco do que você imagina</label>
-          <textarea id="msg" placeholder="Estilo, cor, data da ocasião, referência..."></textarea>
+          <textarea id="msg" placeholder="Estilo, cor, referência que te encanta..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Enviar no WhatsApp</button>
         <p class="form-note">Sem compromisso — é só pra começarmos a conversa 💬</p>
@@ -600,10 +610,22 @@ footer a{color:var(--blue)}
       <a href="https://instagram.com/magaatelieofc" class="btn btn-ghost">@magaatelieofc</a>
     </div>
     <div class="contato-info">
-      <div><b>Endereço</b><a href="https://www.google.com/maps/search/?api=1&query=R.+Mococa,+334+-+Serpa,+Caieiras+-+SP+07700-000" target="_blank" style="color:inherit;text-decoration:underline">R. Mococa, 334 — Serpa, Caieiras-SP</a></div>
-      <div><b>Horário</b>09:00 – 18:00</div>
-      <div><b>WhatsApp</b>(11) 97423-5465</div>
-      <div><b>E-mail</b>gloriapasini1@gmail.com</div>
+      <a class="ci-item" href="https://www.google.com/maps/search/?api=1&query=R.+Mococa,+334+-+Serpa,+Caieiras+-+SP+07700-000" target="_blank">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><path class="stroke" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle class="stroke" cx="12" cy="10" r="3"/></svg></span>
+        <span class="ci-txt"><b>Endereço</b><span>R. Mococa, 334<br>Serpa, Caieiras-SP</span></span>
+      </a>
+      <div class="ci-item">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><circle class="stroke" cx="12" cy="12" r="9"/><polyline class="stroke" points="12 7 12 12 15 14"/></svg></span>
+        <span class="ci-txt"><b>Horário</b><span>09:00 – 18:00</span></span>
+      </div>
+      <a class="ci-item" href="https://wa.me/5511974235465" target="_blank">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><path class="fill" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+        <span class="ci-txt"><b>WhatsApp</b><span>(11) 97423-5465</span></span>
+      </a>
+      <a class="ci-item" href="mailto:gloriapasini1@gmail.com">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><rect class="stroke" x="3" y="5" width="18" height="14" rx="2"/><polyline class="stroke" points="3 7 12 13 21 7"/></svg></span>
+        <span class="ci-txt"><b>E-mail</b><span>gloriapasini1@gmail.com</span></span>
+      </a>
     </div>
   </div>
 </section>
@@ -612,30 +634,24 @@ footer a{color:var(--blue)}
 <footer>
   <div class="wrap">
     <div class="brand script" style="font-size:2.2rem">Maga Ateliê</div>
-    <p>Vestidos que valorizam corpos reais · R. Mococa, 334 — Serpa, Caieiras-SP</p>
-    <p class="fnote">© 2026 Maga Ateliê. Feito com carinho.
-       <br/>Protótipo — fotos serão substituídas pelas reais.</p>
+    <div class="footer-social">
+      <a class="wa" href="https://wa.me/5511974235465" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+      <a class="ig" href="https://instagram.com/magaatelieofc" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+    </div>
+    <p class="fnote">© 2026 Maga Ateliê · Feito com carinho em Caieiras-SP</p>
   </div>
 </footer>
 
 <a href="https://wa.me/5511974235465" class="wa-float" aria-label="WhatsApp" target="_blank">
-  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.737-.981.235.139z"/></svg>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<!-- Lightbox do catálogo (ver vestido de perto) -->
-<div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lb-close" onclick="lbClose()" aria-label="Fechar">✕</button>
-  <div class="lb-content">
-    <img id="lbImg" src="" alt="Vestido do catálogo" />
-    <div class="lb-info">
-      <span class="destaque-badge" style="margin-bottom:0">Catálogo</span>
-      <h3 id="lbTitle"></h3>
-      <p class="lb-price">Sob consulta · criado sob medida pra você</p>
-      <button class="btn btn-primary" id="lbBtn">Pedir no WhatsApp</button>
-    </div>
-  </div>
-</div>
-
+<script src="dados.js"></script>
+<script src="pedido.js"></script>
 <script>
 // >>> Número de WhatsApp da Maria: (11) 97423-5465 <<<
 const WHATS = "5511974235465";
@@ -661,11 +677,24 @@ function fecharMenu(){
   window.addEventListener('scroll', onScroll, {passive:true});
 })();
 
-// Botão "Pedir" de cada vestido do catálogo → abre o WhatsApp já dizendo qual peça
-function pedir(nome){
-  const texto = `Olá, Maria! Vi o vestido "${nome}" no site da Maga Ateliê e queria saber mais 😊`;
-  window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(texto)}`,'_blank');
-}
+// "Ver todos" de uma coleção — mostra/esconde os vestidos além dos 6 primeiros
+window.verTodos = function(btn){
+  const col = btn.closest('.colecao');
+  const aberto = col.classList.toggle('mostra-todos');
+  btn.classList.toggle('aberto', aberto);
+  const txt = btn.querySelector('.vt-txt');
+  if(txt) txt.textContent = aberto ? 'Ver menos' : ('Ver todos ('+btn.dataset.total+')');
+  if(aberto){
+    col.querySelectorAll('.card.extra').forEach(c=>c.classList.add('reveal-in'));
+  }
+};
+
+// Preço da Obra em destaque (puxa do dados.js pra ficar sempre igual ao modal)
+(function(){
+  const v = (window.VESTIDOS||[]).find(x=>x.id==='destaque');
+  const el = document.getElementById('destaquePreco');
+  if(v && el) el.innerHTML = 'Compra <b>'+window.precoFmt(v.preco)+'</b> · ou aluguel por <b>'+window.precoFmt(window.aluguelDe(v))+'</b>';
+})();
 
 // Carrossel do Destaque (fotos da Giovanna)
 (function(){
@@ -699,6 +728,65 @@ function pedir(nome){
   render(); reset();
 })();
 
+// Monta o catálogo agrupado por coleção (a partir de dados.js)
+(function(){
+  const root = document.getElementById('catalogo-root');
+  if(!root || !window.VESTIDOS) return;
+  const waSvg = '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+  const esc = s => s.replace(/'/g,"\\'");
+  let html = '';
+  let shown = 0;
+  const chevDown = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+  const LIMITE = 6;   // vestidos visíveis por coleção antes do "Ver todos"
+  (window.COLECOES||[]).forEach(col=>{
+    const itens = window.VESTIDOS.filter(v=>v.colecao===col);
+    if(!itens.length) return;
+    const oculta = shown >= 2 ? ' oculta' : '';
+    shown++;
+    const verTodosBtn = itens.length>LIMITE
+      ? '<button class="ver-todos" data-total="'+itens.length+'" onclick="verTodos(this)"><span class="vt-txt">Ver todos ('+itens.length+')</span>'+chevDown+'</button>'
+      : '';
+    html += '<div class="colecao'+oculta+'">'
+      +   '<div class="colecao-titulo"><span class="ct-nome">'+col+'</span>'
+      +     '<b>'+itens.length+' modelo'+(itens.length>1?'s':'')+'</b>'
+      +     '<span class="ct-linha"></span>'+verTodosBtn
+      +   '</div>'
+      +   '<div class="cat-grid">';
+    itens.forEach((v,i)=>{
+      const fotosTxt = v.n>1 ? (v.n+' fotos') : '1 foto';
+      const extra = i>=LIMITE ? ' extra' : '';
+      const aluguel = window.aluguelDe(v);
+      html += '<div class="card reveal'+extra+'">'
+        +   '<a class="shot" href="vestido.html?id='+v.id+'">'
+        +     '<img src="imagens/catalogo/'+v.id+'/1.jpg" alt="'+v.nome+'" loading="lazy">'
+        +     '<span class="ph-tag">'+v.tag+'</span>'
+        +     '<span class="shot-hint">Ver fotos →</span>'
+        +   '</a>'
+        +   '<h3>'+v.nome+'</h3>'
+        +   '<span class="card-sub">'+v.colecao+' · '+fotosTxt+'</span>'
+        +   '<div class="card-foot">'
+        +     '<span class="card-precos"><b>'+window.precoFmt(v.preco)+'</b><small>Aluguel '+window.precoFmt(aluguel)+'</small></span>'
+        +     '<button class="btn-mini" onclick="abrirPedido(\''+esc(v.id)+'\')">'+waSvg+' Pedir</button>'
+        +   '</div>'
+        + '</div>';
+    });
+    html += '</div></div>';
+  });
+  if(shown > 2){
+    html += '<div class="ver-mais-wrap"><button class="btn btn-ghost ver-mais" onclick="verMais()">Ver mais coleções</button></div>';
+  }
+  root.innerHTML = html;
+})();
+
+// Botão "Ver mais" do catálogo — revela as coleções escondidas
+window.verMais = function(){
+  document.querySelectorAll('.colecao.oculta').forEach(c=>{
+    c.classList.remove('oculta');
+    c.querySelectorAll('.reveal').forEach(el=>el.classList.add('reveal-in'));
+  });
+  const w = document.querySelector('.ver-mais-wrap'); if(w) w.remove();
+};
+
 // Aparição suave ao rolar a página
 (function(){
   const els = document.querySelectorAll('.reveal');
@@ -710,42 +798,28 @@ function pedir(nome){
   els.forEach(e=>io.observe(e));
 })();
 
-// Lightbox do catálogo — clicar na foto amplia o vestido
-(function(){
-  const lb = document.getElementById('lightbox');
-  if(!lb) return;
-  const lbImg = document.getElementById('lbImg');
-  const lbTitle = document.getElementById('lbTitle');
-  const lbBtn = document.getElementById('lbBtn');
-  document.querySelectorAll('.cat-grid .card').forEach(card=>{
-    const img = card.querySelector('.shot img');
-    const h = card.querySelector('h3');
-    if(!img || !h) return;
-    const name = h.textContent.trim();
-    img.addEventListener('click', ()=>{
-      lbImg.src = img.src; lbImg.alt = img.alt || name;
-      lbTitle.textContent = name;
-      lbBtn.onclick = ()=>pedir(name);
-      lb.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-  window.lbClose = function(){ lb.classList.remove('open'); document.body.style.overflow = ''; };
-  lb.addEventListener('click', e=>{ if(e.target===lb) window.lbClose(); });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && lb.classList.contains('open')) window.lbClose(); });
-})();
+// (Lightbox removido — agora cada vestido abre sua própria página: vestido.html)
 
 function enviarWhats(e){
   e.preventDefault();
-  const nome = document.getElementById('nome').value || 'Olá';
+  const val = id => (document.getElementById(id).value || '').trim();
+  const nome = val('nome') || 'Olá';
   const ocasiao = document.getElementById('ocasiao').value;
   const tipo = document.getElementById('tipo').value;
-  const msg = document.getElementById('msg').value;
-  let texto = `Olá, Maria! Meu nome é ${nome}.%0A`;
-  texto += `Ocasião: ${ocasiao}%0A`;
-  texto += `Quero: ${tipo}`;
-  if(msg.trim()) texto += `%0ADetalhes: ${msg}`;
-  window.open(`https://wa.me/${WHATS}?text=${texto}`,'_blank');
+  let texto = `Olá, Maria! Meu nome é ${nome}.\n`;
+  texto += `Ocasião: ${ocasiao}\n`;
+  texto += `Quero: ${tipo}\n`;
+  const data = val('data');
+  if(data){ const p = data.split('-'); texto += `Data do evento: ${p[2]}/${p[1]}/${p[0]}\n`; }
+  const m = [];
+  if(val('busto'))   m.push('busto '+val('busto'));
+  if(val('cintura')) m.push('cintura '+val('cintura'));
+  if(val('quadril')) m.push('quadril '+val('quadril'));
+  if(val('altura'))  m.push('altura '+val('altura'));
+  if(m.length) texto += `Medidas (cm): ${m.join(', ')}\n`;
+  const msg = val('msg');
+  if(msg) texto += `Detalhes: ${msg}`;
+  window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(texto)}`,'_blank');
   return false;
 }
 </script>

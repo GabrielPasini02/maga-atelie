@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vestido — Maga Ateliê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#F8FAFB;--bg-alt:#E8F1F5;--blue:#6FA3BD;--blue-dark:#557F96;
+  --ink:#26323A;--ink-soft:#5d6b73;--accent:#3F7D99;--line:#d9e6ec;
+  --radius:16px;--shadow:0 4px 24px rgba(38,50,58,.08);--maxw:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.15}
+.eyebrow{font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:.72rem;color:var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-family:'Jost',sans-serif;
+  font-weight:500;font-size:.92rem;letter-spacing:.06em;text-transform:uppercase;padding:15px 32px;
+  border-radius:50px;transition:.25s;cursor:pointer;border:1px solid transparent}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(248,250,251,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{font-family:'Pinyon Script',cursive;font-size:2rem;color:var(--ink)}
+.back{font-size:.86rem;color:var(--ink-soft);transition:.2s}
+.back:hover{color:var(--blue)}
+
+/* conteudo */
+.produto{padding:48px 0 80px}
+.produto-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:start}
+
+/* galeria */
+.galeria-main{position:relative;aspect-ratio:3/4;background:var(--bg-alt);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow)}
+.galeria-main img{width:100%;height:100%;object-fit:cover}
+.galeria-thumbs{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.galeria-thumbs button{width:74px;height:92px;border-radius:10px;overflow:hidden;border:2px solid transparent;
+  background:var(--bg-alt);cursor:pointer;padding:0;transition:.2s}
+.galeria-thumbs button img{width:100%;height:100%;object-fit:cover}
+.galeria-thumbs button.active{border-color:var(--blue)}
+.galeria-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;
+  border-radius:50%;border:0;cursor:pointer;background:rgba(255,255,255,.92);color:var(--ink);font-size:1.5rem;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.16);transition:.2s}
+.galeria-nav:hover{background:var(--blue);color:#fff}
+.gn-prev{left:14px}.gn-next{right:14px}
+
+/* info */
+.info .colecao-link{display:inline-block;margin-top:6px}
+.info h1{font-size:clamp(2.2rem,4vw,3rem);margin:10px 0 4px}
+.info .precos{margin-bottom:20px}
+.info .precos .compra{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.5rem;color:var(--accent)}
+.info .precos .aluguel{display:block;font-size:.95rem;color:var(--ink-soft);margin-top:2px}
+.info .desc{color:var(--ink-soft);font-size:1.05rem;margin-bottom:26px}
+.info-feats{list-style:none;display:grid;gap:11px;margin:0 0 30px}
+.info-feats li{display:flex;align-items:center;gap:11px;font-size:.95rem}
+.info-feats svg{width:18px;height:18px;color:var(--blue);flex:none}
+.info .btn-primary{width:100%}
+.info-note{font-size:.8rem;color:var(--ink-soft);text-align:center;margin-top:12px}
+
+/* outros da colecao */
+.outros{border-top:1px solid var(--line);margin-top:70px;padding-top:46px}
+.outros h2{font-size:1.6rem;margin-bottom:22px}
+.outros-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.outro-card .shot{aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:var(--bg-alt);margin-bottom:8px}
+.outro-card .shot img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.outro-card:hover .shot img{transform:scale(1.05)}
+.outro-card span{font-size:.92rem;color:var(--ink)}
+
+footer{background:#1e272d;color:rgba(248,250,251,.6);padding:40px 0;text-align:center;margin-top:10px}
+footer .brand{color:#fff;display:block;margin-bottom:6px}
+footer .fnote{font-size:.78rem;margin-top:8px}
+
+.wa-float{position:fixed;right:22px;bottom:22px;z-index:60;background:#25D366;color:#fff;width:58px;height:58px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(0,0,0,.18);transition:.25s}
+.wa-float:hover{transform:scale(1.08)}.wa-float svg{width:30px;height:30px;fill:#fff}
+
+@media(max-width:860px){
+  .produto-grid{grid-template-columns:1fr;gap:30px}
+  .outros-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">Maga Ateliê</a>
+    <a href="index.html#vestidos" class="back">← Voltar ao catálogo</a>
+  </div>
+</header>
+
+<main class="produto wrap" id="produto">
+  <!-- preenchido via JS -->
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand" style="font-family:'Pinyon Script',cursive;font-size:2rem">Maga Ateliê</span>
+    <p>Vestidos que valorizam corpos reais · Caieiras-SP</p>
+    <p class="fnote">© 2026 Maga Ateliê</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/5511974235465" class="wa-float" aria-label="WhatsApp" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="dados.js"></script>
+<script src="pedido.js"></script>
+<script>
+const WHATS = "5511974235465";
+const params = new URLSearchParams(location.search);
+const id = params.get('id');
+const v = (window.VESTIDOS||[]).find(x=>x.id===id);
+const root = document.getElementById('produto');
+
+if(!v){
+  root.innerHTML = '<p style="padding:60px 0">Vestido não encontrado. <a href="index.html#vestidos" style="color:var(--blue)">Voltar ao catálogo</a>.</p>';
+}else{
+  document.title = v.nome + ' — Maga Ateliê';
+  const fotos = window.fotosDe(v);
+  let atual = 0;
+
+  const thumbs = fotos.length>1 ? fotos.map((f,i)=>
+    `<button class="${i===0?'active':''}" onclick="trocar(${i})"><img src="${f}" alt="${v.nome} ${i+1}"></button>`).join('') : '';
+  const chevPrev = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+  const chevNext = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+  const navBtns = fotos.length>1 ?
+    `<button class="galeria-nav gn-prev" onclick="passo(-1)" aria-label="Anterior">${chevPrev}</button>
+     <button class="galeria-nav gn-next" onclick="passo(1)" aria-label="Próxima">${chevNext}</button>` : '';
+
+  // outros da mesma coleção
+  const outros = window.VESTIDOS.filter(x=>x.colecao===v.colecao && x.id!==v.id).slice(0,4);
+  const outrosHtml = outros.length ? `
+    <section class="outros">
+      <h2>Mais da coleção ${v.colecao}</h2>
+      <div class="outros-grid">
+        ${outros.map(o=>`
+          <a class="outro-card" href="vestido.html?id=${o.id}">
+            <div class="shot"><img src="imagens/catalogo/${o.id}/1.jpg" alt="${o.nome}"></div>
+            <span>${o.nome}</span>
+          </a>`).join('')}
+      </div>
+    </section>` : '';
+
+  root.innerHTML = `
+    <div class="produto-grid">
+      <div class="galeria">
+        <div class="galeria-main">
+          ${navBtns}
+          <img id="galMain" src="${fotos[0]}" alt="${v.nome}">
+        </div>
+        <div class="galeria-thumbs">${thumbs}</div>
+      </div>
+      <div class="info">
+        <span class="eyebrow">${v.colecao}</span>
+        <h1>${v.nome}</h1>
+        <div class="precos">
+          <span class="compra">Compra ${window.precoFmt(v.preco)}</span>
+          <span class="aluguel">ou aluguel por ${window.precoFmt(window.aluguelDe(v))}</span>
+        </div>
+        <p class="desc">${v.desc}</p>
+        <ul class="info-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Criação autoral, modelagem sob medida</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Disponível para venda ou aluguel</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Atendimento em Caieiras-SP e região</li>
+        </ul>
+        <button class="btn btn-primary" onclick="abrirPedido('${v.id}')">Pedir este vestido no WhatsApp</button>
+        <p class="info-note">Sem compromisso — a Maria te conta tudo 💬</p>
+      </div>
+    </div>
+    ${outrosHtml}
+  `;
+
+  window.trocar = function(i){
+    atual = i;
+    document.getElementById('galMain').src = fotos[i];
+    document.querySelectorAll('.galeria-thumbs button').forEach((b,j)=>b.classList.toggle('active', j===i));
+  };
+  window.passo = function(dir){
+    atual = (atual + dir + fotos.length) % fotos.length;
+    window.trocar(atual);
+  };
+}
+</script>
+</body>
+</html>
