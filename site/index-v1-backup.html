@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maga Ateliê — Vestidos que valorizam corpos reais</title>
+<meta name="description" content="Ateliê de alta costura em Caieiras-SP. Vestidos de noiva, madrinha e festa sob medida. Criação autoral, modelagem sob medida e aluguel. Peça o seu." />
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --bg:#F8FAFB;          /* off-white frio */
+  --bg-alt:#E8F1F5;      /* azul muito claro */
+  --blue:#6FA3BD;        /* azul claro — cor da marca / CTA */
+  --blue-dark:#557F96;   /* hover */
+  --ink:#26323A;         /* texto */
+  --ink-soft:#5d6b73;
+  --accent:#3F7D99;      /* azul de profundidade */
+  --line:#d9e6ec;
+  --radius:16px;
+  --shadow:0 4px 24px rgba(38,50,58,0.08);
+  --maxw:1180px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;            /* nunca rolar na horizontal */
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.script{font-family:'Pinyon Script',cursive;font-weight:400}
+.serif{font-family:'Cormorant Garamond',serif}
+
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.15;letter-spacing:.5px}
+.eyebrow{
+  font-family:'Jost',sans-serif;font-weight:500;
+  text-transform:uppercase;letter-spacing:.32em;font-size:.72rem;
+  color:var(--blue);
+}
+
+/* Botões */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  font-family:'Jost',sans-serif;font-weight:500;font-size:.92rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:15px 32px;border-radius:50px;
+  transition:.25s ease;cursor:pointer;border:1px solid transparent;
+}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+/* Placeholder de imagem */
+.ph{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--radius);
+  background-image:linear-gradient(135deg,#e8f1f5 0%,#dbe9f0 50%,#eef5f8 100%);
+}
+.ph::after{
+  content:attr(data-label);
+  font-family:'Jost',sans-serif;font-weight:400;font-size:.8rem;
+  letter-spacing:.18em;text-transform:uppercase;color:#9db4c0;text-align:center;padding:0 10px;
+}
+.ph-tag{
+  position:absolute;top:14px;left:14px;z-index:2;
+  background:rgba(248,250,251,.92);color:var(--ink);
+  font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 12px;border-radius:50px;
+}
+
+/* Foto real dentro de uma moldura (cobre o espaço sem distorcer) */
+.shot{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--bg-alt)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- NAV ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(248,250,251,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .3s ease;
+}
+header.scrolled{box-shadow:0 2px 20px rgba(38,50,58,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:'Pinyon Script',cursive;font-size:2.1rem;line-height:1;color:var(--ink)}
+.nav-links{display:flex;gap:34px;align-items:center}
+.nav-links a{position:relative;font-size:.86rem;letter-spacing:.06em;color:var(--ink-soft);transition:color .2s}
+.nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-5px;height:1.5px;width:0;
+  background:currentColor;transition:width .25s ease}
+.nav-links a:not(.nav-cta):hover::after{width:100%}
+.nav-links a:hover{color:var(--blue)}
+.nav-cta{padding:11px 24px;font-size:.78rem;color:#fff}
+.menu-btn{display:none;background:none;border:0;font-size:1.6rem;color:var(--ink);
+  cursor:pointer;line-height:1;padding:6px}
+/* corrige a cor do texto do botao "Fale comigo" (estava herdando o cinza dos links) */
+.nav-links a.nav-cta,.nav-links a.nav-cta:hover{color:#fff}
+.nav-cta svg{flex:none}
+
+/* ---------- HERO (com foto de fundo) ---------- */
+.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;
+  justify-content:flex-end;overflow:hidden;
+  background:#1b2429 url('imagens/hero-bg.jpg') 55% 78%/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(20,28,33,.82) 0%,rgba(20,28,33,.46) 45%,rgba(20,28,33,.06) 76%),
+             linear-gradient(0deg,rgba(20,28,33,.62) 0%,rgba(20,28,33,0) 34%)}
+.hero-content{position:relative;z-index:2;padding-top:112px}
+.hero .eyebrow{color:#fff;opacity:.92}
+.hero h1{color:#fff;font-weight:500;font-size:clamp(2.6rem,6vw,4.4rem);margin-top:14px;
+  line-height:1.08;text-shadow:0 2px 22px rgba(0,0,0,.42)}
+.hero h1 em{font-style:italic;color:#fff}
+.hero p{color:#fff;font-size:1.12rem;max-width:36ch;margin:22px 0 32px;
+  text-shadow:0 1px 14px rgba(0,0,0,.4)}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-light{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.65)}
+.btn-light:hover{background:#fff;color:var(--ink);transform:translateY(-2px)}
+.hero-strip{position:relative;z-index:2;margin-top:36px;
+  display:flex;gap:28px;flex-wrap:wrap;align-items:center;padding:22px 24px;
+  border-top:1px solid rgba(255,255,255,.20);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;
+  color:rgba(255,255,255,.92)}
+.hero-strip i{color:#cfe3ec;font-style:normal}
+/* animação de entrada do topo (cascata) */
+@keyframes heroUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-content>*{opacity:0;animation:heroUp .8s ease forwards}
+.hero-content .eyebrow{animation-delay:.15s}
+.hero-content h1{animation-delay:.3s}
+.hero-content p{animation-delay:.5s}
+.hero-content .hero-actions{animation-delay:.65s}
+.hero-strip{opacity:0;animation:heroUp .9s ease .85s forwards}
+/* tracinho decorativo antes do eyebrow do topo */
+.hero .eyebrow{display:inline-flex;align-items:center;gap:12px}
+.hero .eyebrow::before{content:"";width:30px;height:1px;background:currentColor;opacity:.7}
+
+/* ---------- FAIXA ---------- */
+.strip{background:var(--ink);color:var(--bg);padding:18px 0;overflow:hidden}
+.strip-inner{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;letter-spacing:.02em}
+.strip-inner span{opacity:.92}
+.strip-inner i{color:var(--blue);font-style:normal}
+
+/* ---------- SECTIONS ---------- */
+section{padding:96px 0}
+.sec-head{text-align:center;max-width:36em;margin:0 auto 56px}
+.sec-head h2{font-size:clamp(2rem,4vw,2.9rem);margin:14px 0 0}
+.sec-head p{color:var(--ink-soft);margin-top:16px}
+
+/* Catálogo */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{transition:.3s}
+.card .ph,.card .shot{aspect-ratio:3/4;margin-bottom:16px}
+.card .shot{transition:box-shadow .3s ease}
+.card:hover .shot{box-shadow:0 16px 42px rgba(38,50,58,.16)}
+.card h3{font-size:1.35rem;font-weight:600}
+.card .card-sub{display:block;font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em;margin-top:2px}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px}
+.card .price{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:var(--accent)}
+.card-precos{display:flex;flex-direction:column;line-height:1.25}
+.card-precos b{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:1.12rem;color:var(--accent)}
+.card-precos small{font-size:.74rem;color:var(--ink-soft)}
+.btn-mini{display:inline-flex;align-items:center;gap:6px;font-family:'Jost',sans-serif;
+  font-weight:500;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--blue);color:var(--blue);background:transparent;
+  padding:9px 16px;border-radius:50px;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-mini:hover{background:var(--blue);color:#fff}
+
+/* Catálogo — zoom, overlay e cascata */
+.cat-grid .card .shot{position:relative;display:block;cursor:pointer}
+.cat-grid .card .shot img{transition:transform .55s ease}
+.cat-grid .card:hover .shot img{transform:scale(1.06)}
+.cat-grid .card .shot::after{content:"";position:absolute;inset:0;z-index:1;opacity:0;transition:.3s;
+  background:linear-gradient(0deg,rgba(38,50,58,.30),transparent 55%)}
+.cat-grid .card:hover .shot::after{opacity:1}
+.ph-tag{z-index:2}
+.cat-grid .card:nth-child(3n+2){transition-delay:.08s}
+.cat-grid .card:nth-child(3n+3){transition-delay:.16s}
+/* coleções do catálogo */
+.colecao{margin-bottom:56px}
+.colecao:last-child{margin-bottom:0}
+.colecao.oculta{display:none}
+.ver-mais-wrap{text-align:center;margin-top:4px}
+.colecao-titulo{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.colecao-titulo .ct-nome{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.7rem;color:var(--ink);line-height:1.15}
+.colecao-titulo b{font-family:'Jost',sans-serif;font-weight:400;font-size:.78rem;color:var(--ink-soft);letter-spacing:.08em;white-space:nowrap}
+.colecao-titulo .ct-linha{flex:1;height:1px;background:var(--line)}
+.ver-todos{flex:none;background:none;border:0;cursor:pointer;font-family:'Jost',sans-serif;
+  font-weight:500;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);
+  display:inline-flex;align-items:center;gap:6px;transition:.2s;white-space:nowrap}
+.ver-todos:hover{color:var(--blue-dark)}
+.ver-todos .chev{width:13px;height:13px;transition:transform .25s}
+.ver-todos.aberto .chev{transform:rotate(180deg)}
+/* vestidos além dos 6 primeiros ficam escondidos até "Ver todos" */
+.card.extra{display:none}
+.colecao.mostra-todos .card.extra{display:block}
+.shot-hint{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px;color:#fff;
+  font-size:.76rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);transition:.3s}
+.cat-grid .card:hover .shot-hint{opacity:1;transform:none}
+
+/* Lightbox — ver o vestido de perto */
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,28,33,.86);
+  backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
+.lightbox.open{display:flex}
+.lb-content{background:var(--bg);border-radius:18px;overflow:hidden;max-width:900px;width:100%;
+  max-height:90vh;display:grid;grid-template-columns:1fr 330px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.lb-content>img{width:100%;height:100%;max-height:90vh;object-fit:cover;display:block;background:var(--bg-alt)}
+.lb-info{padding:34px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.lb-info h3{font-size:1.9rem}
+.lb-price{color:var(--ink-soft);font-size:.92rem}
+.lb-close{position:fixed;top:20px;right:24px;z-index:101;background:rgba(255,255,255,.16);
+  color:#fff;border:0;width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer;transition:.2s}
+.lb-close:hover{background:rgba(255,255,255,.32)}
+@media(max-width:760px){
+  .lb-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+  .lb-content>img{max-height:52vh}
+  .lb-info{padding:24px}
+}
+
+/* Destaque — obra-prima (vestido Giovanna) */
+.destaque{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-alt) 38%);
+  position:relative;overflow:hidden}
+.destaque::before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;
+  right:-150px;top:-160px;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(111,163,189,.22),transparent 68%)}
+.destaque-grid{display:grid;grid-template-columns:1fr 1.02fr;gap:60px;align-items:center;
+  position:relative;z-index:1}
+.destaque-badge{display:inline-block;background:var(--blue);color:#fff;
+  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  padding:6px 14px;border-radius:50px;margin-bottom:16px}
+.destaque-texto .quote{font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.6rem;line-height:1.45;color:var(--ink);margin:8px 0 6px;
+  padding-left:20px;border-left:2px solid var(--blue)}
+.destaque-sign{font-family:'Pinyon Script',cursive;font-size:2rem;color:var(--blue);
+  margin:0 0 20px;padding-left:20px}
+.destaque-texto p{color:var(--ink-soft);margin-bottom:22px}
+.destaque-feats{list-style:none;margin:2px 0 28px;display:grid;gap:12px}
+.destaque-feats li{display:flex;align-items:center;gap:11px;font-size:.96rem;color:var(--ink)}
+.destaque-feats svg{width:18px;height:18px;color:var(--blue);flex:none}
+.destaque-preco{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.18rem;
+  color:var(--ink-soft);margin:0 0 18px}
+.destaque-preco b{color:var(--accent);font-weight:600;font-style:normal}
+.destaque-actions{display:flex;gap:12px;flex-wrap:wrap}
+/* botão secundário da Obra em destaque — fundo branco p/ destacar do azul-claro */
+.destaque-actions .btn-ghost{background:#fff;border-color:var(--blue);color:var(--accent)}
+.destaque-actions .btn-ghost:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.destaque-mark{position:absolute;top:-26px;right:-6px;z-index:0;
+  font-family:'Pinyon Script',cursive;font-size:13rem;line-height:1;
+  color:var(--blue);opacity:.06;pointer-events:none;user-select:none}
+
+/* Carrossel */
+.carousel{position:relative}
+.carousel-viewport{position:relative;overflow:hidden;border-radius:18px;
+  box-shadow:0 22px 55px rgba(38,50,58,.20)}
+.carousel-viewport::after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;z-index:2;
+  background:linear-gradient(0deg,rgba(20,28,33,.62),transparent);pointer-events:none}
+.carousel-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.carousel-slide{min-width:100%;aspect-ratio:4/5;background:var(--bg);overflow:hidden}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 6s ease}
+.carousel-slide.is-active img{transform:scale(1.07)}
+.car-caption{position:absolute;left:20px;bottom:18px;z-index:3;color:#fff;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;
+  text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(255,255,255,.92);color:var(--ink);font-size:1.5rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);transition:.2s}
+.car-arrow:hover{background:var(--blue);color:#fff}
+.car-prev{left:14px}.car-next{right:14px}
+.car-counter{position:absolute;top:16px;right:16px;z-index:4;
+  background:rgba(38,50,58,.5);color:#fff;font-size:.72rem;letter-spacing:.12em;
+  padding:5px 12px;border-radius:50px;backdrop-filter:blur(3px)}
+.carousel-dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.carousel-dots button{width:8px;height:8px;border-radius:50%;border:0;cursor:pointer;
+  background:#c7d6dd;transition:.25s;padding:0}
+.carousel-dots button.active{background:var(--blue);width:22px;border-radius:50px}
+
+/* aparição suave ao rolar a página */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.reveal-in{opacity:1;transform:none}
+
+@media(max-width:880px){
+  .destaque-grid{grid-template-columns:1fr;gap:34px}
+  .destaque-mark{font-size:8rem;top:-10px}
+  .destaque::before{width:360px;height:360px;right:-120px}
+}
+
+/* Sob medida */
+.medida{background:var(--bg-alt)}
+.medida-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.steps{list-style:none;margin:28px 0 0}
+.steps li{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps .n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.6rem;
+  color:var(--blue);min-width:38px;line-height:1.2}
+.steps strong{font-weight:500;font-family:'Jost',sans-serif;display:block;margin-bottom:2px}
+.steps p{font-size:.9rem;color:var(--ink-soft);margin:0}
+
+/* Form */
+.form-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+  padding:38px;box-shadow:var(--shadow)}
+.form-card h3{font-size:1.7rem;font-weight:600;margin-bottom:6px}
+.form-card .sub{font-size:.88rem;color:var(--ink-soft);margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:7px}
+.field input,.field select,.field textarea{
+  width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:10px;
+  background:#fff;font-family:'Jost',sans-serif;font-size:.95rem;color:var(--ink);transition:.2s}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(111,163,189,.18)}
+.field textarea{resize:vertical;min-height:90px}
+.form-card .btn{width:100%;margin-top:6px}
+.form-note{font-size:.76rem;color:var(--ink-soft);text-align:center;margin-top:14px}
+.medidas-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.medidas-aviso{font-size:.74rem;color:var(--ink-soft);margin:-6px 0 16px}
+
+/* Sobre */
+.sobre-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center}
+.sobre-img{aspect-ratio:1/1;box-shadow:var(--shadow)}
+.sobre h2{font-size:clamp(2rem,4vw,2.9rem)}
+.sobre .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;
+  color:var(--ink);line-height:1.5;margin:22px 0;padding-left:20px;border-left:2px solid var(--accent)}
+.sobre p{color:var(--ink-soft);margin-bottom:16px}
+.sign{font-family:'Pinyon Script',cursive;font-size:2.2rem;color:var(--blue);margin-top:8px}
+
+/* Contato */
+.contato{background:var(--ink);color:var(--bg);text-align:center}
+.contato h2{color:#fff;font-size:clamp(2rem,4vw,3rem)}
+.contato p{color:rgba(248,250,251,.75);max-width:32em;margin:18px auto 34px}
+.contato-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.contato .btn-ghost{color:var(--bg);border-color:rgba(248,250,251,.3)}
+.contato .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.contato-info{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:54px;text-align:left}
+.ci-item{display:flex;gap:14px;align-items:flex-start;padding:20px 18px;
+  border:1px solid rgba(248,250,251,.1);border-radius:14px;background:rgba(255,255,255,.03);transition:.25s}
+.ci-item:hover{border-color:rgba(111,163,189,.55);background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.ci-ico{flex:none;width:40px;height:40px;border-radius:50%;background:rgba(111,163,189,.18);
+  display:flex;align-items:center;justify-content:center}
+.ci-ico svg{width:19px;height:19px}
+.ci-ico .stroke{fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ci-ico .fill{fill:var(--blue)}
+.ci-txt b{display:block;color:#fff;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  font-size:.68rem;margin-bottom:5px}
+.ci-txt span,.ci-txt a{font-size:.86rem;color:rgba(248,250,251,.72);line-height:1.45;overflow-wrap:anywhere}
+.ci-txt a:hover{color:var(--blue)}
+@media(max-width:760px){.contato-info{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.contato-info{grid-template-columns:1fr}}
+
+/* Footer */
+footer{background:#1e272d;color:rgba(248,250,251,.6);padding:46px 0;text-align:center}
+footer .brand{color:#fff;margin-bottom:10px}
+footer .fnote{font-size:.78rem;margin-top:18px}
+footer a{color:var(--blue)}
+.footer-social{display:flex;gap:14px;justify-content:center;margin-top:18px}
+.footer-social a{width:46px;height:46px;border-radius:50%;border:1px solid rgba(248,250,251,.18);
+  display:flex;align-items:center;justify-content:center;color:rgba(248,250,251,.85);transition:.25s}
+.footer-social a:hover{background:var(--blue);border-color:var(--blue);color:#fff;transform:translateY(-2px)}
+.footer-social svg{width:21px;height:21px}
+.footer-social .wa svg{fill:currentColor}
+.footer-social .ig svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* WhatsApp flutuante */
+.wa-float{position:fixed;right:22px;bottom:22px;z-index:60;
+  background:#25D366;color:#fff;width:58px;height:58px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 22px rgba(0,0,0,.18);transition:.25s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+
+/* ---------- RESPONSIVO ---------- */
+@media(max-width:880px){
+  .menu-btn{display:block}
+  /* menu vira painel vertical que desce do topo — não estoura a tela */
+  .nav-links{
+    position:absolute;top:72px;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--bg);border-bottom:1px solid var(--line);
+    padding:6px 24px 18px;display:none;
+    box-shadow:0 12px 24px rgba(38,50,58,.06);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:15px 2px;border-bottom:1px solid var(--line);font-size:1rem;color:var(--ink-soft)}
+  .nav-links a:last-child{border-bottom:0}
+  .nav-cta{margin-top:12px;padding:14px 24px}
+
+  .medida-grid,.sobre-grid{grid-template-columns:1fr;gap:38px}
+  .hero{min-height:84vh;background-position:72% 46%}
+  .hero-content{padding-top:96px}
+  .hero h1{font-size:clamp(2.2rem,9vw,3.2rem)}
+  .hero-strip{font-size:1rem;gap:16px;margin-top:26px}
+  .cat-grid{grid-template-columns:1fr 1fr;gap:16px}
+  section{padding:62px 0}
+  .sobre-img{order:-1}
+}
+@media(max-width:520px){
+  .wrap{padding:0 18px}
+  .cat-grid{grid-template-columns:1fr}
+  .hero-note{gap:22px}
+  .form-card{padding:26px 20px}
+  .contato-info{gap:26px}
+  .strip-inner{font-size:1rem;gap:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#topo" class="brand">Maga Ateliê</a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#destaque" onclick="fecharMenu()">Destaque</a>
+      <a href="#vestidos" onclick="fecharMenu()">Catálogo</a>
+      <a href="#sobmedida" onclick="fecharMenu()">Sob medida</a>
+      <a href="#sobre" onclick="fecharMenu()">Sobre</a>
+      <a href="#contato" onclick="fecharMenu()">Contato</a>
+      <a href="https://wa.me/5511974235465" class="btn btn-primary nav-cta">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Fale comigo
+      </a>
+    </nav>
+    <button class="menu-btn" aria-label="Abrir menu" onclick="toggleMenu()">☰</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="topo" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="wrap hero-content">
+    <span class="eyebrow">Noivas · Madrinhas · Festa</span>
+    <h1>Vestidos que valorizam<br><em>corpos reais</em>.</h1>
+    <p>Ateliê de costura em Caieiras-SP. Criação autoral e modelagem sob medida —
+       cada peça nasce do seu sonho, para comprar ou alugar.</p>
+    <div class="hero-actions">
+      <a href="#sobmedida" class="btn btn-primary">Peça o seu vestido</a>
+      <a href="#vestidos" class="btn btn-light">Ver catálogo</a>
+    </div>
+  </div>
+  <div class="wrap hero-strip">
+    <span>Criação autoral</span><i>·</i>
+    <span>Modelagem sob medida</span><i>·</i>
+    <span>Aluguel de vestidos</span><i>·</i>
+    <span>Caieiras &amp; região</span>
+  </div>
+</main>
+
+<!-- ============ DESTAQUE (obra-prima) ============ -->
+<section id="destaque" class="destaque">
+  <div class="destaque-mark" aria-hidden="true">Maga</div>
+  <div class="wrap destaque-grid">
+    <div class="destaque-texto reveal">
+      <span class="destaque-badge">Obra em destaque</span>
+      <h2 class="serif" style="font-size:clamp(2rem,4vw,2.9rem)">O auge do ateliê</h2>
+      <p class="quote">"O vestido que melhor traduz tudo o que a Maga sabe fazer — a criação mais especial do ateliê até hoje."</p>
+      <p class="destaque-sign">— Maria Santos</p>
+      <p>Um vestido de noiva boho em renda e tule, todo trabalhado à mão. Leveza,
+         movimento e delicadeza num caimento que valoriza o corpo de verdade.
+         Cada ponto pensado, cada detalhe no lugar.</p>
+      <ul class="destaque-feats">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Renda e tule trabalhados à mão</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Modelagem 100% sob medida</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Caimento que valoriza o corpo</li>
+      </ul>
+      <p class="destaque-preco" id="destaquePreco"></p>
+      <div class="destaque-actions">
+        <button class="btn btn-primary" onclick="abrirPedido('destaque')">Alugar ou comprar</button>
+        <a class="btn btn-ghost" href="#sobmedida">Quero um vestido assim</a>
+      </div>
+    </div>
+    <div class="carousel reveal" id="carDestaque">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carTrack">
+          <div class="carousel-slide"><img src="imagens/car-1.jpg" alt="Vestido boho de renda — frente, segurando a saia"></div>
+          <div class="carousel-slide"><img src="imagens/car-2.jpg" alt="Noiva com buquê usando o vestido boho"></div>
+          <div class="carousel-slide"><img src="imagens/car-3.jpg" alt="Costas do vestido com cauda em renda"></div>
+          <div class="carousel-slide"><img src="imagens/car-4.jpg" alt="Detalhe da renda trabalhada à mão"></div>
+          <div class="carousel-slide"><img src="imagens/car-5.jpg" alt="Movimento do vestido no campo"></div>
+        </div>
+        <div class="car-caption" id="carCaption">Frente</div>
+        <div class="car-counter"><span id="carNum">1</span> / 5</div>
+        <button class="car-arrow car-prev" onclick="carGo(-1)" aria-label="Foto anterior"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button class="car-arrow car-next" onclick="carGo(1)" aria-label="Próxima foto"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+      </div>
+      <div class="carousel-dots" id="carDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATÁLOGO ============ -->
+<section id="vestidos">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Catálogo</span>
+      <h2>Escolha o seu vestido</h2>
+      <p>Coleções autorais, todas sob medida — das noivas mais delicadas aos vestidos
+         coloridos de festa. Encontre o estilo que combina com o seu momento.</p>
+    </div>
+    <div id="catalogo-root"></div>
+  </div>
+</section>
+
+<!-- ============ SOB MEDIDA ============ -->
+<section id="sobmedida" class="medida">
+  <div class="wrap medida-grid">
+    <div>
+      <span class="eyebrow">Sob medida</span>
+      <h2 class="serif" style="font-size:clamp(2rem,4vw,2.9rem)">Do seu sonho<br>ao seu corpo</h2>
+      <ol class="steps">
+        <li><span class="n">01</span><div><strong>Conta seu sonho</strong><p>Você descreve a ocasião, o estilo e a referência que te encanta.</p></div></li>
+        <li><span class="n">02</span><div><strong>Desenho &amp; tecido</strong><p>Criamos juntas o modelo e escolhemos os tecidos da sua peça.</p></div></li>
+        <li><span class="n">03</span><div><strong>Modelagem sob medida</strong><p>Suas medidas, suas formas — o vestido feito pra você, do seu jeito.</p></div></li>
+        <li><span class="n">04</span><div><strong>Provas &amp; entrega</strong><p>Ajustamos até ficar perfeito. Você sai com algo único e inesquecível.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="form-card" id="form">
+      <h3>Peça seu vestido sob medida</h3>
+      <p class="sub">Preencha e a Maria te chama no WhatsApp pra conversar sobre o seu sonho.</p>
+      <form onsubmit="return enviarWhats(event)">
+        <div class="field">
+          <label for="nome">Seu nome</label>
+          <input id="nome" required placeholder="Como você se chama?" />
+        </div>
+        <div class="field">
+          <label for="ocasiao">Ocasião</label>
+          <select id="ocasiao">
+            <option>Casamento (noiva)</option>
+            <option>Madrinha</option>
+            <option>Festa / formatura</option>
+            <option>15 anos</option>
+            <option>Casamento civil</option>
+            <option>Outra</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="tipo">Quero...</label>
+          <select id="tipo">
+            <option>Vestido sob medida (comprar)</option>
+            <option>Alugar um vestido</option>
+            <option>Ainda não sei, quero conversar</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="data">Data do evento</label>
+          <input id="data" type="date" />
+        </div>
+        <div class="medidas-grid">
+          <div class="field"><label for="busto">Busto (cm)</label><input id="busto" inputmode="numeric" placeholder="ex: 90" /></div>
+          <div class="field"><label for="cintura">Cintura (cm)</label><input id="cintura" inputmode="numeric" placeholder="ex: 70" /></div>
+          <div class="field"><label for="quadril">Quadril (cm)</label><input id="quadril" inputmode="numeric" placeholder="ex: 98" /></div>
+          <div class="field"><label for="altura">Altura (cm)</label><input id="altura" inputmode="numeric" placeholder="ex: 165" /></div>
+        </div>
+        <p class="medidas-aviso">As medidas são opcionais — pode mandar uma estimativa, a Maria confere tudo na prova. 💙</p>
+        <div class="field">
+          <label for="msg">Conta um pouco do que você imagina</label>
+          <textarea id="msg" placeholder="Estilo, cor, referência que te encanta..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar no WhatsApp</button>
+        <p class="form-note">Sem compromisso — é só pra começarmos a conversa 💬</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section id="sobre" class="sobre">
+  <div class="wrap sobre-grid">
+    <div class="ph sobre-img" data-label="Foto da Maria no ateliê"></div>
+    <div>
+      <span class="eyebrow">Prazer, Maria Santos</span>
+      <h2>Quem dá vida ao seu sonho</h2>
+      <p class="quote">"Mais do que fazer vestidos, meu propósito é transformar
+        momentos especiais em algo único e inesquecível."</p>
+      <p>Sou a pessoa por trás de cada detalhe, cada criação e de cada sonho que
+        chega até o ateliê. Cada peça começa com uma ideia, um desejo, uma
+        expectativa — e ganha vida através do cuidado e da dedicação em cada
+        etapa do processo.</p>
+      <p>Acredito que um vestido vai muito além da estética. Ele carrega emoção,
+        significado e memórias que ficam pra sempre. Por isso cada criação
+        respeita a essência de quem vai usar e a importância do momento.</p>
+      <div class="sign">Maria Santos</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTATO ============ -->
+<section id="contato" class="contato">
+  <div class="wrap">
+    <span class="eyebrow">Vamos conversar</span>
+    <h2>Seu vestido começa com uma conversa</h2>
+    <p>Me chama no WhatsApp ou no Instagram. Vou adorar ouvir sobre a sua ocasião
+       e te ajudar a vestir o seu momento.</p>
+    <div class="contato-actions">
+      <a href="https://wa.me/5511974235465" class="btn btn-primary">WhatsApp</a>
+      <a href="https://instagram.com/magaatelieofc" class="btn btn-ghost">@magaatelieofc</a>
+    </div>
+    <div class="contato-info">
+      <a class="ci-item" href="https://www.google.com/maps/search/?api=1&query=R.+Mococa,+334+-+Serpa,+Caieiras+-+SP+07700-000" target="_blank">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><path class="stroke" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle class="stroke" cx="12" cy="10" r="3"/></svg></span>
+        <span class="ci-txt"><b>Endereço</b><span>R. Mococa, 334<br>Serpa, Caieiras-SP</span></span>
+      </a>
+      <div class="ci-item">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><circle class="stroke" cx="12" cy="12" r="9"/><polyline class="stroke" points="12 7 12 12 15 14"/></svg></span>
+        <span class="ci-txt"><b>Horário</b><span>09:00 – 18:00</span></span>
+      </div>
+      <a class="ci-item" href="https://wa.me/5511974235465" target="_blank">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><path class="fill" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+        <span class="ci-txt"><b>WhatsApp</b><span>(11) 97423-5465</span></span>
+      </a>
+      <a class="ci-item" href="mailto:gloriapasini1@gmail.com">
+        <span class="ci-ico"><svg viewBox="0 0 24 24"><rect class="stroke" x="3" y="5" width="18" height="14" rx="2"/><polyline class="stroke" points="3 7 12 13 21 7"/></svg></span>
+        <span class="ci-txt"><b>E-mail</b><span>gloriapasini1@gmail.com</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="brand script" style="font-size:2.2rem">Maga Ateliê</div>
+    <div class="footer-social">
+      <a class="wa" href="https://wa.me/5511974235465" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+      <a class="ig" href="https://instagram.com/magaatelieofc" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+    </div>
+    <p class="fnote">© 2026 Maga Ateliê · Feito com carinho em Caieiras-SP</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/5511974235465" class="wa-float" aria-label="WhatsApp" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="dados.js"></script>
+<script src="pedido.js"></script>
+<script>
+// >>> Número de WhatsApp da Maria: (11) 97423-5465 <<<
+const WHATS = "5511974235465";
+
+function toggleMenu(){
+  const nav = document.getElementById('navlinks');
+  const open = nav.classList.toggle('open');
+  const btn = document.querySelector('.menu-btn');
+  if(btn){ btn.textContent = open ? '✕' : '☰'; btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu'); }
+}
+function fecharMenu(){
+  document.getElementById('navlinks').classList.remove('open');
+  const btn = document.querySelector('.menu-btn');
+  if(btn){ btn.textContent = '☰'; btn.setAttribute('aria-label','Abrir menu'); }
+}
+
+// Cabeçalho transparente no topo → barra clara ao rolar
+(function(){
+  const h = document.querySelector('header');
+  if(!h) return;
+  const onScroll = ()=> h.classList.toggle('scrolled', window.scrollY > 30);
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
+
+// "Ver todos" de uma coleção — mostra/esconde os vestidos além dos 6 primeiros
+window.verTodos = function(btn){
+  const col = btn.closest('.colecao');
+  const aberto = col.classList.toggle('mostra-todos');
+  btn.classList.toggle('aberto', aberto);
+  const txt = btn.querySelector('.vt-txt');
+  if(txt) txt.textContent = aberto ? 'Ver menos' : ('Ver todos ('+btn.dataset.total+')');
+  if(aberto){
+    col.querySelectorAll('.card.extra').forEach(c=>c.classList.add('reveal-in'));
+  }
+};
+
+// Preço da Obra em destaque (puxa do dados.js pra ficar sempre igual ao modal)
+(function(){
+  const v = (window.VESTIDOS||[]).find(x=>x.id==='destaque');
+  const el = document.getElementById('destaquePreco');
+  if(v && el) el.innerHTML = 'Compra <b>'+window.precoFmt(v.preco)+'</b> · ou aluguel por <b>'+window.precoFmt(window.aluguelDe(v))+'</b>';
+})();
+
+// Carrossel do Destaque (fotos da Giovanna)
+(function(){
+  const track = document.getElementById('carTrack');
+  if(!track) return;
+  const slides = [...track.children];
+  const total = slides.length;
+  const labels = ['Frente','Com buquê','Costas','Detalhe da renda','Movimento'];
+  const num = document.getElementById('carNum');
+  const cap = document.getElementById('carCaption');
+  const dotsWrap = document.getElementById('carDots');
+  const root = document.getElementById('carDestaque');
+  let idx = 0, timer;
+  for(let i=0;i<total;i++){
+    const b = document.createElement('button');
+    b.setAttribute('aria-label','Ir para a foto '+(i+1));
+    b.addEventListener('click',()=>{ idx=i; render(); reset(); });
+    dotsWrap.appendChild(b);
+  }
+  function render(){
+    track.style.transform = `translateX(-${idx*100}%)`;
+    if(num) num.textContent = idx+1;
+    if(cap && labels[idx]) cap.textContent = labels[idx];
+    slides.forEach((s,i)=>s.classList.toggle('is-active', i===idx));
+    [...dotsWrap.children].forEach((d,i)=>d.classList.toggle('active', i===idx));
+  }
+  window.carGo = function(dir){ idx = (idx+dir+total)%total; render(); reset(); };
+  function reset(){ clearInterval(timer); timer = setInterval(()=>window.carGo(1), 5000); }
+  root.addEventListener('mouseenter',()=>clearInterval(timer));
+  root.addEventListener('mouseleave', reset);
+  render(); reset();
+})();
+
+// Monta o catálogo agrupado por coleção (a partir de dados.js)
+(function(){
+  const root = document.getElementById('catalogo-root');
+  if(!root || !window.VESTIDOS) return;
+  const waSvg = '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+  const esc = s => s.replace(/'/g,"\\'");
+  let html = '';
+  let shown = 0;
+  const chevDown = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+  const LIMITE = 6;   // vestidos visíveis por coleção antes do "Ver todos"
+  (window.COLECOES||[]).forEach(col=>{
+    const itens = window.VESTIDOS.filter(v=>v.colecao===col);
+    if(!itens.length) return;
+    const oculta = shown >= 2 ? ' oculta' : '';
+    shown++;
+    const verTodosBtn = itens.length>LIMITE
+      ? '<button class="ver-todos" data-total="'+itens.length+'" onclick="verTodos(this)"><span class="vt-txt">Ver todos ('+itens.length+')</span>'+chevDown+'</button>'
+      : '';
+    html += '<div class="colecao'+oculta+'">'
+      +   '<div class="colecao-titulo"><span class="ct-nome">'+col+'</span>'
+      +     '<b>'+itens.length+' modelo'+(itens.length>1?'s':'')+'</b>'
+      +     '<span class="ct-linha"></span>'+verTodosBtn
+      +   '</div>'
+      +   '<div class="cat-grid">';
+    itens.forEach((v,i)=>{
+      const fotosTxt = v.n>1 ? (v.n+' fotos') : '1 foto';
+      const extra = i>=LIMITE ? ' extra' : '';
+      const aluguel = window.aluguelDe(v);
+      html += '<div class="card reveal'+extra+'">'
+        +   '<a class="shot" href="vestido.html?id='+v.id+'">'
+        +     '<img src="imagens/catalogo/'+v.id+'/1.jpg" alt="'+v.nome+'" loading="lazy">'
+        +     '<span class="ph-tag">'+v.tag+'</span>'
+        +     '<span class="shot-hint">Ver fotos →</span>'
+        +   '</a>'
+        +   '<h3>'+v.nome+'</h3>'
+        +   '<span class="card-sub">'+v.colecao+' · '+fotosTxt+'</span>'
+        +   '<div class="card-foot">'
+        +     '<span class="card-precos"><b>'+window.precoFmt(v.preco)+'</b><small>Aluguel '+window.precoFmt(aluguel)+'</small></span>'
+        +     '<button class="btn-mini" onclick="abrirPedido(\''+esc(v.id)+'\')">'+waSvg+' Pedir</button>'
+        +   '</div>'
+        + '</div>';
+    });
+    html += '</div></div>';
+  });
+  if(shown > 2){
+    html += '<div class="ver-mais-wrap"><button class="btn btn-ghost ver-mais" onclick="verMais()">Ver mais coleções</button></div>';
+  }
+  root.innerHTML = html;
+})();
+
+// Botão "Ver mais" do catálogo — revela as coleções escondidas
+window.verMais = function(){
+  document.querySelectorAll('.colecao.oculta').forEach(c=>{
+    c.classList.remove('oculta');
+    c.querySelectorAll('.reveal').forEach(el=>el.classList.add('reveal-in'));
+  });
+  const w = document.querySelector('.ver-mais-wrap'); if(w) w.remove();
+};
+
+// Aparição suave ao rolar a página
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  if(!els.length) return;
+  if(!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('reveal-in')); return; }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('reveal-in'); io.unobserve(en.target); } });
+  }, {threshold:.18});
+  els.forEach(e=>io.observe(e));
+})();
+
+// (Lightbox removido — agora cada vestido abre sua própria página: vestido.html)
+
+function enviarWhats(e){
+  e.preventDefault();
+  const val = id => (document.getElementById(id).value || '').trim();
+  const nome = val('nome') || 'Olá';
+  const ocasiao = document.getElementById('ocasiao').value;
+  const tipo = document.getElementById('tipo').value;
+  let texto = `Olá, Maria! Meu nome é ${nome}.\n`;
+  texto += `Ocasião: ${ocasiao}\n`;
+  texto += `Quero: ${tipo}\n`;
+  const data = val('data');
+  if(data){ const p = data.split('-'); texto += `Data do evento: ${p[2]}/${p[1]}/${p[0]}\n`; }
+  const m = [];
+  if(val('busto'))   m.push('busto '+val('busto'));
+  if(val('cintura')) m.push('cintura '+val('cintura'));
+  if(val('quadril')) m.push('quadril '+val('quadril'));
+  if(val('altura'))  m.push('altura '+val('altura'));
+  if(m.length) texto += `Medidas (cm): ${m.join(', ')}\n`;
+  const msg = val('msg');
+  if(msg) texto += `Detalhes: ${msg}`;
+  window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(texto)}`,'_blank');
+  return false;
+}
+</script>
+</body>
+</html>

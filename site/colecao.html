@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coleção — Maga Ateliê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F8FAFB;--card:#E8F1F5;--brand:#6FA3BD;--brand-dark:#557F96;
+    --ink:#26323A;--muted:#5b6a73;--depth:#3F7D99;--line:rgba(38,50,58,.10);
+    --r:16px;--shadow:0 4px 24px rgba(38,50,58,.08);--maxw:1280px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Jost',sans-serif;font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.1;letter-spacing:-.01em}
+  .eyebrow{font-family:'Jost',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.28em;font-size:.72rem;color:var(--depth)}
+
+  /* header */
+  header{position:sticky;top:0;z-index:50;background:rgba(248,250,251,.9);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:16px}
+  .brand{display:flex;flex-direction:column;line-height:1}
+  .brand .mark{font-family:'Pinyon Script',cursive;font-size:30px;color:var(--ink)}
+  .brand .sub{font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-top:4px;margin-left:2px}
+  .back{font-size:.86rem;color:var(--muted);transition:.2s;white-space:nowrap}
+  .back:hover{color:var(--brand)}
+
+  /* topo da coleção */
+  .col-head{padding:clamp(40px,6vw,72px) 0 clamp(24px,3vw,36px)}
+  .col-head .eyebrow{display:block;margin-bottom:14px}
+  .col-head h1{font-size:clamp(2.4rem,5vw,4rem)}
+  .col-head h1 em{font-style:italic;color:var(--depth)}
+  .col-head p{color:var(--muted);font-size:1.05rem;margin-top:14px;max-width:52ch}
+
+  /* grade de vestidos */
+  .grade{padding-bottom:clamp(56px,8vw,104px)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .card{transition:.3s}
+  .card .shot{position:relative;display:block;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;background:var(--card);box-shadow:var(--shadow);margin-bottom:14px}
+  .card .shot img{width:100%;height:100%;object-fit:cover;object-position:center 18%;transition:transform .55s var(--ease)}
+  .card:hover .shot img{transform:scale(1.06)}
+  .card .shot::after{content:"";position:absolute;inset:0;opacity:0;transition:.3s;background:linear-gradient(0deg,rgba(38,50,58,.34),transparent 55%)}
+  .card:hover .shot::after{opacity:1}
+  .card .tag{position:absolute;top:14px;left:14px;z-index:2;background:rgba(248,250,251,.92);color:var(--ink);font-size:.66rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:50px}
+  .card .hint{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px;color:#fff;font-size:.74rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;opacity:0;transform:translateY(8px);transition:.3s}
+  .card:hover .hint{opacity:1;transform:none}
+  .card h3{font-size:1.3rem;font-weight:600}
+  .card .sub{display:block;font-size:.8rem;color:var(--muted);letter-spacing:.03em;margin-top:2px}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+  .card .precos{display:flex;flex-direction:column;line-height:1.25}
+  .card .precos b{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:1.12rem;color:var(--depth)}
+  .card .precos small{font-size:.74rem;color:var(--muted)}
+  .btn-mini{display:inline-flex;align-items:center;gap:6px;font-family:'Jost',sans-serif;font-weight:500;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--brand);color:var(--brand);background:transparent;padding:9px 16px;border-radius:50px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .btn-mini:hover{background:var(--brand);color:#fff}
+  .vazio{padding:40px 0 80px;color:var(--muted)}
+  .vazio a{color:var(--brand)}
+
+  /* outras coleções */
+  .outras{border-top:1px solid var(--line);padding:clamp(48px,6vw,72px) 0}
+  .outras h2{font-size:1.7rem;margin-bottom:22px}
+  .chips{display:flex;flex-wrap:wrap;gap:12px}
+  .chip{border:1px solid var(--line);border-radius:50px;padding:10px 20px;font-size:.9rem;color:var(--ink);transition:.2s;background:#fff}
+  .chip:hover{border-color:var(--brand);color:var(--depth);transform:translateY(-2px)}
+  .chip.atual{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+  footer{background:#1e272d;color:rgba(248,250,251,.6);padding:40px 0;text-align:center}
+  footer .mark{font-family:'Pinyon Script',cursive;font-size:2rem;color:#fff;display:block;margin-bottom:6px}
+  footer .fnote{font-size:.78rem;margin-top:8px}
+
+  .wa-float{position:fixed;right:22px;bottom:22px;z-index:60;background:#25D366;color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(0,0,0,.18);transition:.25s}
+  .wa-float:hover{transform:scale(1.08)}.wa-float svg{width:30px;height:30px;fill:#fff}
+
+  @media(max-width:880px){.cards{grid-template-columns:1fr 1fr;gap:16px}}
+  @media(max-width:520px){.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand" aria-label="Maga Ateliê">
+      <span class="mark">Maga Ateliê</span>
+      <span class="sub">festa &amp; noiva</span>
+    </a>
+    <a href="index.html#colecoes" class="back">← Voltar às coleções</a>
+  </div>
+</header>
+
+<main>
+  <section class="col-head wrap" id="colHead"><!-- via JS --></section>
+  <section class="grade wrap"><div class="cards" id="cards"><!-- via JS --></div></section>
+  <section class="outras wrap" id="outras"><!-- via JS --></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="mark">Maga Ateliê</span>
+    <p>Vestidos que valorizam corpos reais · Caieiras-SP</p>
+    <p class="fnote">© 2026 Maga Ateliê</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/5511974235465" class="wa-float" aria-label="WhatsApp" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="dados.js"></script>
+<script src="pedido.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const col = params.get('col');
+  const COLECOES = window.COLECOES || [];
+  const VESTIDOS = window.VESTIDOS || [];
+
+  // descrições curtas por coleção (mesma linha do index)
+  const DESC = {
+    'Jardim':'Vestidos de noiva — delicadeza em flor para o grande dia.',
+    'Maré':'Sereia e drapeados que marcam as curvas com movimento.',
+    'Brisa':'Fluidos e leves, pra ocasiões que pedem suavidade.',
+    'Florescer':'Cores vibrantes pra brilhar na festa.',
+    'Estação':'Madrinhas e clássicos — um vestido pra cada estação.'
+  };
+
+  const head = document.getElementById('colHead');
+  const cardsEl = document.getElementById('cards');
+  const itens = VESTIDOS.filter(v => v.colecao === col);
+
+  if(!col || !COLECOES.includes(col)){
+    document.title = 'Coleção — Maga Ateliê';
+    head.innerHTML = '<span class="eyebrow">Coleções</span><h1>Coleção não encontrada</h1>';
+    cardsEl.parentElement.innerHTML = '<p class="vazio">Essa coleção não existe. <a href="index.html#colecoes">Ver todas as coleções →</a></p>';
+  } else {
+    document.title = 'Coleção ' + col + ' — Maga Ateliê';
+    head.innerHTML =
+      '<span class="eyebrow">Flores &amp; Natureza · Coleção</span>'
+      + '<h1><em>' + col + '</em></h1>'
+      + '<p>' + (DESC[col] || '') + ' Todos sob medida, com opção de aluguel.</p>';
+
+    const waSvg = '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+    const esc = s => String(s).replace(/'/g,"\\'");
+
+    cardsEl.innerHTML = itens.map(v => {
+      const fotos = v.n > 1 ? (v.n + ' fotos') : '1 foto';
+      const aluguel = window.aluguelDe(v);
+      return ''
+        + '<div class="card">'
+        +   '<a class="shot" href="vestido.html?id=' + v.id + '">'
+        +     '<img src="imagens/catalogo/' + v.id + '/1.jpg" alt="' + v.nome + '" loading="lazy">'
+        +     '<span class="tag">' + v.tag + '</span>'
+        +     '<span class="hint">Ver fotos →</span>'
+        +   '</a>'
+        +   '<h3>' + v.nome + '</h3>'
+        +   '<span class="sub">' + v.colecao + ' · ' + fotos + '</span>'
+        +   '<div class="card-foot">'
+        +     '<span class="precos"><b>' + window.precoFmt(v.preco) + '</b><small>Aluguel ' + window.precoFmt(aluguel) + '</small></span>'
+        +     '<button class="btn-mini" onclick="abrirPedido(\'' + esc(v.id) + '\')">' + waSvg + ' Pedir</button>'
+        +   '</div>'
+        + '</div>';
+    }).join('');
+
+    if(!itens.length){
+      cardsEl.parentElement.innerHTML = '<p class="vazio">Em breve, novos vestidos nessa coleção. <a href="index.html#colecoes">Ver outras coleções →</a></p>';
+    }
+  }
+
+  // navegação entre coleções
+  const outras = document.getElementById('outras');
+  outras.innerHTML = '<h2>Outras coleções</h2><div class="chips">'
+    + COLECOES.map(c => '<a class="chip' + (c===col?' atual':'') + '" href="colecao.html?col=' + encodeURIComponent(c) + '">' + c + '</a>').join('')
+    + '</div>';
+</script>
+</body>
+</html>
