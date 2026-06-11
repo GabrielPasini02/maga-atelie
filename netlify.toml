@@ -1,0 +1,7 @@
+# Configuração de publicação no Netlify.
+# O site é estático: publica a pasta "site" como raiz do domínio.
+#   - Site público:  https://SEU-SITE.netlify.app/
+#   - Painel da Maria: https://SEU-SITE.netlify.app/painel/
+[build]
+  publish = "site"
+  command = ""

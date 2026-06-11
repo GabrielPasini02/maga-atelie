@@ -102,11 +102,15 @@
 
   /* ---------- hero (foto de fundo full-bleed) ---------- */
   .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;
-    overflow:hidden;background:#1b2429 url('imagens/hero-bg.jpg') 60% 64%/cover no-repeat}
+    overflow:hidden;background:#1b2429 url('imagens/hero-bg.jpg') 60% 72%/cover no-repeat}
   .hero-overlay{position:absolute;inset:0;z-index:1;
     background:linear-gradient(90deg,rgba(20,28,33,.82) 0%,rgba(20,28,33,.46) 45%,rgba(20,28,33,.06) 76%),
                linear-gradient(0deg,rgba(20,28,33,.66) 0%,rgba(20,28,33,0) 36%)}
   .hero-content{position:relative;z-index:2;padding-top:clamp(96px,16vh,150px)}
+  /* texto ancorado à esquerda — um pouco mais pra dentro, sem chegar ao centro */
+  .hero .hero-content{max-width:1040px;margin-left:0;margin-right:auto;padding-left:clamp(24px,8vw,150px)}
+  /* a faixa usa margem (não padding) p/ a linha branca começar junto com o texto */
+  .hero .hero-strip{max-width:1040px;margin-left:clamp(24px,8vw,150px);margin-right:auto;padding-left:0}
   .hero .eyebrow{color:#fff;opacity:.95;display:inline-flex;align-items:center;gap:12px}
   .hero .eyebrow::before{content:"";width:30px;height:1px;background:currentColor;opacity:.7}
   .hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;color:#fff;margin-top:16px;
@@ -151,12 +155,28 @@
 
   /* ---------- obra-prima ---------- */
   .op-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(36px,5vw,72px);align-items:center}
-  .op-media{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:14px}
-  .op-media .big{grid-column:1 / -1}
-  .op-media .shot{box-shadow:var(--shadow)}
-  .op-media .shot img{object-position:center 28%}
-  .op-media .big .shot{height:clamp(420px,46vw,560px)}
-  .op-media .sm .shot{height:clamp(180px,20vw,230px)}
+  /* carrossel da obra-prima */
+  .op-carousel{position:relative}
+  .op-car-viewport{position:relative;overflow:hidden;border-radius:var(--r);box-shadow:var(--shadow-lg)}
+  .op-car-viewport::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40%;z-index:2;pointer-events:none;
+    background:linear-gradient(0deg,rgba(20,28,33,.5),transparent)}
+  .op-car-track{display:flex;transition:transform .6s var(--ease)}
+  .op-car-slide{min-width:100%;aspect-ratio:4/5;overflow:hidden;background:var(--card)}
+  .op-car-slide img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;transition:transform 6s var(--ease)}
+  .op-car-slide.is-active img{transform:scale(1.07)}
+  .op-car-caption{position:absolute;left:22px;bottom:18px;z-index:3;color:#fff;
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.18rem;text-shadow:0 1px 12px rgba(0,0,0,.45)}
+  .op-car-counter{position:absolute;top:16px;right:16px;z-index:3;background:rgba(20,28,33,.5);color:#fff;
+    font-size:12px;letter-spacing:.06em;padding:5px 12px;border-radius:50px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .op-car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:42px;height:42px;border-radius:50%;
+    border:0;cursor:pointer;background:rgba(255,255,255,.88);color:var(--ink);display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow);transition:.3s var(--ease)}
+  .op-car-arrow:hover{background:var(--brand);color:#fff}
+  .op-car-arrow svg{width:20px;height:20px}
+  .op-car-prev{left:14px}.op-car-next{right:14px}
+  .op-car-dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+  .op-car-dots button{width:8px;height:8px;border-radius:50%;border:0;cursor:pointer;background:var(--line);transition:.3s var(--ease);padding:0}
+  .op-car-dots button.active{background:var(--brand);width:22px;border-radius:50px}
   .op-copy .eyebrow{margin-bottom:14px;display:block}
   .op-copy .name{font-family:'Pinyon Script',cursive;font-size:clamp(50px,5.4vw,74px);color:var(--ink);line-height:1.04;margin-bottom:16px}
   .op-copy h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.2vw,28px);color:var(--depth);margin-bottom:20px;line-height:1.2}
@@ -169,17 +189,20 @@
   .op-actions{display:flex;gap:14px;flex-wrap:wrap}
 
   /* ---------- coleções ---------- */
-  .col-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
-  .col-card{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);min-height:340px;cursor:pointer;isolation:isolate}
-  .col-card.feat{grid-column:span 3;grid-row:span 2;min-height:520px}
-  .col-card.half{grid-column:span 3}
-  .col-card img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;object-position:center 22%;transition:transform .8s var(--ease)}
-  .col-card .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(38,50,58,.72) 0%,rgba(38,50,58,.12) 46%,transparent 75%);z-index:2;pointer-events:none}
-  .col-card .label{position:absolute;left:24px;bottom:22px;right:24px;z-index:3;color:#fff;pointer-events:none}
-  .col-card .label .nm{font-family:'Pinyon Script',cursive;font-size:clamp(34px,3.4vw,52px);line-height:.9}
-  .col-card .label .tg{font-size:13.5px;color:rgba(255,255,255,.88);margin-top:8px;max-width:32ch;opacity:0;transform:translateY(8px);transition:.5s var(--ease)}
-  .col-card:hover img{transform:scale(1.05)}
-  .col-card:hover .label .tg{opacity:1;transform:none}
+  .col-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .col-card{position:relative;aspect-ratio:3/4.85;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;isolation:isolate}
+  .col-card img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;object-position:50% 18%;transition:transform .8s var(--ease)}
+  .col-card .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(38,50,58,.78) 0%,rgba(38,50,58,.16) 44%,transparent 72%);z-index:2;pointer-events:none}
+  .col-card .label{position:absolute;left:18px;bottom:18px;right:18px;z-index:3;color:#fff;pointer-events:none}
+  .col-card .label .nm{font-family:'Pinyon Script',cursive;font-size:clamp(30px,2.6vw,44px);line-height:.9}
+  .col-card .label .tg{font-size:12.5px;color:rgba(255,255,255,.9);margin-top:7px;line-height:1.4;opacity:0;max-height:0;transform:translateY(8px);transition:.5s var(--ease)}
+  .col-card:hover img{transform:scale(1.06)}
+  .col-card:hover .label .tg{opacity:1;max-height:80px;transform:none}
+  /* entrada em cascata, igual ao modelo antigo */
+  .col-card:nth-child(2){transition-delay:.09s}
+  .col-card:nth-child(3){transition-delay:.18s}
+  .col-card:nth-child(4){transition-delay:.27s}
+  .col-card:nth-child(5){transition-delay:.36s}
 
   /* ---------- sob medida (passos + form lado a lado) ---------- */
   .medida-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(40px,5vw,72px);align-items:start}
@@ -232,8 +255,18 @@
   .ig-grid .shot{aspect-ratio:1;border-radius:14px;box-shadow:var(--shadow);transition:transform .4s var(--ease)}
   .ig-grid .shot:hover{transform:translateY(-4px)}
   /* quando são posts reais do Instagram (embeds) */
-  .ig-grid.ig-embeds{grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:18px;align-items:start;justify-items:center}
-  .ig-grid.ig-embeds .instagram-media{min-width:0 !important;width:100% !important;max-width:328px !important;margin:0 !important;box-shadow:var(--shadow) !important}
+  .ig-grid.ig-embeds{grid-template-columns:repeat(3,minmax(0,328px));justify-content:center;align-items:start;gap:18px}
+  .ig-grid.ig-embeds .ig-embed{overflow:hidden;border-radius:12px;box-shadow:var(--shadow);background:#fff;width:100%}
+  .ig-grid.ig-embeds .instagram-media{min-width:0 !important;width:100% !important;max-width:100% !important;margin:0 !important;box-shadow:none !important;border:0 !important;border-radius:0 !important}
+  @media (max-width:1024px){.ig-grid.ig-embeds{grid-template-columns:minmax(0,360px)}}
+  /* estado "em breve" (enquanto não há links de posts) */
+  .ig-grid.ig-empty{display:flex;justify-content:center}
+  .ig-empty-card{display:flex;align-items:center;gap:16px;background:var(--card);border:1px dashed var(--brand);
+    border-radius:var(--r);padding:26px 34px;color:var(--depth);text-align:left;transition:.3s var(--ease)}
+  .ig-empty-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .ig-empty-card svg{width:34px;height:34px;flex:none}
+  .ig-empty-card span{font-size:15px;line-height:1.5;color:var(--muted)}
+  .ig-empty-card b{color:var(--ink)}
   .ig-foot{display:flex;justify-content:center}
 
   /* ---------- contato ---------- */
@@ -282,13 +315,12 @@
 
   /* ---------- responsive ---------- */
   @media (max-width:1040px){
-    .col-grid{grid-template-columns:repeat(2,1fr)}
-    .col-card.feat,.col-card.half{grid-column:span 1;grid-row:auto;min-height:320px}
+    .col-grid{grid-template-columns:repeat(3,1fr)}
     .ig-grid{grid-template-columns:repeat(3,1fr)}
     .cont-grid{grid-template-columns:repeat(2,1fr)}
   }
   @media (max-width:920px){
-    .hero{min-height:84vh;background-position:62% 52%}
+    .hero{min-height:84vh;background-position:62% 58%}
     .hero-content{padding-top:96px}
     .hero h1{font-size:clamp(2.4rem,9vw,3.4rem)}
     .hero-strip{font-size:1rem;gap:16px;margin-top:28px}
@@ -303,7 +335,7 @@
     .nav{height:66px}
     .brand .mark{font-size:27px}
     .hero-actions .btn,.op-actions .btn{flex:1;justify-content:center}
-    .col-grid{grid-template-columns:1fr}
+    .col-grid{grid-template-columns:repeat(2,1fr);gap:12px}
     .ig-grid{grid-template-columns:repeat(2,1fr)}
     .cont-grid{grid-template-columns:1fr}
     .price-chip{flex:1}
@@ -367,30 +399,41 @@
 <!-- ======================= OBRA-PRIMA ======================= -->
 <section class="band" id="obra-prima">
   <div class="wrap op-grid">
-    <div class="op-media reveal">
-      <div class="big"><div class="shot"><img src="imagens/car-1.jpg" alt="Dama-da-Noite — vestido de noiva boho em renda e tule" /></div></div>
-      <div class="sm"><div class="shot"><img src="imagens/car-4.jpg" alt="Detalhe da renda trabalhada à mão" /></div></div>
-      <div class="sm"><div class="shot"><img src="imagens/car-3.jpg" alt="Costas do vestido com cauda em renda" /></div></div>
+    <div class="op-carousel reveal" id="opCarousel">
+      <div class="op-car-viewport">
+        <div class="op-car-track" id="opCarTrack">
+          <div class="op-car-slide"><img src="imagens/car-1.jpg" alt="Dama-da-Noite — frente, segurando a saia" /></div>
+          <div class="op-car-slide"><img src="imagens/car-2.jpg" alt="Noiva com buquê usando o vestido" /></div>
+          <div class="op-car-slide"><img src="imagens/car-3.jpg" alt="Costas do vestido com cauda em renda" /></div>
+          <div class="op-car-slide"><img src="imagens/car-4.jpg" alt="Detalhe da renda trabalhada à mão" /></div>
+          <div class="op-car-slide"><img src="imagens/car-5.jpg" alt="Movimento do vestido no campo" /></div>
+        </div>
+        <div class="op-car-caption" id="opCarCaption"></div>
+        <div class="op-car-counter"><span id="opCarNum">1</span> / <span id="opCarTotal">5</span></div>
+        <button class="op-car-arrow op-car-prev" onclick="opCarGo(-1)" aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button class="op-car-arrow op-car-next" onclick="opCarGo(1)" aria-label="Próxima foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+      </div>
+      <div class="op-car-dots" id="opCarDots"></div>
     </div>
     <div class="op-copy reveal">
       <span class="eyebrow">A obra-prima do ateliê</span>
-      <div class="name">Dama-da-Noite</div>
-      <h2>O vestido que nasceu pra ser lembrado.</h2>
-      <p>Cada drapeado deste vestido foi pensado à mão, pra abraçar o corpo e revelar a elegância de quem o veste. É a peça onde coloco tudo o que aprendi no ateliê.</p>
-      <p>Posso recriar a Dama-da-Noite no seu tamanho, com os ajustes que fazem sentido pra você — ou criar, a partir dela, algo só seu.</p>
+      <div class="name" id="opName">Dama-da-Noite</div>
+      <h2 id="opTitulo">O vestido que nasceu pra ser lembrado.</h2>
+      <p id="opTexto">Cada drapeado deste vestido foi pensado à mão, pra abraçar o corpo e revelar a elegância de quem o veste. É a peça onde coloco tudo o que aprendi no ateliê.</p>
+      <p id="opTexto2">Posso recriar a Dama-da-Noite no seu tamanho, com os ajustes que fazem sentido pra você — ou criar, a partir dela, algo só seu.</p>
       <div class="price-row">
         <div class="price-chip">
           <div class="k">Sob medida</div>
-          <div class="v">R$ 3.000</div>
+          <div class="v" id="opPrecoCompra">R$ 3.000</div>
         </div>
         <div class="price-chip">
           <div class="k">Aluguel</div>
-          <div class="v">R$ 1.800 <small>/ ocasião</small></div>
+          <div class="v"><span id="opPrecoAluguel">R$ 1.800</span> <small>/ ocasião</small></div>
         </div>
       </div>
       <div class="op-actions">
-        <a class="btn btn-primary" href="https://wa.me/5511974235465?text=Oi%2C%20Maria!%20Me%20apaixonei%20pela%20Dama-da-Noite%20e%20quero%20um%20vestido%20assim." target="_blank" rel="noopener">Quero um vestido assim</a>
-        <a class="btn btn-ghost" href="https://wa.me/5511974235465?text=Oi%2C%20Maria!%20Quero%20saber%20sobre%20alugar%20ou%20comprar%20a%20Dama-da-Noite." target="_blank" rel="noopener">Alugar ou comprar</a>
+        <a class="btn btn-primary" id="opBtnQuero" href="https://wa.me/5511974235465?text=Oi%2C%20Maria!%20Me%20apaixonei%20pela%20Dama-da-Noite%20e%20quero%20um%20vestido%20assim." target="_blank" rel="noopener">Quero um vestido assim</a>
+        <a class="btn btn-ghost" id="opBtnAlugar" href="https://wa.me/5511974235465?text=Oi%2C%20Maria!%20Quero%20saber%20sobre%20alugar%20ou%20comprar%20a%20Dama-da-Noite." target="_blank" rel="noopener">Alugar ou comprar</a>
       </div>
     </div>
   </div>
@@ -404,28 +447,28 @@
       <h2>Cinco coleções, <em>uma pra cada momento seu.</em></h2>
       <p>Reuni as criações do ateliê em coleções inspiradas na natureza — porque cada mulher floresce do seu jeito. Todas sob medida, com opção de aluguel.</p>
     </div>
-    <div class="col-grid reveal">
-      <a class="col-card feat" href="colecao.html?col=Jardim">
+    <div class="col-grid">
+      <a class="col-card reveal" href="colecao.html?col=Jardim">
         <img src="imagens/catalogo/classico-1/1.jpg" alt="Coleção Jardim — vestidos de noiva" />
         <div class="veil"></div>
         <div class="label"><div class="nm">Jardim</div><div class="tg">Vestidos de noiva — delicadeza em flor para o grande dia.</div></div>
       </a>
-      <a class="col-card half" href="colecao.html?col=Mar%C3%A9">
+      <a class="col-card reveal" href="colecao.html?col=Mar%C3%A9">
         <img src="imagens/catalogo/sereia/1.jpg" alt="Coleção Maré — sereia e drapeados" />
         <div class="veil"></div>
         <div class="label"><div class="nm">Maré</div><div class="tg">Sereia e drapeados que marcam as curvas com movimento.</div></div>
       </a>
-      <a class="col-card half" href="colecao.html?col=Brisa">
+      <a class="col-card reveal" href="colecao.html?col=Brisa">
         <img src="imagens/catalogo/fluido-1/1.jpg" alt="Coleção Brisa — fluidos e leves" />
         <div class="veil"></div>
         <div class="label"><div class="nm">Brisa</div><div class="tg">Fluidos e leves, pra ocasiões que pedem suavidade.</div></div>
       </a>
-      <a class="col-card half" href="colecao.html?col=Florescer">
+      <a class="col-card reveal" href="colecao.html?col=Florescer">
         <img src="imagens/catalogo/fuccia-1/1.jpg" alt="Coleção Florescer — coloridos de festa" />
         <div class="veil"></div>
         <div class="label"><div class="nm">Florescer</div><div class="tg">Cores vibrantes pra brilhar na festa.</div></div>
       </a>
-      <a class="col-card half" href="colecao.html?col=Esta%C3%A7%C3%A3o">
+      <a class="col-card reveal" href="colecao.html?col=Esta%C3%A7%C3%A3o">
         <img src="imagens/catalogo/madrinha/1.jpg" alt="Coleção Estação — madrinhas e clássicos" />
         <div class="veil"></div>
         <div class="label"><div class="nm">Estação</div><div class="tg">Madrinhas e clássicos — um vestido pra cada estação.</div></div>
@@ -638,6 +681,9 @@
   <a class="btn btn-primary" href="https://wa.me/5511974235465?text=Oi%2C%20Maria!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20um%20vestido." target="_blank" rel="noopener">Fale comigo no WhatsApp</a>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="dados.js"></script>
 <script>
   document.documentElement.classList.add('js');
   const WHATS = "5511974235465";
@@ -694,17 +740,75 @@
     window.open(url, '_blank', 'noopener');
   });
 
+  // ===== OBRA-PRIMA (Dama-da-Noite) — destaque dinâmico + carrossel =====
+  function initOpCarousel(){
+    const track = document.getElementById('opCarTrack');
+    if(!track) return;
+    const slides = [...track.children];
+    const total = slides.length;
+    const num = document.getElementById('opCarNum');
+    const totalEl = document.getElementById('opCarTotal');
+    const cap = document.getElementById('opCarCaption');
+    const dotsWrap = document.getElementById('opCarDots');
+    const root = document.getElementById('opCarousel');
+    if(totalEl) totalEl.textContent = total;
+    if(cap) cap.textContent = '';
+    dotsWrap.innerHTML = '';
+    let idx = 0, timer;
+    for(let i=0;i<total;i++){
+      const b = document.createElement('button');
+      b.setAttribute('aria-label','Ir para a foto '+(i+1));
+      b.addEventListener('click',()=>{ idx=i; render(); reset(); });
+      dotsWrap.appendChild(b);
+    }
+    function render(){
+      track.style.transform = 'translateX(-' + (idx*100) + '%)';
+      if(num) num.textContent = idx+1;
+      slides.forEach((s,i)=>s.classList.toggle('is-active', i===idx));
+      [...dotsWrap.children].forEach((d,i)=>d.classList.toggle('active', i===idx));
+    }
+    window.opCarGo = function(dir){ if(total<2) return; idx = (idx+dir+total)%total; render(); reset(); };
+    function reset(){ clearInterval(timer); if(total>1) timer = setInterval(()=>window.opCarGo(1), 5000); }
+    root.addEventListener('mouseenter',()=>clearInterval(timer));
+    root.addEventListener('mouseleave', reset);
+    render(); reset();
+  }
+
+  // popula o destaque com o que a Maria escolheu no painel (se houver); senão, mantém o padrão
+  (window.dadosReady || Promise.resolve()).then(() => {
+    const d = window.DESTAQUE;
+    if(d){
+      const wa  = (txt) => 'https://wa.me/5511974235465?text=' + encodeURIComponent(txt);
+      const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent = val; };
+      set('opName', d.nome);
+      if(d.titulo) set('opTitulo', d.titulo);
+      set('opTexto', d.texto || d.desc || '');
+      set('opTexto2', 'Posso recriar a ' + d.nome + ' no seu tamanho, com os ajustes que fazem sentido pra você — ou criar, a partir dela, algo só seu.');
+      set('opPrecoCompra', window.precoFmt(d.preco));
+      set('opPrecoAluguel', window.precoFmt(window.aluguelDe(d)));
+      const bq = document.getElementById('opBtnQuero');
+      const ba = document.getElementById('opBtnAlugar');
+      if(bq) bq.href = wa('Oi, Maria! Me apaixonei pela ' + d.nome + ' e quero um vestido assim.');
+      if(ba) ba.href = wa('Oi, Maria! Quero saber sobre alugar ou comprar a ' + d.nome + '.');
+      const fotos = window.fotosDe(d);
+      if(fotos.length){
+        const track = document.getElementById('opCarTrack');
+        if(track) track.innerHTML = fotos.map((f,i) =>
+          '<div class="op-car-slide"><img src="' + f + '" alt="' + d.nome + ' — foto ' + (i+1) + '" /></div>'
+        ).join('');
+      }
+    }
+    initOpCarousel();
+  });
+
   // ===== POSTS DO INSTAGRAM =====
-  // Cole abaixo o link de cada post que você quer mostrar (um por linha, entre aspas).
-  // Pra pegar o link: abra o post no Instagram → ... (três pontinhos) → "Copiar link".
-  // Exemplo: "https://www.instagram.com/p/Cxxxxxxxxxx/",
+  // Cole aqui o link dos posts que você quer mostrar (pode ser só 3 recentes).
+  // Como pegar o link: abra o post no Instagram → ... (três pontinhos) → "Copiar link".
+  // Tira o // do começo da linha e troca pelo link de verdade, entre aspas:
   const IG_POSTS = [
-    // "https://www.instagram.com/p/POST1/",
-    // "https://www.instagram.com/p/POST2/",
-    // "https://www.instagram.com/p/POST3/",
-    // "https://www.instagram.com/p/POST4/",
-    // "https://www.instagram.com/p/POST5/",
-    // "https://www.instagram.com/p/POST6/",
+    "https://www.instagram.com/p/DZKvVozGFh1/",
+    "https://www.instagram.com/p/DYmrkvmDr7P/",
+    "https://www.instagram.com/p/DZXU-8jGGOg/",
   ];
   (function(){
     const grid = document.getElementById('igGrid');
@@ -713,7 +817,7 @@
     if(links.length){
       grid.classList.add('ig-embeds');
       grid.innerHTML = links.map(u =>
-        '<blockquote class="instagram-media" data-instgrm-permalink="' + u + '" data-instgrm-width="320"></blockquote>'
+        '<div class="ig-embed"><blockquote class="instagram-media" data-instgrm-permalink="' + u + '" data-instgrm-width="328"></blockquote></div>'
       ).join('');
       if(window.instgrm && window.instgrm.Embeds){
         window.instgrm.Embeds.process();
@@ -723,11 +827,13 @@
         document.body.appendChild(s);
       }
     } else {
-      // Enquanto os links não forem colados, mostra fotos do ateliê como prévia.
-      const fotos = ['col-1','col-2','col-3','col-4','col-5','col-6'];
-      grid.innerHTML = fotos.map(f =>
-        '<a class="shot" href="https://instagram.com/magaatelieofc" target="_blank" rel="noopener"><img src="imagens/' + f + '.jpg" alt="Maga Ateliê no Instagram" loading="lazy"></a>'
-      ).join('');
+      // Sem links ainda: estado limpo (sem fotos), só convidando a seguir.
+      grid.classList.add('ig-empty');
+      grid.innerHTML =
+        '<a class="ig-empty-card" href="https://instagram.com/magaatelieofc" target="_blank" rel="noopener">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>' +
+          '<span>Os posts aparecem aqui em breve.<br><b>@magaatelieofc</b></span>' +
+        '</a>';
     }
   })();
 </script>
