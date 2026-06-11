@@ -50,19 +50,23 @@ window.VESTIDOS = [];
 window.DESTAQUE = null;
 window.CONFIG   = {};
 
-/* Carrega tudo do Supabase e popula os globais. Sempre resolve (mesmo com erro),
-   pra nunca travar a página. */
+/* Carrega tudo do Supabase via REST (fetch leve — sem a biblioteca pesada).
+   Sempre resolve (mesmo com erro), pra nunca travar a página. */
 window.dadosReady = (async function () {
   try {
-    if (!window.sb) throw new Error('Supabase não inicializado');
-    const [vestRes, cfgRes] = await Promise.all([
-      window.sb.from('vestidos').select('*').eq('ativo', true).order('ordem', { ascending: true }),
-      window.sb.from('config').select('*').eq('id', 1).maybeSingle()
+    const base = window.SB_URL, key = window.SB_KEY;
+    if (!base || !key) throw new Error('Config do Supabase ausente');
+    const headers = { apikey: key, Authorization: 'Bearer ' + key };
+    const [vRes, cRes] = await Promise.all([
+      fetch(base + '/rest/v1/vestidos?select=*&ativo=eq.true&order=ordem.asc', { headers }),
+      fetch(base + '/rest/v1/config?id=eq.1&select=*', { headers })
     ]);
-    if (vestRes.error) throw vestRes.error;
+    if (!vRes.ok) throw new Error('HTTP ' + vRes.status);
+    const vest = await vRes.json();
+    let cfg = {};
+    if (cRes.ok) { const arr = await cRes.json(); cfg = (Array.isArray(arr) && arr[0]) || {}; }
 
-    const rows = (vestRes.data || []).map(_mapVestido);
-    const cfg  = cfgRes.data || {};
+    const rows = (vest || []).map(_mapVestido);
     window.CONFIG = cfg;
 
     // catálogo = tudo que não é da coleção "Destaque"

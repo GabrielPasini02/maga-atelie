@@ -80,7 +80,9 @@
 
   // abre o modal já preenchido com o vestido escolhido
   window.abrirPedido = function(id){
-    const v = (window.VESTIDOS||[]).find(x=>x.id===id);
+    const lista = (window.VESTIDOS||[]).slice();
+    if(window.DESTAQUE) lista.push(window.DESTAQUE);
+    const v = lista.find(x=>x.id===id);
     if(!v){ window.open('https://wa.me/'+WHATS,'_blank'); return; }
     atualV = v;
     const aluguel = window.aluguelDe ? window.aluguelDe(v) : Math.round(v.preco*0.6);

@@ -9,6 +9,7 @@
 <!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://wikszkwzlzafafbgluxt.supabase.co" />
 <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
 <style>
@@ -625,7 +626,7 @@
       <a class="cont-card" href="mailto:gloriapasini1@gmail.com">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></div>
         <div class="k">E-mail</div>
-        <div class="v">gloriapasini1<br>@gmail.com</div>
+        <div class="v" style="word-break:break-word">gloriapasini1@gmail.com</div>
       </a>
     </div>
     <div class="cont-cta reveal">
@@ -681,9 +682,9 @@
   <a class="btn btn-primary" href="https://wa.me/5511974235465?text=Oi%2C%20Maria!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20um%20vestido." target="_blank" rel="noopener">Fale comigo no WhatsApp</a>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="dados.js"></script>
+<script src="pedido.js"></script>
 <script>
   document.documentElement.classList.add('js');
   const WHATS = "5511974235465";
@@ -789,7 +790,12 @@
       const bq = document.getElementById('opBtnQuero');
       const ba = document.getElementById('opBtnAlugar');
       if(bq) bq.href = wa('Oi, Maria! Me apaixonei pela ' + d.nome + ' e quero um vestido assim.');
-      if(ba) ba.href = wa('Oi, Maria! Quero saber sobre alugar ou comprar a ' + d.nome + '.');
+      if(ba){
+        ba.href = wa('Oi, Maria! Quero saber sobre alugar ou comprar a ' + d.nome + '.');
+        ba.addEventListener('click', function(e){
+          if(window.abrirPedido){ e.preventDefault(); window.abrirPedido(d.id); }
+        });
+      }
       const fotos = window.fotosDe(d);
       if(fotos.length){
         const track = document.getElementById('opCarTrack');
