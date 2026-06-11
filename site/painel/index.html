@@ -404,9 +404,9 @@
   <div class="cv-bar">
     <button class="btn btn-ghost" id="cvVoltar">← Voltar</button>
     <div class="cv-bar-acts">
-      <button class="btn btn-ghost" id="cvWhats">WhatsApp</button>
       <button class="btn btn-ghost" id="cvImprimir">Imprimir</button>
-      <button class="btn btn-primary" id="cvPdf">Baixar PDF</button>
+      <button class="btn btn-ghost" id="cvPdf">Baixar PDF</button>
+      <button class="btn btn-primary" id="cvWhats">Enviar</button>
     </div>
   </div>
   <div class="cv-scroll"><div class="contrato-doc" id="contratoDoc"></div></div>
@@ -958,8 +958,6 @@ window.verContrato = (id)=>{
   if(!c) return;
   contratoAtual = c;
   $('contratoDoc').innerHTML = montarContrato(c);
-  const tel = (c.cliente_tel||'').replace(/\D/g,'');
-  $('cvWhats').style.display = tel ? 'inline-flex' : 'none';
   $('contratoView').hidden = false;
 };
 $('cvVoltar').addEventListener('click', ()=>{ $('contratoView').hidden = true; });
@@ -968,12 +966,30 @@ $('cvPdf').addEventListener('click', ()=>{
   const nome = (contratoAtual && contratoAtual.cliente_nome ? contratoAtual.cliente_nome : 'contrato').replace(/[^\w]+/g,'-').toLowerCase();
   html2pdf().set({margin:[12,12,12,12], filename:'contrato-'+nome+'.pdf', image:{type:'jpeg',quality:.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from($('contratoDoc')).save();
 });
-$('cvWhats').addEventListener('click', ()=>{
+$('cvWhats').addEventListener('click', compartilharContrato);
+async function compartilharContrato(){
   const c = contratoAtual; if(!c) return;
-  let num = (c.cliente_tel||'').replace(/\D/g,''); if(num && num.length<=11) num = '55'+num;
-  const msg = 'Oi, '+(c.cliente_nome||'')+'! Aqui é a Maria, do Maga Ateliê 🤍 Segue o contrato do seu vestido. Qualquer dúvida, me chama!';
-  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank');
-});
+  const btn=$('cvWhats'); const txt0=btn.textContent; btn.disabled=true; btn.textContent='Gerando…';
+  try{
+    const nome = (c.cliente_nome||'contrato').replace(/[^\w]+/g,'-').toLowerCase();
+    const opt = {margin:[12,12,12,12], image:{type:'jpeg',quality:.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+    const blob = await html2pdf().set(opt).from($('contratoDoc')).outputPdf('blob');
+    const file = new File([blob], 'contrato-'+nome+'.pdf', {type:'application/pdf'});
+    const texto = 'Oi, '+(c.cliente_nome||'')+'! Aqui é a Maria, do Maga Ateliê. Segue o contrato do seu vestido 🤍';
+    // celular: abre a tela de compartilhar JÁ com o PDF anexado
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file], title:'Contrato — Maga Ateliê', text:texto}); }catch(e){}
+    } else {
+      // computador: baixa o PDF e abre o WhatsApp (anexar manualmente)
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=file.name;
+      document.body.appendChild(a); a.click(); a.remove();
+      let num=(c.cliente_tel||'').replace(/\D/g,''); if(num && num.length<=11) num='55'+num;
+      window.open('https://wa.me/'+num+'?text='+encodeURIComponent(texto),'_blank');
+      toast('PDF baixado — agora é só anexar no WhatsApp');
+    }
+  }catch(err){ alert('Não consegui gerar o PDF: '+(err.message||err)); }
+  finally{ btn.disabled=false; btn.textContent=txt0; }
+}
 
 function montarContrato(c){
   const aluguel = c.tipo==='aluguel';
