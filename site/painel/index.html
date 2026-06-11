@@ -108,6 +108,35 @@
   .preco-venda .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--depth)}
   .preco-venda .v{font-size:30px;font-weight:600;color:var(--ink);line-height:1.1;margin-top:2px}
   .preco-venda .al{font-size:12.5px;color:var(--muted);margin-top:3px}
+  /* contratos — lista */
+  .cont-item{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+  .cont-item .ci-meta .nm{font-weight:600;font-size:15px}
+  .cont-item .ci-meta .sb{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .cont-item .ci-acts{display:flex;gap:8px;flex:none}
+  /* contratos — visualização */
+  #contratoView{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column}
+  .cv-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;padding-top:max(12px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;flex-wrap:wrap}
+  .cv-bar-acts{display:flex;gap:8px}
+  .cv-bar .btn{padding:9px 13px;font-size:13px}
+  .cv-scroll{flex:1;overflow-y:auto;padding:18px;display:flex;justify-content:center}
+  .contrato-doc{background:#fff;width:100%;max-width:780px;padding:46px 52px;box-shadow:var(--shadow);height:fit-content;
+    color:#1c2429;font-family:Georgia,'Times New Roman',serif;font-size:13.5px;line-height:1.6}
+  .contrato-doc .marca{font-family:'Pinyon Script',cursive;font-size:34px;text-align:center;color:#26323A;line-height:1}
+  .contrato-doc .sub-marca{text-align:center;font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:#5b6a73;margin-bottom:6px;font-family:'Jost',sans-serif}
+  .contrato-doc h1{font-size:16px;text-align:center;margin:14px 0 20px;text-transform:uppercase;letter-spacing:.04em}
+  .contrato-doc h2{font-size:13px;margin:18px 0 6px;text-transform:uppercase;letter-spacing:.03em}
+  .contrato-doc p{margin:8px 0}
+  .contrato-doc .assinaturas{display:flex;gap:40px;margin-top:60px}
+  .contrato-doc .assinaturas .a{flex:1;text-align:center;border-top:1px solid #1c2429;padding-top:6px;font-size:12px}
+  .contrato-doc .local-data{margin-top:30px}
+  @media print{
+    body{background:#fff}
+    body > *{display:none !important}
+    body > #contratoView{display:block !important;position:static}
+    #contratoView .cv-bar{display:none !important}
+    #contratoView .cv-scroll{overflow:visible;padding:0;display:block}
+    .contrato-doc{box-shadow:none;max-width:none;width:auto;padding:0}
+  }
 
   /* ---- form de vestido (overlay) ---- */
   .overlay{position:fixed;inset:0;z-index:40;background:rgba(38,50,58,.45);display:flex;align-items:flex-end;justify-content:center}
@@ -165,6 +194,7 @@
   <div class="tabs">
     <button class="tab active" data-tab="catalogo">Catálogo</button>
     <button class="tab" data-tab="precos">Preços</button>
+    <button class="tab" data-tab="contratos">Contratos</button>
     <button class="tab" data-tab="destaque">Destaque</button>
   </div>
 
@@ -249,6 +279,15 @@
         <div class="msg ok" id="precoMsg"></div>
       </div>
     </section>
+
+    <!-- CONTRATOS -->
+    <section id="tab-contratos" hidden>
+      <div class="bar">
+        <div><h2>Contratos</h2><div class="count" id="contCount"></div></div>
+        <button class="btn btn-primary" id="btnNovoContrato">+ Contrato</button>
+      </div>
+      <div id="contLista"><div class="loading">Carregando…</div></div>
+    </section>
   </main>
 </div>
 
@@ -298,9 +337,85 @@
   </form>
 </div>
 
+<!-- ===================== FORM DE CONTRATO ===================== -->
+<div class="overlay" id="contratoOverlay" hidden>
+  <form class="sheet" id="formContrato">
+    <h3 id="contratoFormTitulo">Novo contrato</h3>
+    <input type="hidden" id="c-id" />
+    <div class="field">
+      <label for="c-tipo">Tipo</label>
+      <select id="c-tipo">
+        <option value="compra">Vestido sob medida (compra)</option>
+        <option value="aluguel">Aluguel</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="c-nome">Nome da cliente</label>
+      <input type="text" id="c-nome" placeholder="Nome completo" />
+    </div>
+    <div class="field-row">
+      <div class="field"><label for="c-cpf">CPF</label><input type="text" id="c-cpf" inputmode="numeric" placeholder="000.000.000-00" /></div>
+      <div class="field"><label for="c-tel">Telefone</label><input type="text" id="c-tel" inputmode="tel" placeholder="(11) 9...." /></div>
+    </div>
+    <div class="field">
+      <label for="c-endereco">Endereço</label>
+      <input type="text" id="c-endereco" placeholder="Rua, nº, bairro, cidade" />
+    </div>
+    <div class="field">
+      <label for="c-vestido">Vestido do catálogo (opcional)</label>
+      <select id="c-vestido"></select>
+    </div>
+    <div class="field">
+      <label for="c-vestido-nome">Ou descreva o vestido</label>
+      <input type="text" id="c-vestido-nome" placeholder="Ex: Vestido de noiva em renda, modelo sereia" />
+    </div>
+    <div class="field-row">
+      <div class="field"><label for="c-valor">Valor total (R$)</label><input type="number" id="c-valor" inputmode="decimal" placeholder="0" /></div>
+      <div class="field"><label for="c-sinal">Sinal / entrada (R$)</label><input type="number" id="c-sinal" inputmode="decimal" placeholder="0" /></div>
+    </div>
+    <div class="field">
+      <label for="c-pagamento">Forma de pagamento</label>
+      <input type="text" id="c-pagamento" placeholder="Ex: PIX — sinal agora, saldo na entrega" />
+    </div>
+    <div class="field">
+      <label for="c-evento">Data do evento</label>
+      <input type="date" id="c-evento" />
+    </div>
+    <div id="c-aluguel-campos" style="display:none">
+      <div class="field-row">
+        <div class="field"><label for="c-retirada">Retirada</label><input type="date" id="c-retirada" /></div>
+        <div class="field"><label for="c-devolucao">Devolução</label><input type="date" id="c-devolucao" /></div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="c-obs">Observações / cláusulas extras</label>
+      <textarea id="c-obs" placeholder="Algo específico desse contrato (opcional)"></textarea>
+    </div>
+    <div class="sheet-actions">
+      <button type="button" class="btn btn-ghost" id="btnContratoCancelar">Cancelar</button>
+      <button type="submit" class="btn btn-primary" id="btnGerarContrato">Salvar e gerar</button>
+    </div>
+    <button type="button" class="btn btn-danger btn-block" id="btnExcluirContrato" style="margin-top:10px;display:none">Excluir contrato</button>
+  </form>
+</div>
+
+<!-- ===================== VISUALIZAÇÃO DO CONTRATO ===================== -->
+<div id="contratoView" hidden>
+  <div class="cv-bar">
+    <button class="btn btn-ghost" id="cvVoltar">← Voltar</button>
+    <div class="cv-bar-acts">
+      <button class="btn btn-ghost" id="cvWhats">WhatsApp</button>
+      <button class="btn btn-ghost" id="cvImprimir">Imprimir</button>
+      <button class="btn btn-primary" id="cvPdf">Baixar PDF</button>
+    </div>
+  </div>
+  <div class="cv-scroll"><div class="contrato-doc" id="contratoDoc"></div></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
 <script src="../supabase-config.js"></script>
 <script>
 const COLECOES = ['Jardim','Maré','Brisa','Florescer','Estação','Destaque'];
@@ -351,9 +466,11 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   const tab=t.dataset.tab;
   $('tab-catalogo').hidden = tab!=='catalogo';
   $('tab-precos').hidden = tab!=='precos';
+  $('tab-contratos').hidden = tab!=='contratos';
   $('tab-destaque').hidden = tab!=='destaque';
   if(tab==='destaque') carregarDestaque();
   if(tab==='precos') carregarPrecos();
+  if(tab==='contratos') carregarContratos();
 }));
 
 /* ---------------- CATÁLOGO ---------------- */
@@ -716,6 +833,186 @@ async function salvarPreco(usar){
   } else {
     $('precoMsg').className='msg ok'; $('precoMsg').textContent='Cálculo salvo 🤍';
   }
+}
+
+/* ---------------- CONTRATOS ---------------- */
+const ATELIE = {
+  nome:'Maga Ateliê — Maria Santos',
+  endereco:'R. Mococa, 334 — Serpa, Caieiras-SP, CEP 07700-000',
+  whats:'(11) 97423-5465'
+};
+let CONTRATOS = [];
+let contratoAtual = null;
+function fdata(iso){ if(!iso) return '—'; const p=String(iso).split('-'); return p.length===3?(p[2]+'/'+p[1]+'/'+p[0]):iso; }
+function rs(n){ return 'R$ ' + Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function esc(s){ return escapeHtml(s); }
+
+async function carregarContratos(){
+  $('contLista').innerHTML = '<div class="loading">Carregando…</div>';
+  const { data, error } = await sb.from('contratos').select('*').order('criado_em',{ascending:false});
+  if(error){ $('contLista').innerHTML = '<div class="empty">Erro: '+error.message+'</div>'; return; }
+  CONTRATOS = data||[];
+  $('contCount').textContent = CONTRATOS.length + ' contrato' + (CONTRATOS.length===1?'':'s');
+  if(!CONTRATOS.length){ $('contLista').innerHTML = '<div class="empty">Nenhum contrato ainda. Toque em <b>+ Contrato</b>.</div>'; return; }
+  $('contLista').innerHTML = CONTRATOS.map(c=>{
+    const vest = c.vestido_nome || c.vestido_id || '—';
+    return ''
+    + '<div class="cont-item">'
+    +   '<div class="ci-meta">'
+    +     '<div class="nm">'+escapeHtml(c.cliente_nome||'(sem nome)')+'</div>'
+    +     '<div class="sb">'+(c.tipo==='aluguel'?'Aluguel':'Sob medida')+' · '+escapeHtml(vest)+' · '+fdata(c.data_evento)+'</div>'
+    +   '</div>'
+    +   '<div class="ci-acts">'
+    +     '<button class="iconbtn" title="Abrir" onclick="verContrato(\''+c.id+'\')">📄</button>'
+    +     '<button class="iconbtn" title="Editar" onclick="editarContrato(\''+c.id+'\')">✎</button>'
+    +   '</div>'
+    + '</div>';
+  }).join('');
+}
+function popularContratoVestidos(){
+  $('c-vestido').innerHTML = '<option value="">— nenhum —</option>' +
+    (VESTIDOS||[]).map(v=>'<option value="'+v.id+'">'+escapeHtml(v.nome)+'</option>').join('');
+}
+$('c-tipo').addEventListener('change', ()=>{ $('c-aluguel-campos').style.display = $('c-tipo').value==='aluguel' ? 'block' : 'none'; });
+$('btnNovoContrato').addEventListener('click', ()=> abrirContrato(null));
+window.editarContrato = (id)=> abrirContrato(CONTRATOS.find(c=>c.id===id));
+
+function abrirContrato(c){
+  popularContratoVestidos();
+  $('contratoFormTitulo').textContent = c ? 'Editar contrato' : 'Novo contrato';
+  $('c-id').value = c ? c.id : '';
+  $('c-tipo').value = c ? c.tipo : 'compra';
+  $('c-nome').value = c ? (c.cliente_nome||'') : '';
+  $('c-cpf').value = c ? (c.cliente_cpf||'') : '';
+  $('c-tel').value = c ? (c.cliente_tel||'') : '';
+  $('c-endereco').value = c ? (c.cliente_endereco||'') : '';
+  $('c-vestido').value = c ? (c.vestido_id||'') : '';
+  $('c-vestido-nome').value = c ? (c.vestido_nome||'') : '';
+  $('c-valor').value = c ? (c.valor_total||'') : '';
+  $('c-sinal').value = c ? (c.sinal||'') : '';
+  $('c-pagamento').value = c ? (c.forma_pagamento||'') : '';
+  $('c-evento').value = c ? (c.data_evento||'') : '';
+  $('c-retirada').value = c ? (c.data_retirada||'') : '';
+  $('c-devolucao').value = c ? (c.data_devolucao||'') : '';
+  $('c-obs').value = c ? (c.observacoes||'') : '';
+  $('c-aluguel-campos').style.display = (c?c.tipo:'compra')==='aluguel' ? 'block' : 'none';
+  $('btnExcluirContrato').style.display = c ? 'block' : 'none';
+  $('contratoOverlay').hidden = false;
+}
+function fecharContrato(){ $('contratoOverlay').hidden = true; }
+$('btnContratoCancelar').addEventListener('click', fecharContrato);
+$('contratoOverlay').addEventListener('click',(e)=>{ if(e.target===$('contratoOverlay')) fecharContrato(); });
+
+function lerFormContrato(){
+  const selVest = $('c-vestido');
+  const vestNomeLivre = $('c-vestido-nome').value.trim();
+  const vestId = selVest.value || null;
+  const vestNome = vestNomeLivre || (vestId ? selVest.options[selVest.selectedIndex].text : null);
+  return {
+    tipo: $('c-tipo').value,
+    cliente_nome: $('c-nome').value.trim(),
+    cliente_cpf: $('c-cpf').value.trim() || null,
+    cliente_tel: $('c-tel').value.trim() || null,
+    cliente_endereco: $('c-endereco').value.trim() || null,
+    vestido_id: vestId,
+    vestido_nome: vestNome,
+    valor_total: +$('c-valor').value||0,
+    sinal: +$('c-sinal').value||0,
+    forma_pagamento: $('c-pagamento').value.trim() || null,
+    data_evento: $('c-evento').value || null,
+    data_retirada: $('c-retirada').value || null,
+    data_devolucao: $('c-devolucao').value || null,
+    observacoes: $('c-obs').value.trim() || null
+  };
+}
+$('formContrato').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const btn=$('btnGerarContrato'); btn.disabled=true; btn.textContent='Salvando…';
+  try{
+    const reg = lerFormContrato();
+    let id = $('c-id').value;
+    if(id){
+      const { error } = await sb.from('contratos').update(reg).eq('id',id);
+      if(error) throw error;
+    } else {
+      const { data, error } = await sb.from('contratos').insert(reg).select().single();
+      if(error) throw error;
+      id = data.id;
+    }
+    fecharContrato();
+    await carregarContratos();
+    verContrato(id);
+  }catch(err){ alert('Não consegui salvar: '+(err.message||err)); }
+  finally{ btn.disabled=false; btn.textContent='Salvar e gerar'; }
+});
+$('btnExcluirContrato').addEventListener('click', async ()=>{
+  const id=$('c-id').value; if(!id) return;
+  if(!confirm('Excluir este contrato? Não tem volta.')) return;
+  const { error } = await sb.from('contratos').delete().eq('id',id);
+  if(error){ alert('Erro: '+error.message); return; }
+  fecharContrato(); carregarContratos(); toast('Contrato excluído.');
+});
+
+window.verContrato = (id)=>{
+  const c = CONTRATOS.find(x=>x.id===id);
+  if(!c) return;
+  contratoAtual = c;
+  $('contratoDoc').innerHTML = montarContrato(c);
+  const tel = (c.cliente_tel||'').replace(/\D/g,'');
+  $('cvWhats').style.display = tel ? 'inline-flex' : 'none';
+  $('contratoView').hidden = false;
+};
+$('cvVoltar').addEventListener('click', ()=>{ $('contratoView').hidden = true; });
+$('cvImprimir').addEventListener('click', ()=> window.print());
+$('cvPdf').addEventListener('click', ()=>{
+  const nome = (contratoAtual && contratoAtual.cliente_nome ? contratoAtual.cliente_nome : 'contrato').replace(/[^\w]+/g,'-').toLowerCase();
+  html2pdf().set({margin:[12,12,12,12], filename:'contrato-'+nome+'.pdf', image:{type:'jpeg',quality:.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from($('contratoDoc')).save();
+});
+$('cvWhats').addEventListener('click', ()=>{
+  const c = contratoAtual; if(!c) return;
+  let num = (c.cliente_tel||'').replace(/\D/g,''); if(num && num.length<=11) num = '55'+num;
+  const msg = 'Oi, '+(c.cliente_nome||'')+'! Aqui é a Maria, do Maga Ateliê 🤍 Segue o contrato do seu vestido. Qualquer dúvida, me chama!';
+  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank');
+});
+
+function montarContrato(c){
+  const aluguel = c.tipo==='aluguel';
+  const titulo = aluguel ? 'Contrato de Locação de Vestido' : 'Contrato de Confecção de Vestido sob Medida';
+  const vest = c.vestido_nome || '—';
+  const saldo = (+c.valor_total||0) - (+c.sinal||0);
+  const hoje = new Date();
+  const hojeBR = String(hoje.getDate()).padStart(2,'0')+'/'+String(hoje.getMonth()+1).padStart(2,'0')+'/'+hoje.getFullYear();
+  const compra = [
+    '<b>1. Objeto.</b> A CONTRATADA se compromete a confeccionar, sob medida, 1 (um) vestido — '+esc(vest)+' — conforme modelo, tecidos e medidas combinados com a CONTRATANTE.',
+    '<b>2. Valor e pagamento.</b> O valor total é de '+rs(c.valor_total)+'. Sinal de '+rs(c.sinal)+' na assinatura deste contrato e saldo de '+rs(saldo)+' na entrega.'+(c.forma_pagamento?' Forma de pagamento: '+esc(c.forma_pagamento)+'.':''),
+    '<b>3. Prazo de entrega.</b> O vestido será entregue até '+fdata(c.data_evento)+', salvo combinação diferente por escrito.',
+    '<b>4. Provas e ajustes.</b> Estão incluídas as provas necessárias para o caimento ideal. Mudanças de modelo solicitadas após o início da confecção podem gerar custo adicional, combinado previamente.',
+    '<b>5. Responsabilidades.</b> A CONTRATANTE é responsável por fornecer medidas e informações corretas. Pequenas variações de tonalidade do tecido podem ocorrer entre lotes.',
+    '<b>6. Cancelamento.</b> Em caso de desistência da CONTRATANTE, o sinal não será devolvido, por cobrir materiais e trabalho já iniciados.'
+  ];
+  const loc = [
+    '<b>1. Objeto.</b> A CONTRATADA cede, em locação, 1 (um) vestido — '+esc(vest)+' — para uso da CONTRATANTE na data do evento.',
+    '<b>2. Valor e pagamento.</b> O valor da locação é de '+rs(c.valor_total)+'. Sinal de '+rs(c.sinal)+' na reserva e saldo de '+rs(saldo)+' na retirada.'+(c.forma_pagamento?' Forma de pagamento: '+esc(c.forma_pagamento)+'.':''),
+    '<b>3. Período.</b> Retirada em '+fdata(c.data_retirada)+' e devolução até '+fdata(c.data_devolucao)+'. Evento: '+fdata(c.data_evento)+'.',
+    '<b>4. Conservação.</b> A CONTRATANTE se responsabiliza por danos além do desgaste normal de uso, manchas irremovíveis, rasgos ou perda, arcando com o conserto ou a reposição do vestido.',
+    '<b>5. Atraso na devolução.</b> A devolução fora do prazo combinado poderá gerar cobrança adicional por dia de atraso.',
+    '<b>6. Cancelamento.</b> Em caso de desistência da CONTRATANTE, o sinal não será devolvido.'
+  ];
+  const clausulas = aluguel ? loc : compra;
+  return ''
+  + '<div class="marca">Maga Ateliê</div>'
+  + '<div class="sub-marca">festa &amp; noiva · Caieiras-SP</div>'
+  + '<h1>'+titulo+'</h1>'
+  + '<p><b>CONTRATADA:</b> '+esc(ATELIE.nome)+', '+esc(ATELIE.endereco)+'. Contato: '+esc(ATELIE.whats)+'.</p>'
+  + '<p><b>CONTRATANTE:</b> '+esc(c.cliente_nome||'—')
+      + (c.cliente_cpf?', CPF '+esc(c.cliente_cpf):'')
+      + (c.cliente_tel?', telefone '+esc(c.cliente_tel):'')
+      + (c.cliente_endereco?', residente em '+esc(c.cliente_endereco):'')
+      + '.</p>'
+  + clausulas.map(cl=>'<p>'+cl+'</p>').join('')
+  + (c.observacoes ? '<h2>Observações</h2><p>'+esc(c.observacoes).replace(/\n/g,'<br>')+'</p>' : '')
+  + '<p class="local-data">Caieiras-SP, '+hojeBR+'.</p>'
+  + '<div class="assinaturas"><div class="a">CONTRATADA<br>Maga Ateliê</div><div class="a">CONTRATANTE<br>'+esc(c.cliente_nome||'')+'</div></div>';
 }
 
 /* ---------------- START ---------------- */
