@@ -93,6 +93,21 @@
   .grupo.collapsed .gchev{transform:rotate(-90deg)}
   .grupo-corpo{padding-top:10px}
   .grupo.collapsed .grupo-corpo{display:none}
+  /* preços */
+  .bloco-label{display:block;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--depth);margin-bottom:8px}
+  .mat-head{display:grid;grid-template-columns:1fr 80px 52px 26px;gap:8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;padding:0 2px}
+  .mat-row{display:grid;grid-template-columns:1fr 80px 52px 26px;gap:8px;align-items:center;margin-bottom:8px}
+  .mat-row input{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 9px;font-size:14px;width:100%}
+  .mat-row input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(111,163,189,.14)}
+  .mat-row .rm{border:0;background:none;color:var(--warn);font-size:18px;cursor:pointer;padding:0}
+  .resumo{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:18px}
+  .resumo .lin{display:flex;justify-content:space-between;font-size:14px;padding:5px 0}
+  .resumo .lin span:first-child{color:var(--muted)}
+  .resumo .lin.tot{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:600}
+  .preco-venda{margin-top:12px;text-align:center;background:#fff;border-radius:12px;padding:14px}
+  .preco-venda .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--depth)}
+  .preco-venda .v{font-size:30px;font-weight:600;color:var(--ink);line-height:1.1;margin-top:2px}
+  .preco-venda .al{font-size:12.5px;color:var(--muted);margin-top:3px}
 
   /* ---- form de vestido (overlay) ---- */
   .overlay{position:fixed;inset:0;z-index:40;background:rgba(38,50,58,.45);display:flex;align-items:flex-end;justify-content:center}
@@ -149,6 +164,7 @@
 
   <div class="tabs">
     <button class="tab active" data-tab="catalogo">Catálogo</button>
+    <button class="tab" data-tab="precos">Preços</button>
     <button class="tab" data-tab="destaque">Destaque</button>
   </div>
 
@@ -180,6 +196,58 @@
       </div>
       <button class="btn btn-primary btn-block" id="btnSalvarDest">Salvar destaque</button>
       <div class="msg ok" id="destMsg"></div>
+    </section>
+
+    <!-- PREÇOS -->
+    <section id="tab-precos" hidden>
+      <div class="bar"><div><h2>Preços</h2><div class="count">Calcula o preço como na sua planilha</div></div></div>
+
+      <!-- configuração base (valor da hora) -->
+      <div class="grupo collapsed" id="grupoCfg">
+        <button type="button" class="grupo-head" onclick="this.parentElement.classList.toggle('collapsed')">
+          <span>⚙️ Sua hora de trabalho</span>
+          <span class="gright"><span class="gchev">▾</span></span>
+        </button>
+        <div class="grupo-corpo">
+          <div class="field-row">
+            <div class="field"><label>Pró-labore (R$/mês)</label><input type="number" id="cfgProLabore" inputmode="decimal" /></div>
+            <div class="field"><label>Dias no mês</label><input type="number" id="cfgDias" inputmode="decimal" /></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Horas por dia</label><input type="number" id="cfgHoras" inputmode="decimal" /></div>
+            <div class="field"><label>Custo fixo R$/mês (opc.)</label><input type="number" id="cfgCustoFixo" inputmode="decimal" /></div>
+          </div>
+          <div class="field"><label>Margem padrão (%)</label><input type="number" id="cfgMargem" inputmode="decimal" /></div>
+          <div class="hint" id="cfgValorHora"></div>
+          <button class="btn btn-primary btn-block" id="btnSalvarCfg">Salvar configuração</button>
+          <div class="msg ok" id="cfgMsg"></div>
+        </div>
+      </div>
+
+      <!-- calcular preço de um vestido -->
+      <div class="field" style="margin-top:16px">
+        <label for="precoVestido">Vestido pra precificar</label>
+        <select id="precoVestido"></select>
+      </div>
+
+      <div id="precoBox">
+        <label class="bloco-label">Materiais</label>
+        <div id="materiaisLista"></div>
+        <button type="button" class="btn btn-ghost btn-block" id="btnAddMaterial" style="margin-top:8px">+ Adicionar material</button>
+
+        <div class="field-row" style="margin-top:16px">
+          <div class="field"><label>Horas de trabalho</label><input type="number" id="precoHoras" inputmode="decimal" placeholder="ex: 16" /></div>
+          <div class="field"><label>Margem (%)</label><input type="number" id="precoMargem" inputmode="decimal" placeholder="ex: 30" /></div>
+        </div>
+
+        <div class="resumo" id="precoResumo"></div>
+
+        <div class="sheet-actions">
+          <button type="button" class="btn btn-ghost" id="btnSalvarPreco">Salvar cálculo</button>
+          <button type="button" class="btn btn-primary" id="btnUsarPreco">Usar como preço</button>
+        </div>
+        <div class="msg ok" id="precoMsg"></div>
+      </div>
     </section>
   </main>
 </div>
@@ -282,8 +350,10 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   t.classList.add('active');
   const tab=t.dataset.tab;
   $('tab-catalogo').hidden = tab!=='catalogo';
+  $('tab-precos').hidden = tab!=='precos';
   $('tab-destaque').hidden = tab!=='destaque';
   if(tab==='destaque') carregarDestaque();
+  if(tab==='precos') carregarPrecos();
 }));
 
 /* ---------------- CATÁLOGO ---------------- */
@@ -507,7 +577,149 @@ $('btnSalvarDest').addEventListener('click', async ()=>{
   toast('Destaque salvo 🤍');
 });
 
+/* ---------------- PREÇOS ---------------- */
+let precosCfg = { pro_labore:1500, dias_trabalhados:20, horas_dia:8, custo_fixo:0, margem_padrao:0.30 };
+let materiais = [];
+const MATERIAIS_PADRAO = [
+  {nome:'Tecido', valor:0, qtd:1},
+  {nome:'Entretela', valor:0, qtd:1},
+  {nome:'Aviamentos (zíper, botões)', valor:0, qtd:1},
+  {nome:'Acabamentos (anágua, véu)', valor:0, qtd:1}
+];
+function _baseHoras(){ return (+precosCfg.dias_trabalhados||1) * (+precosCfg.horas_dia||1); }
+function valorHora(){ return (+precosCfg.pro_labore||0) / _baseHoras(); }
+function valorHoraFixo(){ return (+precosCfg.custo_fixo||0) / _baseHoras(); }
+function brl(n){ return 'R$ ' + (Math.round((+n||0)*100)/100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function brl0(n){ return 'R$ ' + Math.round(+n||0).toLocaleString('pt-BR'); }
+
+async function carregarPrecos(){
+  const { data:cfg } = await sb.from('precos_config').select('*').eq('id',1).maybeSingle();
+  if(cfg) precosCfg = cfg;
+  $('cfgProLabore').value = precosCfg.pro_labore;
+  $('cfgDias').value = precosCfg.dias_trabalhados;
+  $('cfgHoras').value = precosCfg.horas_dia;
+  $('cfgCustoFixo').value = precosCfg.custo_fixo;
+  $('cfgMargem').value = Math.round((precosCfg.margem_padrao||0)*100);
+  mostrarValorHora();
+  const { data:vs } = await sb.from('vestidos').select('id,nome,colecao').order('nome',{ascending:true});
+  $('precoVestido').innerHTML = '<option value="">— escolha um vestido —</option>' +
+    (vs||[]).map(v=>'<option value="'+v.id+'">'+escapeHtml(v.nome)+' ('+escapeHtml(v.colecao)+')</option>').join('');
+  $('precoBox').style.display = 'none';
+}
+function mostrarValorHora(){
+  const vh = valorHora(), vf = valorHoraFixo();
+  $('cfgValorHora').innerHTML = 'Sua hora de trabalho: <b>'+brl(vh)+'</b>' + (vf>0 ? '  ·  custo fixo <b>'+brl(vf)+'</b>/h' : '');
+}
+function bindCfgInputs(){
+  ['cfgProLabore','cfgDias','cfgHoras','cfgCustoFixo'].forEach(id=>$(id).addEventListener('input',()=>{
+    precosCfg.pro_labore = +$('cfgProLabore').value||0;
+    precosCfg.dias_trabalhados = +$('cfgDias').value||1;
+    precosCfg.horas_dia = +$('cfgHoras').value||1;
+    precosCfg.custo_fixo = +$('cfgCustoFixo').value||0;
+    mostrarValorHora(); calcular();
+  }));
+  $('precoHoras').addEventListener('input', calcular);
+  $('precoMargem').addEventListener('input', calcular);
+}
+$('btnSalvarCfg').addEventListener('click', async ()=>{
+  const btn=$('btnSalvarCfg'); btn.disabled=true; $('cfgMsg').textContent='';
+  const reg = {
+    pro_labore:+$('cfgProLabore').value||0,
+    dias_trabalhados:+$('cfgDias').value||1,
+    horas_dia:+$('cfgHoras').value||1,
+    custo_fixo:+$('cfgCustoFixo').value||0,
+    margem_padrao:(+$('cfgMargem').value||0)/100,
+    atualizado_em:new Date().toISOString()
+  };
+  const { error } = await sb.from('precos_config').update(reg).eq('id',1);
+  btn.disabled=false;
+  if(error){ $('cfgMsg').className='msg err'; $('cfgMsg').textContent='Erro: '+error.message; return; }
+  precosCfg = Object.assign(precosCfg, reg);
+  $('cfgMsg').className='msg ok'; $('cfgMsg').textContent='Configuração salva 🤍';
+  mostrarValorHora(); calcular();
+});
+
+$('precoVestido').addEventListener('change', carregarPrecoVestido);
+async function carregarPrecoVestido(){
+  const id = $('precoVestido').value;
+  if(!id){ $('precoBox').style.display='none'; return; }
+  $('precoBox').style.display='block';
+  $('precoMsg').textContent='';
+  const { data:p } = await sb.from('precificacao').select('*').eq('vestido_id',id).maybeSingle();
+  if(p && Array.isArray(p.materiais) && p.materiais.length){
+    materiais = p.materiais.map(m=>({nome:m.nome||'',valor:+m.valor||0,qtd:+m.qtd||1}));
+    $('precoHoras').value = p.horas||'';
+    $('precoMargem').value = Math.round((p.margem!=null?p.margem:precosCfg.margem_padrao)*100);
+  } else {
+    materiais = MATERIAIS_PADRAO.map(m=>({...m}));
+    $('precoHoras').value = '';
+    $('precoMargem').value = Math.round((precosCfg.margem_padrao||0)*100);
+  }
+  renderMateriais(); calcular();
+}
+function renderMateriais(){
+  $('materiaisLista').innerHTML =
+    '<div class="mat-head"><span>Item</span><span>Valor R$</span><span>Qtd</span><span></span></div>'
+    + materiais.map((m,i)=>
+      '<div class="mat-row">'
+      + '<input type="text" value="'+escapeHtml(m.nome)+'" oninput="matSet('+i+',\'nome\',this.value)" placeholder="Material">'
+      + '<input type="number" inputmode="decimal" value="'+(m.valor||'')+'" oninput="matSet('+i+',\'valor\',this.value)" placeholder="0">'
+      + '<input type="number" inputmode="decimal" value="'+(m.qtd||'')+'" oninput="matSet('+i+',\'qtd\',this.value)" placeholder="1">'
+      + '<button type="button" class="rm" onclick="matDel('+i+')" aria-label="Remover">×</button>'
+      + '</div>'
+    ).join('');
+}
+window.matSet = (i,campo,val)=>{ materiais[i][campo] = (campo==='nome') ? val : (+val||0); calcular(); };
+window.matDel = (i)=>{ materiais.splice(i,1); renderMateriais(); calcular(); };
+$('btnAddMaterial').addEventListener('click', ()=>{ materiais.push({nome:'',valor:0,qtd:1}); renderMateriais(); });
+
+function calcular(){
+  const matTotal = materiais.reduce((s,m)=>s+(+m.valor||0)*(+m.qtd||0),0);
+  const horas = +$('precoHoras').value||0;
+  const maoObra = horas*valorHora();
+  const custoFixo = horas*valorHoraFixo();
+  const custo = matTotal + maoObra + custoFixo;
+  const margem = (+$('precoMargem').value||0)/100;
+  const venda = custo*(1+margem);
+  const aluguel = Math.round(venda*0.6);
+  $('precoResumo').innerHTML = ''
+    + '<div class="lin"><span>Materiais</span><span>'+brl(matTotal)+'</span></div>'
+    + '<div class="lin"><span>Mão de obra ('+(horas||0)+'h)</span><span>'+brl(maoObra)+'</span></div>'
+    + (valorHoraFixo()>0 ? '<div class="lin"><span>Custo fixo</span><span>'+brl(custoFixo)+'</span></div>' : '')
+    + '<div class="lin tot"><span>Custo do produto</span><span>'+brl(custo)+'</span></div>'
+    + '<div class="preco-venda"><div class="k">Preço de venda ('+Math.round(margem*100)+'%)</div><div class="v">'+brl0(venda)+'</div><div class="al">Aluguel sugerido '+brl0(aluguel)+'</div></div>';
+  return { custo, venda };
+}
+$('btnSalvarPreco').addEventListener('click', ()=> salvarPreco(false));
+$('btnUsarPreco').addEventListener('click', ()=> salvarPreco(true));
+async function salvarPreco(usar){
+  const id = $('precoVestido').value;
+  if(!id) return;
+  const { custo, venda } = calcular();
+  const reg = {
+    vestido_id:id, materiais:materiais,
+    horas:+$('precoHoras').value||0,
+    margem:(+$('precoMargem').value||0)/100,
+    custo_produto:Math.round(custo*100)/100,
+    preco_sugerido:Math.round(venda),
+    atualizado_em:new Date().toISOString()
+  };
+  $('precoMsg').textContent='';
+  const { error } = await sb.from('precificacao').upsert(reg);
+  if(error){ $('precoMsg').className='msg err'; $('precoMsg').textContent='Erro: '+error.message; return; }
+  if(usar){
+    const { error:e2 } = await sb.from('vestidos').update({preco:Math.round(venda)}).eq('id',id);
+    if(e2){ $('precoMsg').className='msg err'; $('precoMsg').textContent='Cálculo salvo, mas erro ao aplicar no vestido: '+e2.message; return; }
+    $('precoMsg').className='msg ok'; $('precoMsg').textContent='Preço '+brl0(venda)+' aplicado no vestido 🤍';
+    toast('Preço aplicado: '+brl0(venda));
+    carregar();
+  } else {
+    $('precoMsg').className='msg ok'; $('precoMsg').textContent='Cálculo salvo 🤍';
+  }
+}
+
 /* ---------------- START ---------------- */
+bindCfgInputs();
 checkSession();
 </script>
 </body>
