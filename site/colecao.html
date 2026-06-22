@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Coleção — Maga Ateliê</title>
+<title>Coleção | Maga Ateliê</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://wikszkwzlzafafbgluxt.supabase.co" />
@@ -102,7 +102,7 @@
 <footer>
   <div class="wrap">
     <span class="mark">Maga Ateliê</span>
-    <p>Vestidos que valorizam corpos reais · Caieiras-SP</p>
+    <p>Vestidos que valorizam corpos reais · Caieiras, SP</p>
     <p class="fnote">© 2026 Maga Ateliê</p>
   </div>
 </footer>
@@ -123,11 +123,11 @@ window.dadosReady.then(() => {
 
   // descrições curtas por coleção (mesma linha do index)
   const DESC = {
-    'Jardim':'Vestidos de noiva — delicadeza em flor para o grande dia.',
+    'Jardim':'Vestidos de noiva, delicadeza em flor para o grande dia.',
     'Maré':'Sereia e drapeados que marcam as curvas com movimento.',
     'Brisa':'Fluidos e leves, pra ocasiões que pedem suavidade.',
     'Florescer':'Cores vibrantes pra brilhar na festa.',
-    'Estação':'Madrinhas e clássicos — um vestido pra cada estação.'
+    'Estação':'Madrinhas e clássicos para um vestido em cada estação.'
   };
 
   const head = document.getElementById('colHead');
@@ -135,11 +135,11 @@ window.dadosReady.then(() => {
   const itens = VESTIDOS.filter(v => v.colecao === col);
 
   if(!col || !COLECOES.includes(col)){
-    document.title = 'Coleção — Maga Ateliê';
+    document.title = 'Coleção | Maga Ateliê';
     head.innerHTML = '<span class="eyebrow">Coleções</span><h1>Coleção não encontrada</h1>';
     cardsEl.parentElement.innerHTML = '<p class="vazio">Essa coleção não existe. <a href="index.html#colecoes">Ver todas as coleções →</a></p>';
   } else {
-    document.title = 'Coleção ' + col + ' — Maga Ateliê';
+    document.title = 'Coleção ' + col + ' | Maga Ateliê';
     head.innerHTML =
       '<span class="eyebrow">Flores &amp; Natureza · Coleção</span>'
       + '<h1><em>' + col + '</em></h1>'
