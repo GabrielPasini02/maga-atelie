@@ -380,14 +380,10 @@
     .price-chip{flex:1}
     .field-row{grid-template-columns:1fr}
   }
-  /* celular: foto estática no hero (mais leve e sempre bem composta) */
-  @media (max-width:767px){
-    .hero-video{display:none}
-    .hero{background-image:url('imagens/hero-mobile.jpg');background-position:74% 25%}
-  }
-  /* desktop: cards de coleção maiores pra preencher melhor o espaço */
+  /* desktop: cards de coleção maiores (mais largos e altos) pra preencher o espaço */
   @media (min-width:1041px){
-    .col-card{aspect-ratio:3/5.5}
+    #colecoes .wrap{max-width:1500px}
+    .col-card{aspect-ratio:3/5}
   }
 </style>
 </head>
@@ -424,9 +420,7 @@
 <!-- TROCAR O VÍDEO: salve o clipe em imagens/hero.mp4 (curto, em loop, leve).
      Enquanto não houver vídeo, aparece a foto imagens/hero-bg.jpg (poster + fallback). -->
 <section class="hero" id="inicio">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="imagens/hero-bg.jpg">
-    <source src="imagens/hero.mp4" type="video/mp4" />
-  </video>
+  <video class="hero-video" autoplay muted loop playsinline poster="imagens/hero-bg.jpg"></video>
   <div class="hero-overlay"></div>
   <div class="wrap hero-content">
     <span class="eyebrow">Noivas · Madrinhas · Festa</span>
@@ -831,15 +825,14 @@
   // placeholder pra setas do carrossel não dispararem erro antes de carregar
   window.opCarGo = window.opCarGo || function(){};
 
-  // hero: no desktop o vídeo toca em loop; no celular fica a foto (mais leve, não baixa o vídeo).
+  // hero: vídeo no desktop (clipe completo) e no celular (trecho 3–9s, mais leve).
   (function(){
     const hv = document.querySelector('.hero-video');
     if(!hv) return;
-    if(matchMedia('(max-width: 767px)').matches){
-      const s = hv.querySelector('source'); if(s) s.remove();
-      hv.removeAttribute('autoplay'); hv.load(); hv.style.display = 'none';
-      return;
-    }
+    const mobile = matchMedia('(max-width: 767px)').matches;
+    hv.poster = mobile ? 'imagens/hero-mobile.jpg' : 'imagens/hero-bg.jpg';
+    hv.src    = mobile ? 'imagens/hero-mobile.mp4' : 'imagens/hero.mp4';
+    hv.load();
     const tentar = () => { const p = hv.play(); if(p && p.catch) p.catch(()=>{}); };
     tentar();
     // alguns navegadores só liberam o autoplay depois do 1º toque/clique na página
