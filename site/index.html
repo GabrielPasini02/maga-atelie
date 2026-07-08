@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 
 <!-- Carrega a foto do topo o quanto antes (velocidade) -->
-<link rel="preload" as="image" href="imagens/hero-bg.jpg" />
+<link rel="preload" as="image" href="imagens/hero-bg.jpg" fetchpriority="high" />
 
 <!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -479,11 +479,11 @@
     <div class="op-carousel reveal" id="opCarousel">
       <div class="op-car-viewport">
         <div class="op-car-track" id="opCarTrack">
-          <div class="op-car-slide"><img src="imagens/car-1.jpg" alt="Vestido Dama da Noite de frente, segurando a saia" /></div>
-          <div class="op-car-slide"><img src="imagens/car-2.jpg" alt="Noiva com buquê usando o vestido" /></div>
-          <div class="op-car-slide"><img src="imagens/car-3.jpg" alt="Costas do vestido com cauda em renda" /></div>
-          <div class="op-car-slide"><img src="imagens/car-4.jpg" alt="Detalhe da renda trabalhada à mão" /></div>
-          <div class="op-car-slide"><img src="imagens/car-5.jpg" alt="Movimento do vestido no campo" /></div>
+          <div class="op-car-slide"><img loading="lazy" decoding="async" src="imagens/car-1.jpg" alt="Vestido Dama da Noite de frente, segurando a saia" /></div>
+          <div class="op-car-slide"><img loading="lazy" decoding="async" src="imagens/car-2.jpg" alt="Noiva com buquê usando o vestido" /></div>
+          <div class="op-car-slide"><img loading="lazy" decoding="async" src="imagens/car-3.jpg" alt="Costas do vestido com cauda em renda" /></div>
+          <div class="op-car-slide"><img loading="lazy" decoding="async" src="imagens/car-4.jpg" alt="Detalhe da renda trabalhada à mão" /></div>
+          <div class="op-car-slide"><img loading="lazy" decoding="async" src="imagens/car-5.jpg" alt="Movimento do vestido no campo" /></div>
         </div>
         <div class="op-car-caption" id="opCarCaption"></div>
         <div class="op-car-counter"><span id="opCarNum">1</span> / <span id="opCarTotal">5</span></div>
@@ -526,7 +526,7 @@
     </div>
     <div class="col-grid">
       <a class="col-card reveal" href="colecao.html?col=Jardim" data-col="Jardim">
-        <img src="imagens/catalogo/classico-1/1.jpg" alt="Coleção Jardim, vestidos de noiva" />
+        <img loading="lazy" decoding="async" src="imagens/catalogo/classico-1/1.jpg" alt="Coleção Jardim, vestidos de noiva" />
         <div class="veil"></div>
         <span class="cc-count" hidden></span>
         <div class="label">
@@ -536,7 +536,7 @@
         </div>
       </a>
       <a class="col-card reveal" href="colecao.html?col=Mar%C3%A9" data-col="Maré">
-        <img src="imagens/catalogo/sereia/1.jpg" alt="Coleção Maré, sereia e drapeados" />
+        <img loading="lazy" decoding="async" src="imagens/catalogo/sereia/1.jpg" alt="Coleção Maré, sereia e drapeados" />
         <div class="veil"></div>
         <span class="cc-count" hidden></span>
         <div class="label">
@@ -546,7 +546,7 @@
         </div>
       </a>
       <a class="col-card reveal" href="colecao.html?col=Brisa" data-col="Brisa">
-        <img src="imagens/catalogo/fluido-1/1.jpg" alt="Coleção Brisa, fluidos e leves" />
+        <img loading="lazy" decoding="async" src="imagens/catalogo/fluido-1/1.jpg" alt="Coleção Brisa, fluidos e leves" />
         <div class="veil"></div>
         <span class="cc-count" hidden></span>
         <div class="label">
@@ -556,7 +556,7 @@
         </div>
       </a>
       <a class="col-card reveal" href="colecao.html?col=Florescer" data-col="Florescer">
-        <img src="imagens/catalogo/fuccia-1/1.jpg" alt="Coleção Florescer, coloridos de festa" />
+        <img loading="lazy" decoding="async" src="imagens/catalogo/fuccia-1/1.jpg" alt="Coleção Florescer, coloridos de festa" />
         <div class="veil"></div>
         <span class="cc-count" hidden></span>
         <div class="label">
@@ -566,7 +566,7 @@
         </div>
       </a>
       <a class="col-card reveal" href="colecao.html?col=Esta%C3%A7%C3%A3o" data-col="Estação">
-        <img src="imagens/catalogo/madrinha/1.jpg" alt="Coleção Estação, madrinhas e clássicos" />
+        <img loading="lazy" decoding="async" src="imagens/catalogo/madrinha/1.jpg" alt="Coleção Estação, madrinhas e clássicos" />
         <div class="veil"></div>
         <span class="cc-count" hidden></span>
         <div class="label">
@@ -676,7 +676,7 @@
 <section class="band band-soft" id="sobre">
   <div class="wrap sobre-grid">
     <div class="sobre-media reveal">
-      <div class="shot"><img src="imagens/maria.jpg" alt="Maria, estilista e fundadora do Maga Ateliê" /></div>
+      <div class="shot"><img loading="lazy" decoding="async" src="imagens/maria.jpg" alt="Maria, estilista e fundadora do Maga Ateliê" /></div>
       <div class="tag"><div class="v">+3 anos</div><div class="k">de ateliê</div></div>
     </div>
     <div class="sobre-copy reveal">
@@ -949,7 +949,7 @@
       if(fotos.length){
         const track = document.getElementById('opCarTrack');
         if(track) track.innerHTML = fotos.map((f,i) =>
-          '<div class="op-car-slide"><img src="' + f + '" alt="' + d.nome + ' foto ' + (i+1) + '" /></div>'
+          '<div class="op-car-slide"><img loading="lazy" decoding="async" src="' + f + '" alt="' + d.nome + ' foto ' + (i+1) + '" /></div>'
         ).join('');
       }
     }
