@@ -1,110 +1,50 @@
-# MazyOS
+# Maga Ateliê
 
-> O sistema operacional do seu negócio dentro do Claude Code.
-
-Você acaba de instalar o MazyOS. Em alguns minutos, sua empresa vai
-ter uma memória própria, uma identidade visual aplicada em tudo que
-o sistema gerar, e 15 skills prontas pra fazer marketing, SEO, ads
-e operação rodarem com você dirigindo.
-
-Bora voar.
+Site e painel de gestão de um ateliê de alta costura sob medida. **No ar:** [magaatelie.vercel.app](https://magaatelie.vercel.app)
 
 ---
 
-## Ligando o sistema
+## O que é
 
-Dois caminhos. Escolhe o que combina contigo.
+Não é só uma landing page. São **duas coisas**:
 
-### Pelo Claude (mais rápido)
+**1. O site público** — vitrine dos vestidos, coleção, página individual de cada peça e contato direto por WhatsApp. É o que a noiva vê.
 
-Abre o Claude Code em qualquer pasta e cola:
+**2. Um painel privado** (`/painel`) — onde a dona do ateliê, sozinha e sem depender de mim, **cadastra vestidos, sobe fotos, edita preços e gerencia pedidos**. Sem precisar mexer em código.
 
-```
-Clona o https://github.com/mazzeoia/MazyOS.git na pasta atual,
-entra nela e roda o /instalar.
-```
+O objetivo era esse desde o começo: entregar um site que ela pudesse **manter sem mim**.
 
-Ele clona, entra na pasta nova e dispara a entrevista de setup. Você
-só responde.
+## Arquitetura
 
-### Pelo terminal (mais previsível)
+- **Front-end estático** — HTML, CSS e JavaScript puro. Sem framework, sem build. Carrega rápido em 4G, que é como a maioria das clientes acessa.
+- **Supabase** como backend — banco Postgres + Storage pras imagens dos vestidos.
+- **Autenticação** — só a dona logada acessa o painel.
 
-```
-git clone https://github.com/mazzeoia/MazyOS.git
-cd MazyOS
-code .
-```
+### Segurança: RLS, não "chave escondida"
 
-Na janela do VS Code que abrir: terminal integrado → `claude` → `/instalar`.
+A chave do Supabase que vai no navegador é a **publishable/anon** — ela é pública por natureza, e esconder não é proteção.
 
----
+Quem protege os dados é o **Row Level Security (RLS)** no Postgres. As políticas estão em [`supabase/`](supabase/):
 
-Quando o `/instalar` terminar, renomeia a pasta `MazyOS/` pro nome do teu
-negócio (fecha o VS Code, renomeia no Explorer/Finder, abre de novo). A
-pasta não fica como "MazyOS" — ela é o teu negócio agora.
+- **Público:** só `SELECT` nos vestidos e na configuração da vitrine
+- **Dona autenticada:** `INSERT`, `UPDATE` e `DELETE`
+- **Storage:** leitura pública das fotos, escrita só autenticada
 
-O `/instalar` roda uma vez só. Te entrevista sobre o negócio, monta a
-memória e configura o sistema. Depois disso, é só usar.
+Tabelas cobertas: `vestidos`, `config`, `contratos`, `precos_config`, `precificacao` — todas com `ENABLE ROW LEVEL SECURITY` e política explícita.
 
----
+## Performance
 
-## O sistema
+O desafio real não era layout — era manter o **vídeo do hero** (que é o que mostra o trabalho manual e segura a visitante) sem pesar no celular.
 
-**Núcleo** — o jeito de operar o dia a dia
-`/abrir` carrega o contexto antes de cada sessão de trabalho · `/salvar`
-faz commit + push no GitHub · `/atualizar` varre o projeto e atualiza
-a memória · `/novo-projeto` cria pasta isolada pra cada cliente ou
-iniciativa · `/mapear-rotinas` descobre o que você repete e transforma
-em skill personalizada.
+- **Imagens otimizadas: ~74% de redução de peso** — o hero caiu de **3,3 MB para 0,46 MB**
+- Vídeo do hero **preservado**
+- `lazy loading` + `fetchpriority` nas imagens
+- `robots.txt` e `sitemap.xml` pra indexação
 
-**Conteúdo e SEO** — vitrine pública da empresa
-`/carrossel` cria carrosséis 1080×1350 com identidade da marca (com ou
-sem foto IA) · `/publicar-tema` pega um tema e entrega artigo de blog +
-carrossel + 3 legendas amarradas · `/seo` roda fluxo completo de 8 passos
-(demanda, concorrência, GMB, on-page, conteúdo, ads, monitoramento, GEO)
-· `/responder-avaliacoes` escreve respostas humanas pras reviews do
-Google · `/aprovar-post` publica blog + Instagram + Facebook num comando.
+## Stack
 
-**Anúncios pagos** — onde o dinheiro entra
-`/anuncio-google` monta a campanha inteira em CSV pronto pra importar
-no Google Ads Editor · `/relatorio-ads` lê os exports de Google + Meta
-e devolve relatório semanal com alertas e recomendações.
-
-**Produção** — ferramentas do dia a dia
-`/analisar-dados` lê CSV/XLSX/PDF e gera resumo executivo ·
-`/email-profissional` rascunha email a partir de contexto livre.
+`HTML5` · `CSS3` · `JavaScript` (vanilla) · `Supabase` (Postgres + Storage + Auth + RLS) · `Vercel`
 
 ---
 
-## A tese
-
-IA não é uma ferramenta que sua empresa usa. É o sistema operacional em
-que ela roda.
-
-A diferença não é velocidade. É capacidade nova — uma pessoa com IA
-constrói o que antes exigia time inteiro. Cada processo crítico que hoje
-roda em open loop (decide → executa → não mede → repete cego) vira
-closed loop dentro do MazyOS (decide → executa → captura → realimenta →
-ajusta sozinho).
-
-O sistema não substitui você. Vira parte da sua empresa.
-
----
-
-## Como o MazyOS pensa
-
-`_memoria/` é o cérebro. Tudo que importa do seu negócio mora aqui —
-quem é a empresa, como ela fala, o que tá em foco essa semana. O Claude
-lê isso antes de cada resposta. Quanto melhor a memória, melhor o sistema.
-
-`identidade/` é o rosto. Cores, fontes, logo, padrão visual. Todo
-carrossel, slide, peça que o sistema gera respeita isso.
-
-`marketing/`, `saidas/` e `scripts/` são o resultado. O sistema produz,
-versiona no GitHub, fica tudo seu.
-
----
-
-## Quando precisar
-
-[mazzeoia.com.br](https://mazzeoia.com.br)
+<sub>Desenvolvido por <a href="https://github.com/GabrielPasini02">Gabriel Pasini</a> · <a href="https://orbion-ia.vercel.app">Orbion</a></sub>
