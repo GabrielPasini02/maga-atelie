@@ -185,8 +185,8 @@
     background:linear-gradient(0deg,rgba(20,28,33,.5),transparent)}
   .op-car-track{display:flex;transition:transform .6s var(--ease)}
   .op-car-slide{min-width:100%;aspect-ratio:4/5;overflow:hidden;background:var(--card)}
-  .op-car-slide img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;animation:opZoom 11s ease-in-out infinite alternate}
-  @keyframes opZoom{from{transform:scale(1)}to{transform:scale(1.09)}}
+  .op-car-slide img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;animation:opZoom 11s ease-in-out infinite alternate;will-change:transform;transform:translateZ(0);backface-visibility:hidden}
+  @keyframes opZoom{from{transform:scale(1) translateZ(0)}to{transform:scale(1.09) translateZ(0)}}
   .op-car-caption{position:absolute;left:22px;bottom:18px;z-index:3;color:#fff;
     font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.18rem;text-shadow:0 1px 12px rgba(0,0,0,.45)}
   .op-car-counter{position:absolute;top:16px;right:16px;z-index:3;background:rgba(20,28,33,.5);color:#fff;
@@ -215,8 +215,8 @@
   .dif-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   .dif-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:30px 26px;transition:.35s var(--ease)}
   .dif-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:transparent}
-  .dif-card .ic{width:48px;height:48px;border-radius:14px;background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--depth);margin-bottom:18px}
-  .dif-card .ic svg{width:24px;height:24px}
+  .dif-card .ic{display:inline-flex;align-items:center;color:var(--depth);padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+  .dif-card .ic svg{width:28px;height:28px}
   .dif-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.32rem;letter-spacing:-.01em;margin-bottom:8px;line-height:1.15}
   .dif-card p{color:var(--muted);font-size:14.5px;line-height:1.62}
 
