@@ -131,9 +131,53 @@ const root = document.getElementById('produto');
 if(!v){
   root.innerHTML = '<p style="padding:60px 0">Vestido não encontrado. <a href="index.html#colecoes" style="color:var(--blue)">Voltar ao catálogo</a>.</p>';
 }else{
-  document.title = v.nome + ' | Maga Ateliê';
   const fotos = window.fotosDe(v);
   let atual = 0;
+
+  // ----- SEO da página do vestido (título, descrição e dados estruturados) -----
+  document.title = v.nome + ' | Vestido sob medida em Caieiras | Maga Ateliê';
+
+  const descSeo = (v.desc ? v.desc + ' ' : '')
+    + 'Vestido ' + v.nome + ', da coleção ' + v.colecao + ', feito sob medida no Maga Ateliê em Caieiras, SP. '
+    + 'Compra ou aluguel, com modelagem que valoriza corpos reais.';
+  let mDesc = document.querySelector('meta[name="description"]');
+  if(!mDesc){
+    mDesc = document.createElement('meta');
+    mDesc.setAttribute('name','description');
+    document.head.appendChild(mDesc);
+  }
+  mDesc.setAttribute('content', descSeo.slice(0, 158));
+
+  const canonical = document.createElement('link');
+  canonical.setAttribute('rel','canonical');
+  canonical.setAttribute('href','https://magaatelie.netlify.app/vestido.html?id=' + encodeURIComponent(v.id));
+  document.head.appendChild(canonical);
+
+  const fotosAbs = fotos.map(f => f.startsWith('http') ? f : 'https://magaatelie.netlify.app/' + f.replace(/^\//,''));
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": v.nome,
+    "description": descSeo,
+    "image": fotosAbs,
+    "category": "Vestido " + (v.tag ? v.tag.toLowerCase() : 'de festa') + ' sob medida',
+    "brand": {"@type":"Brand","name":"Maga Ateliê"},
+    "isRelatedTo": "Coleção " + v.colecao,
+    "offers": {
+      "@type": "Offer",
+      "url": "https://magaatelie.netlify.app/vestido.html?id=" + encodeURIComponent(v.id),
+      "priceCurrency": "BRL",
+      "price": v.preco || undefined,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": {"@type":"ClothingStore","name":"Maga Ateliê","@id":"https://magaatelie.netlify.app/#ateliê"}
+    }
+  };
+  const ldEl = document.createElement('script');
+  ldEl.type = 'application/ld+json';
+  ldEl.textContent = JSON.stringify(ld);
+  document.head.appendChild(ldEl);
+  // ---------------------------------------------------------------------------
 
   const thumbs = fotos.length>1 ? fotos.map((f,i)=>
     `<button class="${i===0?'active':''}" onclick="trocar(${i})"><img src="${f}" alt="${v.nome} ${i+1}"></button>`).join('') : '';

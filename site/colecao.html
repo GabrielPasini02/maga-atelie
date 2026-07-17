@@ -115,6 +115,17 @@
 <script src="dados.js"></script>
 <script src="pedido.js"></script>
 <script>
+// atualiza (ou cria) uma meta tag do <head> — o Google lê depois que o JS roda
+function setMeta(nome, conteudo){
+  let el = document.querySelector('meta[name="' + nome + '"]');
+  if(!el){
+    el = document.createElement('meta');
+    el.setAttribute('name', nome);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', conteudo);
+}
+
 window.dadosReady.then(() => {
   const params = new URLSearchParams(location.search);
   const col = params.get('col');
@@ -139,7 +150,8 @@ window.dadosReady.then(() => {
     head.innerHTML = '<span class="eyebrow">Coleções</span><h1>Coleção não encontrada</h1>';
     cardsEl.parentElement.innerHTML = '<p class="vazio">Essa coleção não existe. <a href="index.html#colecoes">Ver todas as coleções →</a></p>';
   } else {
-    document.title = 'Coleção ' + col + ' | Maga Ateliê';
+    document.title = 'Coleção ' + col + ' | Vestidos sob medida em Caieiras | Maga Ateliê';
+    setMeta('description', 'Coleção ' + col + ' do Maga Ateliê, em Caieiras, SP. Vestidos de noiva, madrinha e festa sob medida, com opção de aluguel. Modelagem que valoriza corpos reais.');
     head.innerHTML =
       '<span class="eyebrow">Flores &amp; Natureza · Coleção</span>'
       + '<h1><em>' + col + '</em></h1>'

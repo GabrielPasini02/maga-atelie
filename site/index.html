@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Maga Ateliê | Vestidos que valorizam corpos reais</title>
-<meta name="description" content="Ateliê de costura em Caieiras, SP. Vestidos de noiva, madrinha e festa sob medida, com criação autoral e modelagem que valoriza corpos reais. Venda e aluguel." />
+<title>Vestido de Noiva Sob Medida em Caieiras | Maga Ateliê</title>
+<meta name="description" content="Ateliê em Caieiras, SP. Vestidos de noiva, madrinha e festa sob medida, com modelagem que valoriza corpos reais. Venda e aluguel. Vem conversar comigo." />
 <link rel="canonical" href="https://magaatelie.netlify.app/" />
 <meta name="theme-color" content="#6FA3BD" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236FA3BD'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Georgia,serif' fill='%23ffffff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
@@ -738,7 +738,7 @@
       <a class="cont-card" href="https://www.google.com/maps/search/?api=1&query=R.+Mococa+334+Serpa+Caieiras+SP" target="_blank" rel="noopener">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></div>
         <div class="k">Endereço</div>
-        <div class="v">R. Mococa, 334, Serpa<br>Caieiras, SP · 07700-000</div>
+        <div class="v">R. Mococa, 334, Serpa<br>Caieiras, SP · 07713-030</div>
       </a>
       <div class="cont-card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></svg></div>
@@ -757,7 +757,7 @@
       </a>
     </div>
     <div class="cont-map reveal">
-      <iframe title="Mapa do ateliê em Caieiras, SP" src="https://maps.google.com/maps?q=R.%20Mococa%2C%20334%20-%20Serpa%2C%20Caieiras%20-%20SP%2C%2007700-000&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe title="Mapa do ateliê em Caieiras, SP" src="https://maps.google.com/maps?q=R.%20Mococa%2C%20334%20-%20Serpa%2C%20Caieiras%20-%20SP%2C%2007713-030&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <div class="cont-cta reveal">
       <div class="glow"></div>
@@ -973,23 +973,61 @@
 {
   "@context": "https://schema.org",
   "@type": "ClothingStore",
+  "@id": "https://magaatelie.netlify.app/#ateliê",
   "name": "Maga Ateliê",
-  "description": "Ateliê de costura em Caieiras, SP. Vestidos de noiva, madrinha e festa sob medida, criação autoral. Venda e aluguel.",
+  "description": "Ateliê de costura em Caieiras, SP. Vestidos de noiva, madrinha e festa sob medida, criação autoral e modelagem que valoriza corpos reais. Venda e aluguel.",
+  "slogan": "Vestidos que valorizam corpos reais",
   "image": "https://magaatelie.netlify.app/imagens/hero-bg.jpg",
   "url": "https://magaatelie.netlify.app/",
   "telephone": "+5511974235465",
   "email": "gloriapasini1@gmail.com",
-  "priceRange": "R$ 1.500–3.000",
+  "priceRange": "R$ 1.500-3.000",
+  "currenciesAccepted": "BRL",
+  "founder": {
+    "@type": "Person",
+    "name": "Maria Santos",
+    "jobTitle": "Estilista"
+  },
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "R. Mococa, 334, Serpa",
     "addressLocality": "Caieiras",
     "addressRegion": "SP",
-    "postalCode": "07700-000",
+    "postalCode": "07713-030",
     "addressCountry": "BR"
   },
-  "areaServed": "Caieiras, SP e região da Grande São Paulo",
-  "openingHours": "Mo-Sa 09:00-18:00",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -23.3547062,
+    "longitude": -46.7477125
+  },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=R.+Mococa+334+Serpa+Caieiras+SP",
+  "areaServed": [
+    {"@type": "City", "name": "Caieiras"},
+    {"@type": "City", "name": "Franco da Rocha"},
+    {"@type": "City", "name": "Francisco Morato"},
+    {"@type": "City", "name": "Mairiporã"},
+    {"@type": "City", "name": "Cajamar"},
+    {"@type": "City", "name": "São Paulo"}
+  ],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    "opens": "09:00",
+    "closes": "18:00"
+  }],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Serviços do Maga Ateliê",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Vestido de noiva sob medida"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Vestido de madrinha sob medida"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Vestido de festa sob medida"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Aluguel de vestidos"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Vestido de noiva plus size"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Ajustes e modelagem"}}
+    ]
+  },
   "sameAs": ["https://instagram.com/magaatelieofc"]
 }
 </script>

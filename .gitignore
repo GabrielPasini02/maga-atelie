@@ -26,3 +26,21 @@ dados/*
 !dados/README.md
 
 site/imagens/_backup-preotim/
+
+# Notas internas e privadas — NUNCA vão pro repo público
+_memoria/
+
+# Contratos de clientes (dados pessoais) — só no PC
+Contrato*.docx
+Contrato*.pdf
+Contrato*.html
+Contrato*.md
+
+# Estrutura interna / scaffolding — fica só no PC, fora do repo público
+# (o repo remoto já removeu tudo isso de propósito)
+CLAUDE.md
+identidade/
+marketing/
+saidas/
+scripts/
+templates/
